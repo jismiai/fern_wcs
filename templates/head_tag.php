@@ -1,5 +1,5 @@
 
-<?php $localurl= "http://localhost/web_service_test/"?>
+<?php $localurl= "http://localhost/fern_wcs/"?>
 <!DOCTYPE HTML>
 <html>
 <head>

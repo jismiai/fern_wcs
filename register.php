@@ -26,6 +26,9 @@ include("templates/head_tag.php");
 		<label for="lastname">Last Name:</label>
 		<input type="text" name="lastname" id="lastname" />
 		<br />
+		<label for="companyname">Company Name:</label>
+		<input type="text" name="companyname" id="companyname" />
+		<br />
 		<label for="phone">Telephone Number</label>
 		<input type="text" name="phone" id="phone" />
 		<br />
@@ -35,6 +38,15 @@ include("templates/head_tag.php");
 	</fieldset>
 	<fieldset>
 		<legend>Main Address</legend>
+		<label for="defaultbilling">Default billing address</label>
+		<input type="checkbox" name="defaultbilling" id="defaultbilling" checked="checked"/>
+		<br />
+		<label for="defaultshipping">Default shipping address</label>
+		<input type="checkbox" name="defaultshipping" id="defaultshipping" checked="checked />
+		<br />
+		<label for="isresidential">Residental address</label>
+		<input type="checkbox" name="isresidential" id="isresidential"/>
+		<br />
 		<label for="address1">Address line 1:</label>
 		<input type="text" name="address1" id="address1" />
 		<br />
@@ -59,6 +71,15 @@ include("templates/head_tag.php");
 	</fieldset>
 	<fieldset>
 		<legend>Alternative Address</legend>
+		<label for="defaultbilling">Default billing address</label>
+		<input type="checkbox" name="r_defaultbilling" id="r_defaultbilling" />
+		<br />
+		<label for="defaultshipping">Default shipping address</label>
+		<input type="checkbox" name="r_defaultshipping" id="r_defaultshipping" />
+		<br />
+		<label for="isresidential">Residental address</label>
+		<input type="checkbox" name="r_isresidential" id="r_isresidential" />
+		<br />
 		<label for="r_address1">Address line 1:</label>
 		<input type="text" name="r_address1" id="r_address1" />
 		<br />

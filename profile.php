@@ -22,18 +22,33 @@ if (!$getResponse->readResponse->status->isSuccess) {
 	//assign address details into $address
 	$addressBookListArray = $customer->addressbookList->addressbook;
 	if (is_array($addressBookListArray)) { // handler if the customer has multiple addresses
-		foreach ($addressBookListArray as $currAddr) {
+		$address = $addressBookListArray[0];
+		$r_address = $addressBookListArray[1];
+		/*foreach ($addressBookListArray as $currAddr) {
 			if($currAddr->defaultBilling)
 				$address = $currAddr;
 			if($currAddr->isResidential)
 				$r_address = $currAddr;
-		}
+		}*/
 	} else { //single address handling
 		$address = $addressBookListArray;
 	}
 }
-/* -- finished reading address -- */
+/* -- finished reading customer info via Webservice -- */
 
+/* -- Form pre-set based on customer information --
+	 * 	This part is important especial for checkbox, radio 
+	 *  Fields applied : defaultShipping, defaultBilling, isResidential
+	 */
+	
+	/* -- This function is  transferrable --*/
+	function form_boolean_set($source, $output) {
+		//$source should be a boolean data, $output is string
+		$text = ($source == true) ? $output : '';
+		echo $text;
+	}
+/* -- end of block */
+	
 include("templates/head_tag.php");
 ?>
 <h2>Your Profile</h2>
@@ -58,6 +73,9 @@ include("templates/head_tag.php");
 		<label for="lastname">Last Name:</label>
 		<input type="text" name="lastname" id="lastname" value="<?php echo $customer->lastName; ?>" />
 		<br />
+		<label for="companyname">Company Name:</label>
+		<input type="text" name="companyname" id="companyname" value="<?php echo $customer->companyName; ?>" />
+		<br />
 		<label for="phone">Telephone Number</label>
 		<input type="text" name="phone" id="phone" value="<?php echo $customer->phone; ?>" />
 		<br />
@@ -66,7 +84,16 @@ include("templates/head_tag.php");
 		<br />
 	</fieldset>
 	<fieldset>
-		<legend>Billing address</legend>
+		<legend>Main Address</legend>
+		<label for="defaultbilling">Default billing address</label>
+		<input type="checkbox" name="defaultbilling" id="defaultbilling" <?php form_boolean_set($address->defaultBilling, "checked"); ?> />
+		<br />
+		<label for="defaultshipping">Default shipping address</label>
+		<input type="checkbox" name="defaultshipping" id="defaultshipping" <?php form_boolean_set($address->defaultShipping, "checked"); ?> />
+		<br />
+		<label for="isresidential">Residental address</label>
+		<input type="checkbox" name="isresidential" id="isresidential" <?php form_boolean_set($address->isResidential, "checked"); ?> />
+		<br />
 		<label for="address1">Address line 1:</label>
 		<input type="text" name="address1" id="address1" value="<?php echo $address->addr1; ?>" />
 		<br />
@@ -90,7 +117,16 @@ include("templates/head_tag.php");
 		<br />
 	</fieldset>
 	<fieldset>
-		<legend>Residental address</legend>
+		<legend>Alternative Address</legend>
+		<label for="defaultbilling">Default billing address</label>
+		<input type="checkbox" name="r_defaultbilling" id="r_defaultbilling" <?php form_boolean_set($r_address->defaultBilling, "checked"); ?> />
+		<br />
+		<label for="defaultshipping">Default shipping address</label>
+		<input type="checkbox" name="r_defaultshipping" id="r_defaultshipping" <?php form_boolean_set($r_address->defaultShipping, "checked"); ?> />
+		<br />
+		<label for="isresidential">Residental address</label>
+		<input type="checkbox" name="r_isresidential" id="r_isresidential" <?php form_boolean_set($r_address->isResidential, "checked"); ?> />
+		<br />
 		<label for="r_address1">Address line 1:</label>
 		<input type="text" name="r_address1" id="r_address1" value="<?php echo $r_address->addr1; ?>" />
 		<br />

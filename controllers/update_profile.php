@@ -8,6 +8,14 @@ if (!isset($_POST["source"])){ // check the flow
 }
 else {
 	//server-side validation should be done here.
+		function form_checkbox_ischecked($source) {
+				//$source should be a $POST/$GET checkbox, $output is a boolean
+				//resulting boolean will be returned;
+				if(isset($_POST[$source]) || isset($_GET[$source])){
+					return true;
+				}
+				return false;
+		}
 	
 	//Create web service request
 	require_once '../PHPToolkit/NetSuiteService.php';
@@ -18,16 +26,17 @@ else {
 	$customer->salutation = $_POST["salutation"];
 	$customer->lastName = $_POST["lastname"];
 	$customer->firstName = $_POST["firstname"];
-	$customer->companyName = $_POST["lastname"]." ".$_POST["firstname"];
+	$customer->companyName = $_POST["companyname"];
 	$customer->phone = $_POST["phone"];
 	$customer->comments = $_POST["comments"];
 	$customer->internalId = $_SESSION["internalid"];	
-	//Setup Billing Address
+	//Setup Main Address
 	$address = new CustomerAddressbook();
 	$country = new Country();
-	$address->defaultBilling = true;
-	$address->defaultShipping = true;
-	$address->label = "Billing Address";
+	$address->defaultBilling = form_checkbox_ischecked('defaultbilling');
+	$address->defaultShipping = form_checkbox_ischecked('defaultshipping');
+	$address->isResidential = form_checkbox_ischecked('isresidential');
+	$address->label = "Main Address";
 	$address->addr1 = $_POST["address1"];
 	$address->addr2 = $_POST["address2"];
 	$address->city =$_POST["city"];
@@ -35,13 +44,13 @@ else {
 	$address->zip = $_POST["zip"];
 	$address->country = $_POST["country"];
 	
-	//Setup Residental Address
+	//Setup Alternative Address
 	$r_address = new CustomerAddressbook();
 	$country = new Country();
-	$r_address->defaultBilling = false;
-	$r_address->defaultShipping = true;
-	$r_address->isResidential = true;
-	$r_address->label = "Residental Address";
+	$r_address->defaultBilling = form_checkbox_ischecked('r_defaultbilling');
+	$r_address->defaultShipping = form_checkbox_ischecked('r_defaultshipping');
+	$r_address->isResidential = form_checkbox_ischecked('r_isresidential');
+	$r_address->label = "Alternative Address";
 	$r_address->addr1 = $_POST["r_address1"];
 	$r_address->addr2 = $_POST["r_address2"];
 	$r_address->city =$_POST["r_city"];
