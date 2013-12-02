@@ -53,13 +53,23 @@ if (!$getResponse->readResponse->status->isSuccess) {
 include("templates/head_tag.php");
 ?>
 <h2>Your Profile</h2>
-<form id="wcsform" action="controllers/update_profile.php" method="post">
+<form class="form-horizontal" role="form" id="wcsform" action="controllers/update_profile.php" method="post">
 	<fieldset>
 		<legend>Personal Information</legend>
-		<label for="salutation">Salutation: </label>
-		<input type="radio" name="salutation" id="salutation_mr" class="radio_box" value="Mr." >Mr.
-		<input type="radio" name="salutation" id="salutation_mr" class="radio_box" value="Ms." >Ms.
-		<input type="radio" name="salutation" id="salutation_mr" class="radio_box" value="Mrs." >Mrs.
+		<div class="form-group">
+			<label for="salutation" class="col-sm-2 control-label">Salutation: </label>
+			<div class="col-sm-10">
+				<label class="radio-inline">
+					<input type="radio" name="salutation" id="salutation_mr" class="radio_box" value="Mr." >Mr.
+				</label>
+				<label class="radio-inline">
+					<input type="radio" name="salutation" id="salutation_mr" class="radio_box" value="Ms." >Ms.
+				</label>
+				<label class="radio-inline">
+					<input type="radio" name="salutation" id="salutation_mr" class="radio_box" value="Mrs." >Mrs.
+				</label>
+			</div>
+		</div>
 		<script>
 			//Use Javascript to update the radio boxes base on Netsuite record
 			$(document).ready(function(){
@@ -67,10 +77,12 @@ include("templates/head_tag.php");
 				$('input.radio_box[value="<?php echo $customer->salutation; ?>"]').prop("checked",true);
 			});
 		</script>
-		<br />
-		<label for="firstname">First Name:</label>
-		<input type="text" name="firstname" id="firstname" value="<?php echo $customer->firstName; ?>" />
-		<br />
+		<div class="form-group">
+			<label for="firstname" class="col-sm-2 control-label">First Name:</label>
+			<div class="col-sm-10">
+				<input type="text" name="firstname" id="firstname" class="form-control" value="<?php echo $customer->firstName; ?>" />
+			</div>
+		</div>
 		<label for="lastname">Last Name:</label>
 		<input type="text" name="lastname" id="lastname" value="<?php echo $customer->lastName; ?>" />
 		<br />

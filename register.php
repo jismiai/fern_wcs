@@ -4,7 +4,7 @@ include("templates/head_tag.php");
 ?>
 <h2>Customer Registration</h2>
 <div>Fill in the information below to register</div>
-<form id="wcsform" action="controllers/new_customer.php" method="post">
+<form class="form-horizontal" role="form" id="wcsform" action="controllers/new_customer.php" method="post">
 	<fieldset>
 		<legend>Login Detail</legend>
 		<label for="user_email">Email:</label>
