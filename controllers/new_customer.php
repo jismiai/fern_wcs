@@ -8,14 +8,30 @@ if (!isset($_POST["source"])){ // check the flow
 }
 else {
 	//server-side validation should be done here.
-	function form_checkbox_ischecked($source) {
-		//$source should be a $POST/$GET checkbox, $output is a boolean
-		//resulting boolean will be returned;
-		if(isset($_POST[$source]) || isset($_GET[$source])){
-			return true;
+		function form_checkbox_ischecked($source) {
+			//$source should be a $POST/$GET checkbox, $output is a boolean
+			//resulting boolean will be returned;
+			if(isset($_POST[$source]) || isset($_GET[$source])){
+				return true;
+			}
+			return false;
 		}
-		return false;
-	}
+		function form_radio_isvalue($source,$value){
+			//$source is $POST/$GET radio box
+			//$value the value stored in the checked radio box.
+			//return a boolean
+			if(isset($_POST[$source])){
+				if ($_POST[$source] == $value){
+					return true;
+				}
+			}
+			if (isset($_GET[$source])){
+				if ($_GET[$source] == $value){
+					return true;
+				}
+			}
+			return false;
+		}
 	
 	//Create web service request
 	require_once '../PHPToolkit/NetSuiteService.php';
@@ -38,8 +54,8 @@ else {
 	//Setup Main Address
 	$address = new CustomerAddressbook();
 	$country = new Country();
-	$address->defaultBilling = form_checkbox_ischecked('defaultbilling');
-	$address->defaultShipping = form_checkbox_ischecked('defaultshipping');
+	$address->defaultBilling = form_radio_isvalue('defaultbilling','address');
+	$address->defaultShipping = form_radio_isvalue('defaultshipping','address');
 	$address->isResidential = form_checkbox_ischecked('isresidential');
 	$address->label = "Main Address";
 	$address->addr1 = $_POST["address1"];
@@ -52,8 +68,8 @@ else {
 	//Setup Alternative Address
 	$r_address = new CustomerAddressbook();
 	$country = new Country();
-	$r_address->defaultBilling = form_checkbox_ischecked('r_defaultbilling');
-	$r_address->defaultShipping = form_checkbox_ischecked('r_defaultshipping');
+	$r_address->defaultBilling = form_radio_isvalue('defaultbilling','r_address');
+	$r_address->defaultShipping = form_radio_isvalue('defaultshipping','r_address');
 	$r_address->isResidential = form_checkbox_ischecked('r_isresidential');
 	$r_address->label = "Alternative Address";
 	$r_address->addr1 = $_POST["r_address1"];

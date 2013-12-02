@@ -24,12 +24,7 @@ if (!$getResponse->readResponse->status->isSuccess) {
 	if (is_array($addressBookListArray)) { // handler if the customer has multiple addresses
 		$address = $addressBookListArray[0];
 		$r_address = $addressBookListArray[1];
-		/*foreach ($addressBookListArray as $currAddr) {
-			if($currAddr->defaultBilling)
-				$address = $currAddr;
-			if($currAddr->isResidential)
-				$r_address = $currAddr;
-		}*/
+		
 	} else { //single address handling
 		$address = $addressBookListArray;
 	}
@@ -52,7 +47,7 @@ if (!$getResponse->readResponse->status->isSuccess) {
 include("templates/head_tag.php");
 ?>
 <h2>Your Profile</h2>
-<form action="controllers/update_profile.php" method="post">
+<form id="wcsform" action="controllers/update_profile.php" method="post">
 	<fieldset>
 		<legend>Personal Information</legend>
 		<label for="salutation">Salutation: </label>
@@ -86,10 +81,10 @@ include("templates/head_tag.php");
 	<fieldset>
 		<legend>Main Address</legend>
 		<label for="defaultbilling">Default billing address</label>
-		<input type="checkbox" name="defaultbilling" id="defaultbilling" <?php form_boolean_set($address->defaultBilling, "checked"); ?> />
+		<input type="radio" name="defaultbilling" id="defaultbilling" value="address" <?php form_boolean_set($address->defaultBilling, "checked"); ?> />
 		<br />
 		<label for="defaultshipping">Default shipping address</label>
-		<input type="checkbox" name="defaultshipping" id="defaultshipping" <?php form_boolean_set($address->defaultShipping, "checked"); ?> />
+		<input type="radio" name="defaultshipping" id="defaultshipping" value="address" <?php form_boolean_set($address->defaultShipping, "checked"); ?> />
 		<br />
 		<label for="isresidential">Residental address</label>
 		<input type="checkbox" name="isresidential" id="isresidential" <?php form_boolean_set($address->isResidential, "checked"); ?> />
@@ -119,10 +114,10 @@ include("templates/head_tag.php");
 	<fieldset>
 		<legend>Alternative Address</legend>
 		<label for="defaultbilling">Default billing address</label>
-		<input type="checkbox" name="r_defaultbilling" id="r_defaultbilling" <?php form_boolean_set($r_address->defaultBilling, "checked"); ?> />
+		<input type="radio" name="defaultbilling" id="r_defaultbilling" value="r_address" <?php form_boolean_set($r_address->defaultBilling, "checked"); ?> />
 		<br />
 		<label for="defaultshipping">Default shipping address</label>
-		<input type="checkbox" name="r_defaultshipping" id="r_defaultshipping" <?php form_boolean_set($r_address->defaultShipping, "checked"); ?> />
+		<input type="radio" name="defaultshipping" id="r_defaultshipping" value="r_address" <?php form_boolean_set($r_address->defaultShipping, "checked"); ?> />
 		<br />
 		<label for="isresidential">Residental address</label>
 		<input type="checkbox" name="r_isresidential" id="r_isresidential" <?php form_boolean_set($r_address->isResidential, "checked"); ?> />
@@ -153,6 +148,10 @@ include("templates/head_tag.php");
 	<input type="submit" value="Update" />
 	<br /><a href="portal.php">Back</a>
 </form>
+
+<!-- Client side validation -->
+<script type="text/javascript" src="lib/jquery.validate.js"></script>
+<script type="text/javascript" src="lib/wcs_validation.js"></script>
 
 <?php 
 include("templates/footer_tag.php");

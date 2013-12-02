@@ -4,7 +4,7 @@ include("templates/head_tag.php");
 ?>
 <h2>Customer Registration</h2>
 <div>Fill in the information below to register</div>
-<form action="controllers/new_customer.php" method="post">
+<form id="wcsform" action="controllers/new_customer.php" method="post">
 	<fieldset>
 		<legend>Login Detail</legend>
 		<label for="user_email">Email:</label>
@@ -39,10 +39,10 @@ include("templates/head_tag.php");
 	<fieldset>
 		<legend>Main Address</legend>
 		<label for="defaultbilling">Default billing address</label>
-		<input type="checkbox" name="defaultbilling" id="defaultbilling" checked="checked"/>
+		<input type="radio" name="defaultbilling" id="defaultbilling" value="address" checked="checked" />
 		<br />
 		<label for="defaultshipping">Default shipping address</label>
-		<input type="checkbox" name="defaultshipping" id="defaultshipping" checked="checked />
+		<input type="radio" name="defaultshipping" id="defaultshipping" value="address" checked="checked" />
 		<br />
 		<label for="isresidential">Residental address</label>
 		<input type="checkbox" name="isresidential" id="isresidential"/>
@@ -72,10 +72,10 @@ include("templates/head_tag.php");
 	<fieldset>
 		<legend>Alternative Address</legend>
 		<label for="defaultbilling">Default billing address</label>
-		<input type="checkbox" name="r_defaultbilling" id="r_defaultbilling" />
+		<input type="radio" name="defaultbilling" id="r_defaultbilling" value="r_address" />
 		<br />
 		<label for="defaultshipping">Default shipping address</label>
-		<input type="checkbox" name="r_defaultshipping" id="r_defaultshipping" />
+		<input type="radio" name="defaultshipping" id="r_defaultshipping" value="r_address" />
 		<br />
 		<label for="isresidential">Residental address</label>
 		<input type="checkbox" name="r_isresidential" id="r_isresidential" />
@@ -106,6 +106,9 @@ include("templates/head_tag.php");
 	<input type="submit" value="Register" />
 </form>
 
+<!-- Client side validation -->
+<script type="text/javascript" src="lib/jquery.validate.js"></script>
+<script type="text/javascript" src="lib/wcs_validation.js"></script>
 <?php 
 	include("templates/footer_tag.php");
 ?>

@@ -256,6 +256,7 @@
 	//Generate a drop down list from $countries array(line 2)
 	function generate_country_select ($input, $html_nameid,$preSelect){
 		echo '<select name="'.$html_nameid.'" id="'. $html_nameid.'">';
+		echo '<option value="">-- Please Select --</option>';
 		foreach($input as $key => $value){
 			$selected = ($key == $preSelect) ? 'selected' : '';
 			echo '<option '.$selected.' value="'.$key.'">'.$value.'</option>';

@@ -9,12 +9,28 @@ if (!isset($_POST["source"])){ // check the flow
 else {
 	//server-side validation should be done here.
 		function form_checkbox_ischecked($source) {
-				//$source should be a $POST/$GET checkbox, $output is a boolean
-				//resulting boolean will be returned;
-				if(isset($_POST[$source]) || isset($_GET[$source])){
+			//$source should be a $POST/$GET checkbox, $output is a boolean
+			//resulting boolean will be returned;
+			if(isset($_POST[$source]) || isset($_GET[$source])){
+				return true;
+			}
+			return false;
+		}
+		function form_radio_isvalue($source,$value){
+			//$source is $POST/$GET radio box
+			//$value the value stored in the checked radio box.
+			//return a boolean
+			if(isset($_POST[$source])){
+				if ($_POST[$source] == $value){
+					return true;	
+				}
+			}
+			if (isset($_GET[$source])){
+				if ($_GET[$source] == $value){
 					return true;
 				}
-				return false;
+			}
+			return false;
 		}
 	
 	//Create web service request
@@ -33,8 +49,8 @@ else {
 	//Setup Main Address
 	$address = new CustomerAddressbook();
 	$country = new Country();
-	$address->defaultBilling = form_checkbox_ischecked('defaultbilling');
-	$address->defaultShipping = form_checkbox_ischecked('defaultshipping');
+	$address->defaultBilling = form_radio_isvalue('defaultbilling','address');
+	$address->defaultShipping = form_radio_isvalue('defaultshipping','address');
 	$address->isResidential = form_checkbox_ischecked('isresidential');
 	$address->label = "Main Address";
 	$address->addr1 = $_POST["address1"];
@@ -47,8 +63,8 @@ else {
 	//Setup Alternative Address
 	$r_address = new CustomerAddressbook();
 	$country = new Country();
-	$r_address->defaultBilling = form_checkbox_ischecked('r_defaultbilling');
-	$r_address->defaultShipping = form_checkbox_ischecked('r_defaultshipping');
+	$r_address->defaultBilling = form_radio_isvalue('defaultbilling','r_address');
+	$r_address->defaultShipping = form_radio_isvalue('defaultshipping','r_address');
 	$r_address->isResidential = form_checkbox_ischecked('r_isresidential');
 	$r_address->label = "Alternative Address";
 	$r_address->addr1 = $_POST["r_address1"];
@@ -58,9 +74,25 @@ else {
 	$r_address->zip = $_POST["r_zip"];
 	$r_address->country = $_POST["r_country"];
 	
-	$addresses = array();
-	$addresses[0] = $address; //add billing address to addresslist
-	$addresses[1] = $r_address; //add residental address to addresslist
+	/* Use a request to obtain current list of addresses of this customer */
+	$request = new GetRequest();
+	$request->baseRef = new RecordRef();
+	$request->baseRef->internalId = $_SESSION["internalid"];
+	$request->baseRef->type = "customer";
+	$getResponse = $service->get($request);
+	if (!$getResponse->readResponse->status->isSuccess) {
+		echo "GET ERROR";
+	} else {
+		//assign customer details into $customer
+		$customer_read = $getResponse->readResponse->record;
+		//assign address details into $address
+		$addressBookListArray = $customer_read->addressbookList->addressbook;
+	}
+	/* end of getting the address list */
+	
+	$addresses = $addressBookListArray; //
+	$addresses[0] = $address; //overwrite main address to addresslist
+	$addresses[1] = $r_address; //overwrite alternative address to addresslist
 	$addressList = new CustomerAddressbookList();
 	$addressList->addressbook = $addresses;
 	$customer->addressbookList = $addressList;
