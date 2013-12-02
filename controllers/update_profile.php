@@ -91,12 +91,17 @@ else {
 	/* end of getting the address list */
 	
 	$addresses = $addressBookListArray; //
-	$addresses[0] = $address; //overwrite main address to addresslist
-	$addresses[1] = $r_address; //overwrite alternative address to addresslist
+	foreach ($addresses as $key=>$value){
+		if ($value->label == "Main Address")
+			$addresses[$key] = $address;
+		if ($value->label == "Alternative Address")
+			$addresses[$key] = $r_address;
+	}
+	//$addresses[0] = $address; //overwrite main address to addresslist
+	//$addresses[1] = $r_address; //overwrite alternative address to addresslist
 	$addressList = new CustomerAddressbookList();
 	$addressList->addressbook = $addresses;
 	$customer->addressbookList = $addressList;
-
 	
 	//new UpdateRequest
 	$request = new UpdateRequest();

@@ -22,12 +22,18 @@ if (!$getResponse->readResponse->status->isSuccess) {
 	//assign address details into $address
 	$addressBookListArray = $customer->addressbookList->addressbook;
 	if (is_array($addressBookListArray)) { // handler if the customer has multiple addresses
-		$address = $addressBookListArray[0];
-		$r_address = $addressBookListArray[1];
-		
+		foreach($addressBookListArray as $value){
+			if ($value->label == "Main Address")
+				$address = $value;
+			if ($value->label == "Alternative Address")
+				$r_address = $value;
+		}
 	} else { //single address handling
 		$address = $addressBookListArray;
 	}
+	print_r($address);
+	echo "<br />";
+	print_r($r_address);
 }
 /* -- finished reading customer info via Webservice -- */
 
@@ -51,14 +57,14 @@ include("templates/head_tag.php");
 	<fieldset>
 		<legend>Personal Information</legend>
 		<label for="salutation">Salutation: </label>
-		<input type="radio" name="salutation" id="salutation_mr" class="radio" value="Mr." >Mr.
-		<input type="radio" name="salutation" id="salutation_mr" class="radio" value="Ms." >Ms.
-		<input type="radio" name="salutation" id="salutation_mr" class="radio" value="Mrs." >Mrs.
+		<input type="radio" name="salutation" id="salutation_mr" class="radio_box" value="Mr." >Mr.
+		<input type="radio" name="salutation" id="salutation_mr" class="radio_box" value="Ms." >Ms.
+		<input type="radio" name="salutation" id="salutation_mr" class="radio_box" value="Mrs." >Mrs.
 		<script>
 			//Use Javascript to update the radio boxes base on Netsuite record
 			$(document).ready(function(){
 				//$('radio#
-				$('input.radio[value="<?php echo $customer->salutation; ?>"]').prop("checked",true);
+				$('input.radio_box[value="<?php echo $customer->salutation; ?>"]').prop("checked",true);
 			});
 		</script>
 		<br />
