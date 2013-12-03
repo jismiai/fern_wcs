@@ -36,7 +36,7 @@ try {
 catch(SoapFault $fault)
 {
 	$systemMsg = "fault string:".$fault->faultstring."<br />";
-	$systemMsg .= '<a href="../changepwd.php">Go Back</a>';
+	$systemMsg .= '<a href="javascript: history.go(-1)">Go Back</a>';
 }
 if (isset($status))
 	if ($status->isSuccess){
@@ -46,7 +46,7 @@ if (isset($status))
 	else {
 		//cannot analysis response so 
 		$systemMsg = "New passwords don't match.";
-		$systemMsg .= '<a href="../changepwd.php">Go Back</a>';
+		$systemMsg .= '<a href="javascript: history.go(-1)">Go Back</a>';
 	}
 ?>
 <?php 

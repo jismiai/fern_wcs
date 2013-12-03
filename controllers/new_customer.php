@@ -96,15 +96,12 @@ else {
 	
 	
 	if (!$addResponse->writeResponse->status->isSuccess) {
-		$systemMsg = "ADD ERROR";
+		$systemMsg = "fault string:".$fault->faultstring."<br />";
+		$systemMsg .= '<a href="javascript: history.go(-1)">Go Back</a>';
 	} else {
 		echo "Thank you very much for your registration! id " . $addResponse->writeResponse->baseRef->internalId;
-		session_start();
-		$_SESSION["isLogin"] = true;
-		$_SESSION["company"] = $customer->firstName ." ".$customer->lastName;
-		$_SESSION["email"] = $customer->email;
+		include "./session_setup.php";
 		$_SESSION["internalid"] = $addResponse->writeResponse->baseRef->internalId;
-		
 		$systemMsg = 'Go to <a href="../portal.php">customer Portal</a>';
 	}
 }

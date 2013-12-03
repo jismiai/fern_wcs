@@ -20,7 +20,7 @@ try {
 catch(SoapFault $fault)
 {
 	$systemMsg = "fault string:".$fault->faultstring."<br />";
-	$systemMsg .= '<a href="../login.php">Go Back</a>';
+	$systemMsg .= '<a href="javascript: history.go(-1)">Go Back</a>';
 
 	include_once "../templates/head_tag.php";
 }
@@ -39,14 +39,10 @@ if (isset($status))
 		echo '<br />Go to <a href="portal.php">Customer Portal</a>';
 		*/
 		//Begin session management
-		session_start();
-		$_SESSION["isLogin"] = true;
-		$_SESSION["company"] = $customer->companyName;
-		$_SESSION["email"] = $customer->email;
+		include "./session_setup.php";
 		$_SESSION["internalid"] = $customer->internalId;
 		
-		include_once "../templates/head_tag.php";
-		
+		include_once "../templates/head_tag.php"; //in order to get correct redirection url		
 		header('location:'.$localurl."portal.php");
 	}
 ?>

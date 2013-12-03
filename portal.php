@@ -5,14 +5,17 @@
 	require_once 'controllers/log_control.php';
 	include("templates/head_tag.php");
 ?>
-<div>Welcome <?php echo $_SESSION["company"];?></div>
-<div>your ID is  <?php echo $_SESSION["internalid"];?></div>
-<h2>Customer Portal</h2>
-<ul>
-	<li><a href="changepwd.php">Change Password</a></li>
-	<li><a href="profile.php">Update Profile</a></li>
-	<li><a href="controllers/logout.php">Logout</a></li>
-</ul>	
+<?php //echo $_SESSION["company"];?>
+<?php //echo $_SESSION["internalid"];?>
+<div class="panel panel-default">
+	<div class="panel-heading">Customer Portal</div>
+	<div class="panel-body">Welcome <?php echo $_SESSION["name"];?>! Please choose one of the operations below.</div>
+	<ul class="list-group">
+		<li class="list-group-item"><a href="changepwd.php">Change Password</a></li>
+		<li class="list-group-item"><a href="profile.php">Update Profile</a></li>
+		<li class="list-group-item"><a href="controllers/logout.php">Logout</a></li>
+	</ul>
+</div>	
 <?php 
 	include("templates/footer_tag.php");
 ?>

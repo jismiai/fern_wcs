@@ -1,0 +1,49 @@
+@CHARSET "UTF-8";
+
+/* custome css button */
+.btn-wcs-default {
+  color: #ffffff;
+  background-color: #760000;
+  border-color: ##580000;
+}
+
+.btn-wcs-default:hover,
+.btn-wcs-default:focus,
+.btn-wcs-default:active,
+.btn-wcs-default.active,
+.open .dropdown-toggle.btn-wcs-default {
+  color: #ffffff;
+  background-color: #a82828;
+  border-color: #b23232;
+}
+
+.btn-wcs-default:active,
+.btn-wcs-default.active,
+.open .dropdown-toggle.btn-wcs-default {
+  background-image: none;
+}
+
+.btn-wcs-default.disabled,
+.btn-wcs-default[disabled],
+fieldset[disabled] .btn-wcs-default,
+.btn-wcs-default.disabled:hover,
+.btn-wcs-default[disabled]:hover,
+fieldset[disabled] .btn-wcs-default:hover,
+.btn-wcs-default.disabled:focus,
+.btn-wcs-default[disabled]:focus,
+fieldset[disabled] .btn-wcs-default:focus,
+.btn-wcs-default.disabled:active,
+.btn-wcs-default[disabled]:active,
+fieldset[disabled] .btn-wcs-default:active,
+.btn-wcs-default.disabled.active,
+.btn-wcs-default[disabled].active,
+fieldset[disabled] .btn-wcs-default.active {
+  background-color: #a82828;
+  border-color: #cccccc;
+}
+
+/* label style for form validation */
+label.error{
+	color:red;
+	font-weight:normal;
+}
