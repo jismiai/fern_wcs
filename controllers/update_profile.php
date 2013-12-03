@@ -112,10 +112,14 @@ else {
 	
 	
 	if (!$writeresponse->writeResponse->status->isSuccess) {
-		$systemMsg = "ADD ERROR";
+		$systemMsg = "Update ERROR";
 	} else {
 		$systemMsg = "Update SUCCESS, id " . $writeresponse->writeResponse->baseRef->internalId;
 		$systemMsg .= "<br /><a href='../profile.php'>Go to profile</a>";
+		
+		$success_code = 'profile';
+		include_once "../templates/head_tag.php";
+		header('location:'.$localurl."success.php?source=".$success_code);
 	}
 }
 ?>

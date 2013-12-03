@@ -20,13 +20,6 @@ $pwdpassport->changePassword->newPassword = $_POST["new_password"];
 $pwdpassport->changePassword->newPassword2 = $_POST["new_password2"];
 $pwdpassport->changePassword->justThisAccount = true;
 
-//Debug only
-/*echo $pwdpassport->changePassword->currentPassword."<br />";
-echo $pwdpassport->changePassword->newPassword."<br />";
-echo $pwdpassport->changePassword->newPassword2."<br />";
-echo $pwdpassport->changePassword->justThisAccount."<br />";
-echo $service->passport->email."<br />";
-echo $service->passport->password."<br />";*/
 
 try {
 	//send ChangePasswordRequest
@@ -35,18 +28,34 @@ try {
 }
 catch(SoapFault $fault)
 {
-	$systemMsg = "fault string:".$fault->faultstring."<br />";
+	$systemMsg = "fault code:".$fault->faultcode."<br />";
+	$systemMsg .= "fault string:".$fault->faultstring."<br />";
 	$systemMsg .= '<a href="javascript: history.go(-1)">Go Back</a>';
+	if (strpos($fault->faultstring,'You have entered an invalid email address or password.') !== false){
+		$err_code = 'setpwd_pass_fault';
+	}
+	else{ 
+		$err_code = "others"; 
+	}
+	include_once "../templates/head_tag.php";
+	header('location:'.$localurl."error.php?error_code=".$err_code);
 }
-if (isset($status))
+	if (isset($status))
 	if ($status->isSuccess){
 		$systemMsg = "Passoword is changed. <br />";
 		$systemMsg .= '<a href="../portal.php">Back to Portal</a>';
+		
+		$success_code = 'setpwd';
+		include_once "../templates/head_tag.php";
+		header('location:'.$localurl."success.php?source=".$success_code);
 	}
 	else {
-		//cannot analysis response so 
+		//falls here if password doesn't match;
 		$systemMsg = "New passwords don't match.";
 		$systemMsg .= '<a href="javascript: history.go(-1)">Go Back</a>';
+		$err_code = 'setpwd_pass_notmatch';
+		include_once "../templates/head_tag.php";
+		header('location:'.$localurl."error.php?error_code=".$err_code);
 	}
 ?>
 <?php 

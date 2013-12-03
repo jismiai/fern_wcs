@@ -95,14 +95,28 @@ else {
 	$addResponse = $service->add($request);
 	
 	
-	if (!$addResponse->writeResponse->status->isSuccess) {
-		$systemMsg = "fault string:".$fault->faultstring."<br />";
+	if (!$addResponse->writeResponse->status->isSuccess) { 
+		//addResponse status is not success
+		$systemMsg = "fault string:".$addResponse->writeResponse->status->statusDetail[0]->code."<br />";
 		$systemMsg .= '<a href="javascript: history.go(-1)">Go Back</a>';
-	} else {
+		if ($addResponse->writeResponse->status->statusDetail[0]->code == 'UNIQUE_CUST_ID_REQD'){
+			$err_code = 'register_unique_id';
+		}
+		else{ 
+			$err_code = "others"; 
+		}
+		include_once "../templates/head_tag.php";
+		header('location:'.$localurl."error.php?error_code=".$err_code);
+	} else { // successfully created a new customer
 		echo "Thank you very much for your registration! id " . $addResponse->writeResponse->baseRef->internalId;
 		include "./session_setup.php";
 		$_SESSION["internalid"] = $addResponse->writeResponse->baseRef->internalId;
+		
 		$systemMsg = 'Go to <a href="../portal.php">customer Portal</a>';
+		
+		$success_code = 'register';
+		include_once "../templates/head_tag.php";
+		header('location:'.$localurl."success.php?source=".$success_code);
 	}
 }
 ?>

@@ -21,8 +21,19 @@ catch(SoapFault $fault)
 {
 	$systemMsg = "fault string:".$fault->faultstring."<br />";
 	$systemMsg .= '<a href="javascript: history.go(-1)">Go Back</a>';
-
+	if (strpos($fault->faultstring,'You have entered an invalid email address or password.') !== false){
+		$err_code = 'login_pass_fault';
+	}
+	elseif (strpos($fault->faultstring,'You have entered an invalid email address or account number.') !== false){
+		$err_code = 'login_login_fault';
+	}
+	else{ 
+		$err_code = "others"; 
+	}
+	
+	//redirect to error page;
 	include_once "../templates/head_tag.php";
+	header('location:'.$localurl."error.php?error_code=".$err_code);
 }
 if (isset($status))
 	if($status->isSuccess == true){
@@ -46,4 +57,4 @@ if (isset($status))
 		header('location:'.$localurl."portal.php");
 	}
 ?>
-<div><?php echo $systemMsg; ?></div>
+<div><?php echo /*$err_code;*/$systemMsg; ?></div>
