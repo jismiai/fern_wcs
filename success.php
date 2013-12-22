@@ -9,7 +9,7 @@
 		/* Display the error content based on error code */
 		switch ($_GET['source']){
 			case 'setpwd':
-				$message='Passoword is changed.';
+				$message='Password is changed.';
 				$link='portal.php';
 				$link_display='Portal';
 				break;
