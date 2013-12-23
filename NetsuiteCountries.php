@@ -1,5 +1,5 @@
 <?php 
-	// define mapping of countries - updated 11/11/2013.
+	/* define mapping of countries - updated 11/11/2013. */
 	$countries = array(
 		"_afghanistan" => "Afghanistan",
 		"_alandIslands" => "Aland Islands",
