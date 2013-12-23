@@ -1,6 +1,6 @@
 
 <?php
-include("templates/head_tag.php");
+include("templates/head_tag.php"); //haa
 ?>
 <div class="">
 	<h2>Customer Registration</h2>
