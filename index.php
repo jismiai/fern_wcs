@@ -1,5 +1,6 @@
 <?php
 	include("templates/head_tag.php");
+	header('location:'.$localurl."login.php");
 ?>
 <div>Are you a new customer or old customer?</div>
 <form action="login.php" method="post">

@@ -39,7 +39,7 @@ include("templates/head_tag.php");
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="firstname" class="col-sm-4 control-label">First Name:</label>
+			<label for="firstname" class="col-sm-4 control-label">First & Middle Name:</label>
 			<div class="col-sm-8">
 				<input type="text" name="firstname" id="firstname" class="form-control" value="<?php //echo $customer->firstName; ?>" />
 			</div>
@@ -60,6 +60,7 @@ include("templates/head_tag.php");
 		<label for="phone" class="col-sm-4 control-label">Telephone Number</label>
 			<div class="col-sm-8">
 				<input type="text" name="phone" id="phone" class="form-control" value="<?php //echo $customer->phone; ?>" />
+				<span style="color:#aaaaaa;font-size:80%">Suggested format : +YYY-ZZ-XXXXXXX, where "YYY" is the country code, "ZZ" is the area code and "XXXXXXX" is your number.</span>
 			</div>
 		</div>
 		<div class="form-group">
@@ -70,7 +71,7 @@ include("templates/head_tag.php");
 		</div>
 	</fieldset>
 	<fieldset>
-		<legend>Main Address</legend>
+		<legend>Address 1</legend>
 		<div class="form-group">
 		<label for="" class="col-sm-4 control-label">Address Type</label>
 			<div class="col-sm-8">
@@ -117,6 +118,7 @@ include("templates/head_tag.php");
 		<label for="zip" class="col-sm-4 control-label">Postal code:</label>
 			<div class="col-sm-8">
 				<input type="text" name="zip" id="zip" class="form-control" value="<?php //echo $address->zip; ?>" />
+				<span style="color:#aaaaaa;font-size:80%">Please fill in "00000" if you don't know your postal code </span>
 			</div>
 		</div>
 		<div class="form-group">
@@ -130,7 +132,7 @@ include("templates/head_tag.php");
 		</div>
 	</fieldset>
 	<fieldset>
-		<legend>Alternative Address</legend>
+		<legend>Address 2</legend>
 		<div class="form-group">
 			<label for="defaultbilling" class="col-sm-4 control-label">Address type</label>
 			<div class="col-sm-8">
@@ -176,6 +178,7 @@ include("templates/head_tag.php");
 			<label for="r_zip" class="col-sm-4 control-label">Postal code:</label>
 			<div class="col-sm-8">
 				<input type="text" name="r_zip" class="form-control" id="r_zip" value="<?php //echo $r_address->zip; ?>" />
+				<span style="color:#aaaaaa;font-size:80%">Please fill in "00000" if you don't know your postal code </span>
 			</div>
 		</div>
 		<div class="form-group">

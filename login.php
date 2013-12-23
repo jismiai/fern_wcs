@@ -24,9 +24,14 @@
 			<button type="submit" value="Login" class="btn btn-wcs-default">Login</button>
 		</div>
 	</div>
-	<div class="form-group">
+	<?php /*echo'<div class="form-group">
 		<div class="col-sm-offset-4 col-sm-4">
 			Not yet a customer? <a href="register.php">Register</a> here.
+		</div>';
+	</div>*/ ?>
+	<div class="form-group">
+		<div class="col-sm-offset-4 col-sm-4">
+			Click <a href="mailto:customerservice@williamcheng-son.com">here</a> to send us an email if you have any problems.
 		</div>
 	</div>
 </form>
