@@ -23,13 +23,21 @@ if (!$getResponse->readResponse->status->isSuccess) {
 	$addressBookListArray = $customer->addressbookList->addressbook;
 	if (is_array($addressBookListArray)) { // handler if the customer has multiple addresses
 		foreach($addressBookListArray as $value){
-			if ($value->label == "Main Address")
+			if ($value->defaultBilling){
 				$address = $value;
-			if ($value->label == "Alternative Address")
+				/* if defBilling = defShipping, stop the loop, set boolean and empty address 2 */
+				if ($value->defaultShipping){ 
+					$sameshipping = true;
+					$r_address ="";
+					break;
+				}
+			}
+			if ($value->defaultShipping)
 				$r_address = $value;
 		}
 	} else { //single address handling
 		$address = $addressBookListArray;
+		$sameshipping = true;
 	}
 }
 /* -- finished reading customer info via Webservice -- */
@@ -46,9 +54,25 @@ if (!$getResponse->readResponse->status->isSuccess) {
 		echo $text;
 	}
 /* -- end of block */
-	
+$custom_head ='
+<script>
+$(document).ready(function(){
+	if($("#sameshipping").attr("checked") == "checked"){
+		$("#shipping_addr").hide();
+	}
+	$("#sameshipping").click(function(){
+		if (this.checked){
+			$("#shipping_addr").hide();
+		} else {
+			$("#shipping_addr").show();
+		}
+	});
+});
+</script>
+';
 include("templates/head_tag.php");
 ?>
+
 <h2>Your Profile</h2>
 <form class="form-horizontal" role="form" id="wcsform" action="controllers/update_profile.php" method="post">
 	<fieldset>
@@ -107,18 +131,10 @@ include("templates/head_tag.php");
 		</div>
 	</fieldset>
 	<fieldset>
-		<legend>Address 1</legend>
+		<legend>Billing Address</legend>
 		<div class="form-group">
 		<label for="" class="col-sm-4 control-label">Address Type</label>
 			<div class="col-sm-8">
-				<label class="radio-inline">
-					<input type="radio" name="defaultbilling" id="defaultbilling" value="address" <?php form_boolean_set($address->defaultBilling, "checked"); ?> />
-					Default billing address
-				</label>
-				<label class="radio-inline">
-					<input type="radio" name="defaultshipping" id="defaultshipping" value="address" <?php form_boolean_set($address->defaultShipping, "checked"); ?> />
-					Default shipping address
-				</label>
 				<label class="checkbox-inline">
 					<input type="checkbox" name="isresidential" id="isresidential" <?php form_boolean_set($address->isResidential, "checked"); ?> />
 					Residential address
@@ -166,20 +182,20 @@ include("templates/head_tag.php");
 			?>
 			</div>
 		</div>
+		<div class="form-group">
+		<label for="" class="col-sm-4 control-label">Ship to the same address</label>
+			<div class="col-sm-8">
+				<label class="checkbox-inline">
+					<input type="checkbox" name="sameshipping" id="sameshipping" value="Yes" <?php form_boolean_set($sameshipping, "checked"); ?> />
+				</label>
+			</div>
+		</div>
 	</fieldset>
-	<fieldset>
-		<legend>Address 2</legend>
+	<fieldset id="shipping_addr">
+		<legend>Shipping Address</legend>
 		<div class="form-group">
 			<label for="defaultbilling" class="col-sm-4 control-label">Address type</label>
 			<div class="col-sm-8">
-				<label class="radio-inline">
-					<input type="radio" name="defaultbilling" id="r_defaultbilling" value="r_address" <?php form_boolean_set($r_address->defaultBilling, "checked"); ?> />
-					Default billing address
-				</label>
-				<label class="radio-inline">
-					<input type="radio" name="defaultshipping" id="r_defaultshipping" value="r_address" <?php form_boolean_set($r_address->defaultShipping, "checked"); ?> />
-					Default shipping address
-				</label>
 				<label class="checkbox-inline">
 					<input type="checkbox" name="r_isresidential" id="r_isresidential" <?php form_boolean_set($r_address->isResidential, "checked"); ?> />
 					Residential address

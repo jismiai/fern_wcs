@@ -32,7 +32,7 @@ catch(SoapFault $fault)
 	}
 	
 	//redirect to error page;
-	include_once "../templates/head_tag.php";
+	include_once "../config.php";
 	header('location:'.$localurl."error.php?error_code=".$err_code);
 }
 if (isset($status))
@@ -53,7 +53,7 @@ if (isset($status))
 		include "./session_setup.php";
 		$_SESSION["internalid"] = $customer->internalId;
 		
-		include_once "../templates/head_tag.php"; //in order to get correct redirection url		
+		include_once "../config.php"; //in order to get correct redirection url		
 		header('location:'.$localurl."portal.php");
 	}
 ?>

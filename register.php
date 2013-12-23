@@ -1,6 +1,22 @@
 
 <?php
-include("templates/head_tag.php"); //haa
+$custom_head ='
+<script>
+$(document).ready(function(){
+	if($("#sameshipping").attr("checked") == "checked"){
+		$("#shipping_addr").hide();
+	}
+	$("#sameshipping").click(function(){
+		if (this.checked){
+			$("#shipping_addr").hide();
+		} else {
+			$("#shipping_addr").show();
+		}
+	});
+});
+</script>
+';
+include("templates/head_tag.php"); 
 ?>
 <div class="">
 	<h2>Customer Registration</h2>
@@ -71,18 +87,10 @@ include("templates/head_tag.php"); //haa
 		</div>
 	</fieldset>
 	<fieldset>
-		<legend>Address 1</legend>
+		<legend>Billing Address</legend>
 		<div class="form-group">
 		<label for="" class="col-sm-4 control-label">Address Type</label>
 			<div class="col-sm-8">
-				<label class="radio-inline">
-					<input type="radio" name="defaultbilling" id="defaultbilling" value="address" <?php //form_boolean_set($address->defaultBilling, "checked"); ?> checked="checked"/>
-					Default billing address
-				</label>
-				<label class="radio-inline">
-					<input type="radio" name="defaultshipping" id="defaultshipping" value="address" <?php //form_boolean_set($address->defaultShipping, "checked"); ?> checked="checked"/>
-					Default shipping address
-				</label>
 				<label class="checkbox-inline">
 					<input type="checkbox" name="isresidential" id="isresidential" <?php //form_boolean_set($address->isResidential, "checked"); ?> />
 					Residential address
@@ -130,20 +138,20 @@ include("templates/head_tag.php"); //haa
 			?>
 			</div>
 		</div>
+		<div class="form-group">
+		<label for="" class="col-sm-4 control-label">Ship to the same address</label>
+			<div class="col-sm-8">
+				<label class="checkbox-inline">
+					<input type="checkbox" name="sameshipping" id="sameshipping" value="Yes" checked="checked" />
+				</label>
+			</div>
+		</div>
 	</fieldset>
-	<fieldset>
-		<legend>Address 2</legend>
+	<fieldset id="shipping_addr">
+		<legend>Shipping Address</legend>
 		<div class="form-group">
 			<label for="defaultbilling" class="col-sm-4 control-label">Address type</label>
 			<div class="col-sm-8">
-				<label class="radio-inline">
-					<input type="radio" name="defaultbilling" id="r_defaultbilling" value="r_address" <?php //form_boolean_set($r_address->defaultBilling, "checked"); ?> />
-					Default billing address
-				</label>
-				<label class="radio-inline">
-					<input type="radio" name="defaultshipping" id="r_defaultshipping" value="r_address" <?php //form_boolean_set($r_address->defaultShipping, "checked"); ?> />
-					Default shipping address
-				</label>
 				<label class="checkbox-inline">
 					<input type="checkbox" name="r_isresidential" id="r_isresidential" <?php //form_boolean_set($r_address->isResidential, "checked"); ?> />
 					Residential address

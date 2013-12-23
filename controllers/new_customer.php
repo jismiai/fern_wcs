@@ -1,6 +1,6 @@
 <?php
 	//This page connects to Netsuite and create a new customer, using the form in register.php
-include_once "../templates/head_tag.php";
+include_once "../config.php";
 ?>
 <?php
 if (!isset($_POST["source"])){ // check the flow
@@ -32,7 +32,22 @@ else {
 			}
 			return false;
 		}
-	
+		/* other useful functions for Netsuite-PHP integration */
+		require_once("../netsuite_functions.php");
+		/* end of useful functions */
+		$genderlist = getCustomListToArray(107); // from netsuite_functions
+		/* convert user-inputed salutations into Gender consistent to Netsuite list */
+		if (isset($_POST["salutation"])){
+			switch($_POST["salutation"]){
+				case "Ms.":
+				case "Mrs.":
+					$gender="F";
+					break;
+				case "Mr.":
+				default:
+					$gender="M";
+			}
+		}
 	//Create web service request
 	require_once '../PHPToolkit/NetSuiteService.php';
 	
@@ -51,11 +66,16 @@ else {
 	$customer->password2 = $_POST["user_password"];
 	$customer->giveAccess = true;
 	$customer->accessRole->internalId = "14";
+	//Custom Fields
+	$genderField = new SelectCustomFieldRef();
+	$genderField->scriptId = 'custentitymorf';
+	$genderField->value = new ListOrRecordRef();
+	$genderField->value->internalId = array_search($gender,$genderlist);
 	//Setup Main Address
 	$address = new CustomerAddressbook();
 	$country = new Country();
-	$address->defaultBilling = form_radio_isvalue('defaultbilling','address');
-	$address->defaultShipping = form_radio_isvalue('defaultshipping','address');
+	$address->defaultBilling = true;
+	$address->defaultShipping = form_checkbox_ischecked('sameshipping');
 	$address->isResidential = form_checkbox_ischecked('isresidential');
 	$address->label = "Main Address";
 	$address->addr1 = $_POST["address1"];
@@ -66,23 +86,26 @@ else {
 	$address->country = $_POST["country"];
 	
 	//Setup Alternative Address
-	$r_address = new CustomerAddressbook();
-	$country = new Country();
-	$r_address->defaultBilling = form_radio_isvalue('defaultbilling','r_address');
-	$r_address->defaultShipping = form_radio_isvalue('defaultshipping','r_address');
-	$r_address->isResidential = form_checkbox_ischecked('r_isresidential');
-	$r_address->label = "Alternative Address";
-	$r_address->addr1 = $_POST["r_address1"];
-	$r_address->addr2 = $_POST["r_address2"];
-	$r_address->city =$_POST["r_city"];
-	$r_address->state = $_POST["r_state"];
-	$r_address->zip = $_POST["r_zip"];
-	$r_address->country = $_POST["r_country"];
-	
+	if (!form_checkbox_ischecked('sameshipping')){
+		$r_address = new CustomerAddressbook();
+		$country = new Country();
+		$r_address->defaultBilling = false;
+		$r_address->defaultShipping = true;
+		$r_address->isResidential = form_checkbox_ischecked('r_isresidential');
+		$r_address->label = "Alternative Address";
+		$r_address->addr1 = $_POST["r_address1"];
+		$r_address->addr2 = $_POST["r_address2"];
+		$r_address->city =$_POST["r_city"];
+		$r_address->state = $_POST["r_state"];
+		$r_address->zip = $_POST["r_zip"];
+		$r_address->country = $_POST["r_country"];
+	}
 	/* prepare and assignmenton addressbookList */
 	$addresses = array();
 	$addresses[0] = $address; //add billing address to addresslist
-	$addresses[1] = $r_address; //add residental address to addresslist
+	if (!form_checkbox_ischecked('sameshipping')){
+		$addresses[1] = $r_address; //add shipping address if there is two addresses
+	}
 	$addressList = new CustomerAddressbookList();
 	$addressList->addressbook = $addresses;
 	$customer->addressbookList = $addressList;
@@ -92,7 +115,7 @@ else {
 	$request->record = $customer;
 	
 	//send request and get response
-	$addResponse = $service->add($request);
+	//$addResponse = $service->add($request);
 	
 	
 	if (!$addResponse->writeResponse->status->isSuccess) { 
@@ -115,7 +138,6 @@ else {
 		$systemMsg = 'Go to <a href="../portal.php">customer Portal</a>';
 		
 		$success_code = 'register';
-		include_once "../templates/head_tag.php";
 		header('location:'.$localurl."success.php?source=".$success_code);
 	}
 }

@@ -1,5 +1,6 @@
 <?php
 //redirect if not login in
+require_once '../config.php';
 require_once 'log_control.php';
 
 require_once '../PHPToolkit/NetSuiteService.php';
@@ -37,7 +38,6 @@ catch(SoapFault $fault)
 	else{ 
 		$err_code = "others"; 
 	}
-	include_once "../templates/head_tag.php";
 	header('location:'.$localurl."error.php?error_code=".$err_code);
 }
 	if (isset($status))
@@ -46,7 +46,6 @@ catch(SoapFault $fault)
 		$systemMsg .= '<a href="../portal.php">Back to Portal</a>';
 		
 		$success_code = 'setpwd';
-		include_once "../templates/head_tag.php";
 		header('location:'.$localurl."success.php?source=".$success_code);
 	}
 	else {
@@ -54,7 +53,6 @@ catch(SoapFault $fault)
 		$systemMsg = "New passwords don't match.";
 		$systemMsg .= '<a href="javascript: history.go(-1)">Go Back</a>';
 		$err_code = 'setpwd_pass_notmatch';
-		include_once "../templates/head_tag.php";
 		header('location:'.$localurl."error.php?error_code=".$err_code);
 	}
 ?>

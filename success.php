@@ -1,7 +1,7 @@
 <?php
 	if (!isset($_GET['source'])){ 
 		/* handler if the page is opened unintentionally */
-		include_once "templates/head_tag.php"; // to get the local url;
+		include_once "templates/config.php"; // to get the local url;
 		header('Location:'.$localurl."profile.php");
 	} 
 	else {

@@ -1,7 +1,7 @@
 <?php
 	if (!isset($_GET['error_code'])){ 
 		/* handler if the page is opened unintentionally */
-		include_once "templates/head_tag.php"; // to get the local url;
+		include_once "config.php"; // to get the local url;
 		header('Location:'.$localurl."profile.php");
 	} 
 	else {
