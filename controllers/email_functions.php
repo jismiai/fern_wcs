@@ -1,0 +1,114 @@
+<?php
+/* -- simple php version
+	
+	$to = "ayanokoujibou@hotmail.com";
+	$subject = "Test mail";
+	$message = "Hello! This is a simple email message.";
+	$from = "david@fern.com.hk";
+	$headers = "From:" . $from;
+	$success = mail($to,$subject,$message,$headers);
+	if ($success) {echo "Mail Sent to".$to;} else {echo " mail failed";}
+*/
+/* PHP Mailer version */
+?>
+
+<?php
+
+
+require '../lib/mail/class.phpmailer.php';
+//Setting for William Cheng & Sons
+function setmail(&$mail){
+
+	require '../config.php';
+	$mail->IsSMTP();
+	$mail->IsHTML(true);
+	$mail->SMTPDebug  = 0;
+	//Ask for HTML-friendly debug output
+	$mail->Debugoutput = 'html';
+	//Set the hostname of the mail server
+	$mail->SetFrom($from_email_system, 'William Cheng and Son');
+	$mail->AddReplyTo($replyto_email,'William Cheng and Son');
+	$mail->Port       = 25;
+	//SMTP setting at david's home
+	$mail->SMTPAuth   = false;
+	ini_set('SMTP','smtp.hkbn.net');
+	$mail->Host       = 'smtp.hkbn.net';
+	/* SMTP setting elsewhere 
+	$mail->SMTPAuth   = true;
+	$mail->Username   = "booking@willsonbooking.fern.com.hk";
+	$mail->Password   = "willsontrip1";*/
+}
+function send_register_email($to,$fname,$lname,$pwd){
+
+	$mail = new PHPMailer();
+	setmail($mail);
+	$mail->AddAddress($to,$fname." ".$name);
+	$mail->Subject = 'Thank you for your registration on William Cheng & Son';
+	$mail->Body = "<span style='font-family:vendara'>"
+				."<p>Dear ".$fname." ".$lname."</p>"
+				."<p>Thank your for your registration on Wiliam Cheng & Son's customer portal</p>"
+				."<p>We have assigned the following password for the first time access:</p>"
+				."<table><tr><th>Password</th><td style='font-style:italic'>".$pwd."</td></tr></table>"
+				.'<p>We strongly recommend you to modify your password after first login to the portal. You can do so by choosing "Change Password" option in the customer portal.'
+				."<p>Should you encounter any difficulty or abnormal situation during the process, please kindly inform us at <a href='customerservice@williamcheng-son.com'>customerservice@williamcheng-son.com</a>. Your participation is highly appreciated.</p>"
+				."<p>Yours sincerely,</p>"
+				."<p>Customer Services Department<br />WILLIAM CHENG & SON</p>"."</span>";
+	if(!$mail->Send()) {
+		echo "Mailer Error: " . $mail->ErrorInfo;
+	} else {
+		echo "Message sent!";
+	}
+}
+
+function del_email(&$mail,$to,$booking,$date,$time,$venue,$link,$fname,$lname){
+	setgmail($mail);
+	$mail->AddAddress($to, $fname." ".$lname); //need to change	
+	$mail->Subject = 'Booking cancellation with William Cheng & Son	';
+	$mail->Body = "<span style='font-family:vendara'>"
+		."<p>Dear ".$fname." ".$lname."</p>"
+		."<p>We are sorry to know that you have cancelled your appointment with booking number ".$booking."</p>"
+		."<p>If you would like to book again, please go to the following link. <br /><a href='http://appointment.williamcheng-son.com'>http://appointment.williamcheng-son.com</a></p>"
+		."<p>Should you have any enquiry, please do not hesitate to contact our Customer Services Department at <a href='mailto:appointment@williamcheng-son.com'>appointment@williamcheng-son.com</a>.</p>"
+		."<p>Yours sincerely,</p>"
+		."<p>Customer Services Department<br />WILLIAM CHENG & SON</p>"."</span>";
+}
+function add_email(&$mail,$to,$booking,$date,$time,$venue,$link,$fname,$lname){
+	setgmail($mail);
+	$mail->AddAddress($to, $fname." ".$lname); //need to change	
+	$mail->Subject = 'Confirmation email for your successful booking/amendment with William Cheng & Son';
+	$mail->Body = "<span style='font-family:vendara'>"
+		."<p>Dear ".$fname." ".$lname."</p>"
+		."<p>Thank you very much for your appointment with William Cheng & Son. Here are your booking details:</p>"
+		."<p>Booking number: ".$booking."<br />Date: ".$date."<br />Time: ".$time."<br />Venue: ".$venue."</p>"
+		."<p>If you wish to amend/cancel your booking, please click on the url below:</p>"
+		."<p><a href='".$link."'>".$link."</a></p>"
+		."<p>Should you have any problem, please do not hesitate to contact our Customer Services Department at <a href='mailto:appointment@williamcheng-son.com'>appointment@williamcheng-son.com</a>.</p>"
+		."<p>Yours sincerely,</p>"
+		."<p>Customer Services Department<br />WILLIAM CHENG & SON</p>"."</span>";
+}
+function add_cs(&$mail,$type,$to,$booking,$fname,$lname,$c_email,$phone,$address,$date,$time,$link,$link2,$purpose,$purchase_item,$alter_item,$other,$measure,$no_com,$name_com,$refer,$message){
+	setgmail($mail);
+	$temp = "";
+	if ($type!='cancelled'){ // add the link if this is not an email triggered by cancellation
+		$temp = "<p>You can amend/delete the booking at this link :<br /><a href='".$link2."'>".$link2."</a></p>";
+	}
+	$mail->AddAddress($to, "CS team"); //need to change	
+	$mail->Subject = 'Booking '.$type.' with William Cheng & Son';
+	$mail->Body = "<span style='font-family:vendara'>"
+	."<p>Dear CS Team,</p>"
+	."<p>Please note that the following appointment:</p>"
+	."Booking number: ".$booking."<br />Customer first name: ".$fname."<br />Customer last name: ".$lname."<br />"
+	."Customer email address: ".$c_email."<br />Customer contact phone number:".$phone."<br />Customer address: ".$address."<br />"
+	."Appointment date/timing: ".$date."/".$time."<br />Purpose of visit: ".$purpose."<br />"
+	."Item wish to be purchased: ".$purchase_item."<br />Item wish to be altered: ".$alter_item."<br />Other details: ".$other."<br />"
+	."Change of measurement: ".$measure."<br />No of companions: ".$no_com."<br />Name of companions: ".$name_com."<br />"
+	."Referred by: ".$refer."<br />Message to us: ".$message."</p>"
+	."<p>was ".$type.".</p>"
+	."<p>You can access the booking report via the url below</br><br />"
+	."<a href='".$link."'>".$link."</a><p />"
+	.$temp	
+	."Regds<br />Booking System</span>"	;
+}
+
+
+?>

@@ -31,12 +31,12 @@ include("templates/head_tag.php");
 				<input type="email" name="user_email" class="form-control" id="user_email" />
 			</div>
 		</div>
-		<div class="form-group">
+		<?php /*<div class="form-group">
 			<label for="user_password" class="col-sm-4 control-label">Password:</label>
 			<div class="col-sm-8">
 				<input type="password" name="user_password" class="form-control" id="user_password" />
 			</div>
-		</div>
+		</div>*/?>
 	</fieldset>
 	<fieldset>
 		<legend>Personal Information</legend>

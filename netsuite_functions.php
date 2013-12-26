@@ -20,4 +20,26 @@ function getCustomListToArray($listInternalId){
 	}
 	return $output;
 }
+
+function searchEmail($input_email){
+	$service = new NetSuiteService();
+	//$service->setSearchPreferences(false, 20);
+	$emailSearchField = new SearchStringField();
+	$emailSearchField->operator = "contains";
+	$emailSearchField->searchValue = $input_email;
+	
+	$search = new CustomerSearchBasic();
+	$search->email = $emailSearchField;
+	
+	$request = new SearchRequest();
+	$request->searchRecord = $search;
+	
+	$searchResponse = $service->search($request);
+	
+	if (!$searchResponse->searchResult->status->isSuccess) {
+		return -1;
+	} else {
+		return $searchResponse->searchResult->totalRecords;
+	}
+}
 ?>

@@ -8,11 +8,12 @@
 <?php //echo $_SESSION["company"];?>
 <?php //echo $_SESSION["internalid"];?>
 <div class="panel panel-default">
-	<div class="panel-heading">Customer Portal</div>
+	<div class="panel-heading">Customer Portal. Your ID is <?php echo $_SESSION['customerID'];?></div>
 	<div class="panel-body">Welcome <?php echo $_SESSION["name"];?>! Please choose one of the operations below.</div>
 	<ul class="list-group">
 		<li class="list-group-item"><a href="changepwd.php">Change Password</a></li>
 		<li class="list-group-item"><a href="profile.php">Update Profile</a></li>
+		<li class="list-group-item"><a href="event.php">Make/Amend booking for 2014 Feb Australia trip</a></li>
 		<li class="list-group-item"><a href="controllers/logout.php">Logout</a></li>
 	</ul>
 </div>	

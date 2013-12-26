@@ -25,8 +25,13 @@
 				$err_message = 'You have entered an invalid email address or account number. Please try again.';
 				break;
 			case 'register_unique_id':
-				$err_title = 'Register error';
+				$err_title = 'Registration error';
 				$err_message = 'A customer record with this ID already exists. You must enter a unique customer ID for each record you create.';
+				break;
+			case 'email_exist':
+				$err_title = 'Registration error';
+				$err_message = 'Your email address already exists. It may be caused by previous registration on this portal, or your information is already in our database';
+				$err_message .= '<br /><br />Please contact our customer service at <a href="mailto:customerservice@williamcheng-son.com">customerservice@williamcheng-son.com</a> to obtain your login password.';
 				break;
 			default:
 				$err_title = 'Error';

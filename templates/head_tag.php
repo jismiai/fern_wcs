@@ -16,6 +16,7 @@
 </head>
 <body>
 <div class="container">
-
-<div class="header" style="text-align:center; margin-top:40px;margin-bottom:40px;width:100%;height:91px;background-repeat:no-repeat;background-position:50% 50%;background-image:url('<?php echo $localurl; ?>img/heading.jpg');">
-</div>
+<a href="<?php echo $localurl; ?>">
+	<div class="header" style="text-align:center; margin-top:40px;margin-bottom:40px;width:100%;height:91px;background-repeat:no-repeat;background-position:50% 50%;background-image:url('<?php echo $localurl; ?>img/heading.jpg');">
+	</div>
+</a>

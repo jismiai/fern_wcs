@@ -67,8 +67,15 @@ else {
 	$genderField = new SelectCustomFieldRef();
 	$genderField->scriptId = 'custentitymorf';
 	$genderField->value = new ListOrRecordRef();
-	$genderField->value->internalId = array_search($gender,$genderlist);
-	$customer->customFieldList->customField = array($genderField);
+	$genderField->value->internalId = array_search($gender,$genderlist);//log behaviour init()
+	
+	//login log
+	$never_login = new BooleanCustomFieldRef();
+	$never_login->scriptId = 'custentity_never_web_login';
+	$never_login->value = false; //indicate this customer has updated profile at least once.
+	
+	//assign custom fields to request Record
+	$customer->customFieldList->customField = array($genderField,$never_login);
 	//Setup Address 1
 	$address = new CustomerAddressbook();
 	$country = new Country();
