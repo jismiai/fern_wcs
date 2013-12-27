@@ -30,19 +30,24 @@ function setmail(&$mail){
 	$mail->AddReplyTo($replyto_email,'William Cheng and Son');
 	$mail->Port       = 25;
 	//SMTP setting at david's home
+	/*
 	$mail->SMTPAuth   = false;
 	ini_set('SMTP','smtp.hkbn.net');
 	$mail->Host       = 'smtp.hkbn.net';
-	/* SMTP setting elsewhere 
+	*/
+	// SMTP setting elsewhere 
+	
+	$mail->Host       = 'mail.willsonbooking.fern.com.hk';
 	$mail->SMTPAuth   = true;
 	$mail->Username   = "booking@willsonbooking.fern.com.hk";
-	$mail->Password   = "willsontrip1";*/
+	$mail->Password   = "willsontrip1";
+	
 }
 function send_register_email($to,$fname,$lname,$pwd){
 
 	$mail = new PHPMailer();
 	setmail($mail);
-	$mail->AddAddress($to,$fname." ".$name);
+	$mail->AddAddress($to,$fname." ".$lname);
 	$mail->Subject = 'Thank you for your registration on William Cheng & Son';
 	$mail->Body = "<span style='font-family:vendara'>"
 				."<p>Dear ".$fname." ".$lname."</p>"
@@ -59,7 +64,6 @@ function send_register_email($to,$fname,$lname,$pwd){
 		echo "Message sent!";
 	}
 }
-
 function del_email(&$mail,$to,$booking,$date,$time,$venue,$link,$fname,$lname){
 	setgmail($mail);
 	$mail->AddAddress($to, $fname." ".$lname); //need to change	
