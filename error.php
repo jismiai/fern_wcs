@@ -33,6 +33,14 @@
 				$err_message = 'Your email address already exists. It may be caused by previous registration on this portal, or your information is already in our database';
 				$err_message .= '<br /><br />Please contact our customer service at <a href="mailto:customerservice@williamcheng-son.com">customerservice@williamcheng-son.com</a> to obtain your login password.';
 				break;
+			case 'booking_slot_full':
+				$err_title = 'Booking cannot be made';
+				$err_message = 'The booking time slot you selected is full. Please choose another time slot.';
+				break;
+			case 'booking_error' :
+				$err_title = 'Error';
+				$err_message = 'Some error has occurred in the system. Please go back to previous page and try again'.
+				break;
 			default:
 				$err_title = 'Error';
 				$err_message = 'An error has occured. Please make sure you fill correct information in the forms.';

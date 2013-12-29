@@ -23,6 +23,11 @@
 				$link='portal.php';
 				$link_display='Portal';
 				break;
+			case 'booking':
+				$message='Your booking has been made/updated. Return to portal page using the link below.';
+				$link='portal.php';
+				$link_display='Portal';
+				break;
 			default:
 				break;
 		}

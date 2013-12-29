@@ -21,6 +21,7 @@ function timeFunctions(){
 	$event_start_time = "09:00";
 	$event_end_time = "18:00";
 	$event_time_interval="15";
+	$event_slots=5;
 	$event_default_address = array(
 		"short" => "Sydney",
 		"long" => "Sussex Meeting Room<br />at ADINA APARTMENT HOTEL.511 Kent Street, Sydney, NSW 2000.<br />Phone: (02) 9274-0000"
@@ -42,6 +43,7 @@ function timeFunctions(){
 	$time_config['event_end_time'] = $event_end_time;
 	$time_config['event_default_address'] = $event_default_address;
 	$time_config['event_time_interval'] = $event_time_interval;
+	$time_config['event_slots'] = $event_slots;
 	$time_config['timeinterval'] = $timeinterval;
 	$time_config['excluded_date_str'] = $excluded_date_str;
 	$time_config['specific_time_str'] = $specific_time_str;
@@ -54,7 +56,15 @@ function timeFunctions(){
 	return $time_config;	
 }
 
-function printSelectDateList($time_config,$classes,$id){	 //Selection list of date
+function printSelectDateList($time_config,$classes,$id,$current){	 //Selection list of date
+	/* -- function explained
+	 * This function reads parameters and outputs a suitable <select> list in HTML
+	 * $time_config : an array which stores the event information such as start time, time interval
+	 * $classes : class attritbute of output list
+	 * $id : id attribute of output list
+	 * $current : an array storing this customer's current booking;
+	*/
+	
 	/*
 	echo "<pre>";
 	var_dump($time_config);
@@ -90,10 +100,12 @@ function printSelectDateList($time_config,$classes,$id){	 //Selection list of da
 	//
 	$startdate = DateTime::createFromFormat('d/m/Y H:i',$time_config['event_start_date']." 09:00");
 	$enddate = DateTime::createFromFormat('d/m/Y H:i',$time_config['event_end_date']." 18:00");
-	$currentdate= clone($startdate);
+	$currentdate = $startdate;
+	//$currentdate= clone($startdate);
 	//echo $currentdate->format('d M Y \(D\) H:i:s ')."<br />";
 	//echo $enddate->format('d M Y \(D\) H:i:s ')."<br />";
 	echo '<select name="'.$id.'" id="'.$id.'" class="'.$classes.'">';
+	echo '<option value="">Select</option>';
 	while ($currentdate < $enddate){
 		$date_excluded = false;	
 		foreach ($excluded_date as $date_value){
@@ -104,9 +116,14 @@ function printSelectDateList($time_config,$classes,$id){	 //Selection list of da
 				}
 		}
 		if (!$date_excluded){
+			if (strcmp($current['date'],$currentdate->format('j/n/Y')) == 0){
+				echo '<option value="'.$currentdate->format('j/n/Y').'" selected="selected">';
+			} else {
 			echo '<option value="'.$currentdate->format('j/n/Y').'">';
+			}
 			//insert overrided short-form address if the $address_by_date is set
 			if (array_key_exists($currentdate->format('j/n/Y'),$address_by_date)){ 
+				//if special address is assigned, use date-specific address loaded from record
 				echo $addresses[$address_by_date[$currentdate->format('j/n/Y')]][1]." | ";
 			} else { //insert default short-form address
 				echo $time_config['event_default_address']['short']." | ";
@@ -118,7 +135,16 @@ function printSelectDateList($time_config,$classes,$id){	 //Selection list of da
 	}
 	echo "</select>";
 }	
-function printSelectTimeList($time_config,$today,$classes,$id){	//Selection list of time
+function printSelectTimeList($time_config,$today,$classes,$id,$current,$vacancy_array){	//Selection list of time
+	/* -- function explained
+	 * This function reads parameters and outputs a suitable <select> list of time-slotsin HTML
+	* $time_config : an array which stores the event information such as start time, time interval
+	* $today : the date which the time-slots are requested
+	* $classes : class attritbute of output list
+	* $id : id attribute of output list
+	* $current : an array storing this customer's current booking;
+	* $vacancy_array : an array whose key is time_slot, value is no of bookings of the slot
+	*/
 	
 	//run-time configuration, parse excluded dates
 	$specific_time_array = explode(";", $time_config['specific_time_str']);
@@ -141,17 +167,84 @@ function printSelectTimeList($time_config,$today,$classes,$id){	//Selection list
 	}
 	$starttime = DateTime::createFromFormat('d/m/Y H:i',$today." ".$today_start_time);
 	$endtime = DateTime::createFromFormat('d/m/Y H:i',$today." ".$today_end_time);
-	$currenttime = clone($starttime);
+	$currenttime = $starttime;
+	//$currenttime = clone($starttime);
 	//echo "<br />".$currenttime->format('d M Y \(D\) H:i:s ')."<br />";
 	//echo $endtime->format('d M Y \(D\) H:i:s ')."<br />";
 	echo '<select name="'.$id.'" id="'.$id.'" class="'.$classes.'">';
+	echo '<option value="">Select</option>';
 	while ($currenttime < $endtime){
-		echo '<option value="'.$currenttime->format('G:i').'">';
+		if (strcmp($current['time'],$currenttime->format('G:i')) == 0 && strcmp($current['date'],$today) == 0){ //is the time specific by existing record
+			echo '<option value="'.$currenttime->format('G:i').'" selected="selected">';
+		} else { //time slot not specified by existing record
+			if ($vacancy_array[$currenttime->format('G:i')] < $time_config["event_slots"]){
+				echo '<option value="'.$currenttime->format('G:i').'">';
+			} else {
+				echo '<option value="'.$currenttime->format('G:i').'" disabled>(Full) ';
+			}
+		}
 		echo $currenttime->format('G:i').'-';
 		$currenttime->add(new DateInterval('PT'.$time_config['event_time_interval'].'M')); // compute next interval now
 		echo $currenttime->format('G:i');
 		echo '</option>';
 	}
 	echo "</select>";
+}
+
+function datePHPtoNetsuite($in_date){
+	/* input dd/mm/yyyy format and output yyyy-dd-mmThh:mm:sss.xxx+hh:mm */
+	$temp_date = DateTime::createFromFormat('d/m/Y',$in_date);
+	return $temp_date->format('Y-m-d')."T19:00:00.000+08:00";
+}
+
+function dateNetsuitetoPHP($in_date){
+	/* input yyyy-dd-mmThh:mm:sss.xxx+hh:mm format and output dd/mm/yyyy */
+	$date_array = explode("T", $in_date);
+	$temp_date = DateTime::createFromFormat('Y-m-d',$date_array[0]);
+	$temp_date->add(new DateInterval('P1D')); // manually add 1 day due to Netsuite timezone setting
+	return $temp_date->format('j/n/Y');
+}
+function selectListFromArray($array,$classes,$id,$selected){
+	/* -- function explained
+	 * This function reads array and outputs a suitable <select> list in HTML
+	* $array : an array which stores available options
+	* $classes : class attritbute of output list
+	* $id : id attribute of output list
+	* $selected : an string containing the options you want to selected
+	*/
+	echo '<select class="'.$classes.'" id="'.$id.'" name="'.$id.'">';
+	echo '<option value="">Select</option>';
+	foreach ($array as $value){
+		if (!(strpos($value,$selected) === false)){
+			echo '<option value="'.$value.'" selected="selected">'.$value.'</option>';
+		} else {
+			echo '<option value="'.$value.'">'.$value.'</option>';
+		}
+	}
+	echo '</select>';
+}
+function multiSelectListFromArray($array,$classes,$id,$selected){
+	/* -- function explained
+	 * This function reads array and outputs a suitable <select> list in HTML
+	* $array : an array which stores available options
+	* $classes : class attritbute of output list
+	* $id : id attribute of output list
+	* $selected : an string containing the options you want to selected
+	*/
+	echo '<select multiple="multiple" class="'.$classes.'" id="'.$id.'" name="'.$id.'[]">';
+	foreach ($array as $value){
+		if (!(strpos($selected,$value) === false)){
+			echo '<option value="'.$value.'" selected="selected">'.$value.'</option>';
+		} else {
+			echo '<option value="'.$value.'">'.$value.'</option>';
+		}
+	}
+	echo '</select>';
+}
+function checkboxFromString($str, $keyword){
+	/* this function has an output if $str contains $keyword */
+	if (!(strpos($str,$keyword) === false)){
+		echo 'checked="checked"';
+	}
 }
 ?>

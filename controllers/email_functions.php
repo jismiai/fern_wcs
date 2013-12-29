@@ -53,11 +53,33 @@ function send_register_email($to,$fname,$lname,$pwd){
 				."<p>Dear ".$fname." ".$lname."</p>"
 				."<p>Thank your for your registration on Wiliam Cheng & Son's customer portal</p>"
 				."<p>We have assigned the following password for the first time access:</p>"
-				."<table><tr><th>Password</th><td style='font-style:italic'>".$pwd."</td></tr></table>"
+				."<table><tr><td>Password : </td><td style='font-style:italic'>".$pwd."</td></tr></table>"
 				.'<p>We strongly recommend you to modify your password after first login to the portal. You can do so by choosing "Change Password" option in the customer portal.'
 				."<p>Should you encounter any difficulty or abnormal situation during the process, please kindly inform us at <a href='customerservice@williamcheng-son.com'>customerservice@williamcheng-son.com</a>. Your participation is highly appreciated.</p>"
 				."<p>Yours sincerely,</p>"
 				."<p>Customer Services Department<br />WILLIAM CHENG & SON</p>"."</span>";
+	if(!$mail->Send()) {
+		echo "Mailer Error: " . $mail->ErrorInfo;
+	} else {
+		echo "Message sent!";
+	}
+}
+function send_booking_cs_email($to,$eventName,$bookingID,$customerID,$action){
+
+	$mail = new PHPMailer();
+	setmail($mail);
+	$mail->AddAddress($to,"CS Team");
+	$mail->Subject = 'Event: '.$eventName.' - An booking has been '.$action;
+	$mail->Body = "<span style='font-family:vendara'>";
+	$mail->Body .="<p>Dear CS Team,</p>";
+	$mail->Body .="<p>Please note that the following appointment has been ".$action.".</p>";
+	$mail->Body .="<table>";
+	$mail->Body .="<tr><td>Event Name : </td><td style='font-style:italic'>".$eventName."</td></tr>";
+	$mail->Body .="<tr><td>Booking Number : </td><td style='font-style:italic'>".$bookingID."</td></tr>";
+	$mail->Body .="<tr><td>Customer ID : </td><td style='font-style:italic'>".$customerID."</td></tr>";
+	$mail->Body .="</table>";
+	$mail->Body .="<p>Regds,</p>";
+	$mail->Body .="<p>Booking System</p>"."</span>";
 	if(!$mail->Send()) {
 		echo "Mailer Error: " . $mail->ErrorInfo;
 	} else {
