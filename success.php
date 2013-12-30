@@ -14,9 +14,9 @@
 				$link_display='Portal';
 				break;
 			case 'register':
-				$message='Thank you very much for your registration! You can go to portal using the link below.';
-				$link='portal.php';
-				$link_display='Portal';
+				$message='Thank you very much for your registration! You can login to portal using the link below.';
+				$link='login.php';
+				$link_display='Login';
 				break;
 			case 'profile':
 				$message='Your profile is updated. Return to portal page using the link below.';

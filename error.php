@@ -39,7 +39,7 @@
 				break;
 			case 'booking_error' :
 				$err_title = 'Error';
-				$err_message = 'Some error has occurred in the system. Please go back to previous page and try again'.
+				$err_message = 'Some error has occurred in the system. Please go back to previous page and try again';
 				break;
 			default:
 				$err_title = 'Error';

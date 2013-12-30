@@ -165,12 +165,12 @@ else {
 	} else { // successfully created a new customer
 		echo "Thank you very much for your registration! id " . $addResponse->writeResponse->baseRef->internalId;
 		//prepare session
-		include "./session_setup.php";
-		$_SESSION["internalid"] = $addResponse->writeResponse->baseRef->internalId;
+		//include "./session_setup.php";
+		//$_SESSION["internalid"] = $addResponse->writeResponse->baseRef->internalId;
 		
 		//send an email containing pwd to customer
 		include "./email_functions.php";
-		//send_register_email($customer->email,$customer->firstName,$customer->lastName,$rand_password);
+		send_register_email($customer->email,$customer->firstName,$customer->lastName,$rand_password);
 		
 		$success_code = 'register';
 		header('location:'.$localurl."success.php?source=".$success_code);

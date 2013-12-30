@@ -98,7 +98,6 @@ if ($vacancy_array[$_POST["appoint_time"]] > 5){ // hardcode to 5 this time
 	$err_code = "booking_slot_full";
 	header('location:'.$localurl."error.php?error_code=".$err_code);
 }
-exit();
 /*Prepare Web Service record */
 $custRec = new CustomRecord();
 $recType = new RecordRef();
@@ -187,7 +186,7 @@ if($booking_records->totalRecords == 0){ // no existing booking for this custome
 		//send an email to CS
 		send_booking_cs_email($cs_email,getCustRec("80", $_POST["event_id"])->name,getCustRec("118", $addResponse->writeResponse->baseRef->internalId)->name,$_SESSION["entityID"],"added");
 		$success_code = 'booking';
-		header('location:'.$localurl."success.php?source=".$success_code);
+		//header('location:'.$localurl."success.php?source=".$success_code);
 	}
 	echo "<pre>";
 	print_r($addResponse->writeResponse);
@@ -211,7 +210,7 @@ if($booking_records->totalRecords == 0){ // no existing booking for this custome
 		echo "</pre>";*/
 		send_booking_cs_email($cs_email,getCustRec("80", $_POST["event_id"])->name,getCustRec("118", $update_booking_id)->name,$_SESSION["entityID"],"amended");
 		$success_code = 'booking';
-		header('location:'.$localurl."success.php?source=".$success_code);
+		//header('location:'.$localurl."success.php?source=".$success_code);
 	}
 	echo "<pre>";
 	print_r($updateResponse);
