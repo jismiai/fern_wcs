@@ -8,12 +8,12 @@
 		<div class="panel-body">
 			<p>We are travelling to Australia in Feb 2014. Click <a href="event.php">here</a> to see the details of the trip.</p>
 			<p>Bookings can be made in this customer portal after login.</p>
-			<p>We have also opened <a href="register.php">new registration</a> to our portal for new comers.</p>
+			<p>We have also opened <a href="register.php">new registration</a> to our portal for new customers.</p>
 		</div>
 	</div>
 </div>
 <div class="col-sm-6">
-	<h2>Customer Login</h2>
+	<h2 style="margin-top:0">Customer Login</h2>
 	<p>Please enter your login information below:</p>
 	<form class="form-horizontal" action="controllers/user_login.php" method="post">
 		<div class="form-group">

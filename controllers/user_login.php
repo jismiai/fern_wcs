@@ -2,12 +2,11 @@
 require_once '../PHPToolkit/NetSuiteService.php';
 
 $service = new NetSuiteService();
-
 $passport = new LoginRequest();
 $passport->passport->account = $service->passport->account;
 $passport->passport->email = $_POST["user_email"];
 $passport->passport->password = $_POST["user_password"];
-
+$passport->passport->role->internalId = "14";
 //Debug only
 //echo $passport->passport->email."<br />";
 //echo $passport->passport->password."<br />";
@@ -35,7 +34,7 @@ catch(SoapFault $fault)
 	include_once "../config.php";
 	header('location:'.$localurl."error.php?error_code=".$err_code);
 }
-if (isset($status))
+if (isset($status)){
 	if($status->isSuccess == true){
 		//use ID to search customer record
 		
@@ -56,5 +55,6 @@ if (isset($status))
 		include_once "../config.php"; //in order to get correct redirection url		
 		header('location:'.$localurl."portal.php");
 	}
+}
 ?>
 <div><?php echo /*$err_code;*/$systemMsg; ?></div>

@@ -8,7 +8,7 @@
 <?php //echo $_SESSION["company"];?>
 <?php //echo $_SESSION["internalid"];?>
 <div class="panel panel-default">
-	<div class="panel-heading">Customer Portal. Your ID is <?php echo $_SESSION['customerID'];?></div>
+	<div class="panel-heading">Customer Portal. Your ID is <?php echo $_SESSION['entityID'];?></div>
 	<div class="panel-body">Welcome <?php echo $_SESSION["name"];?>! Please choose one of the operations below.</div>
 	<ul class="list-group">
 		<li class="list-group-item"><a href="changepwd.php">Change Password</a></li>
