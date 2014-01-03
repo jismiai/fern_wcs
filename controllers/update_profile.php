@@ -156,6 +156,10 @@ else {
 		$systemMsg = "Update SUCCESS, id " . $writeresponse->writeResponse->baseRef->internalId;
 		$systemMsg .= "<br /><a href='../profile.php'>Go to profile</a>";
 		
+		//Update the names stored in sessions
+		$_SESSION["firstname"] = $customer->firstName;
+		$_SESSION["lastname"] = $customer->lastName;
+		
 		$success_code = 'profile';
 		header('location:'.$localurl."success.php?source=".$success_code);
 	}

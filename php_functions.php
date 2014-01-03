@@ -29,7 +29,7 @@ function timeFunctions(){
 	$timeinterval = new DateInterval('PT'.$event_time_interval.'M');
 	$excluded_date_str = "16/2/2014";
 	$specific_time_str = "18/2/2014,09:00,15:00";
-	$address_str = "1;Brisbane;RENDEZVOUS HOTEL BRISBANE.<br />225 Ann Street. (CNR Edward Street)<br />Brisbane, QLD 4000. Phone: (07) 3001-9888<br />(at Room 3032)";
+	$address_str = "1;Brisbane;Room 3032 at RENDEZVOUS HOTEL BRISBANE.<br />225 Ann Street. (CNR Edward Street)<br />Brisbane, QLD 4000. Phone: (07) 3001-9888";
 	$address_str .= "|2;Melbourne;ORCHID MEETING ROOM<br />at ADINA APARTMENT HOTEL<br />189 Queen Street, Melbourne, VIC 3000<br />Phone: (03) 9934-0000";
 	$address_by_date = "17/2/2014,1;18/2/2014,1;19/2/2014,2;20/2/2014,2";
 	
@@ -191,6 +191,21 @@ function printSelectTimeList($time_config,$today,$classes,$id,$current,$vacancy_
 	echo "</select>";
 }
 
+function explodeToArray($str,$delimit1,$delimit2,$index){
+	/*explode a string into an 2d array, returns to the 2d array
+	 * $str = the string
+	 * $delimit1 = higher level delimiter (longer string)
+	 * $delimit2 = the 2nd tier delimiter
+	 * $index = see the code yourself to understand
+	 */
+	$temp_1d_array = explode($delimit1,$str);
+	$temp_2d_array = array();
+	foreach($temp_1d_array as $value){
+		$temp = explode($delimit2,$value);
+		$temp_2d_array[$temp[0]] = $temp[$index];
+	}
+	return $temp_2d_array;
+}
 function datePHPtoNetsuite($in_date){
 	/* input dd/mm/yyyy format and output yyyy-dd-mmThh:mm:sss.xxx+hh:mm */
 	$temp_date = DateTime::createFromFormat('d/m/Y',$in_date);

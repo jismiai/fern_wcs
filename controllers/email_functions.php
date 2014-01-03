@@ -30,27 +30,27 @@ function setmail(&$mail){
 	$mail->AddReplyTo($replyto_email,'William Cheng and Son');
 	$mail->Port       = 25;
 	//SMTP setting at david's home
-	
+	/*
 	$mail->SMTPAuth   = false;
 	ini_set('SMTP','smtp.hkbn.net');
 	$mail->Host       = 'smtp.hkbn.net';
-	
+	*/
 	// SMTP setting elsewhere 
-	/*
+	
 	$mail->Host       = 'mail.willsonbooking.fern.com.hk';
 	$mail->SMTPAuth   = true;
 	$mail->Username   = "booking@willsonbooking.fern.com.hk";
 	$mail->Password   = "willsontrip1";
-	*/
+	
 }
 function send_register_email($to,$fname,$lname,$pwd){
-
+	require '../config.php';
 	$mail = new PHPMailer();
 	setmail($mail);
 	$mail->AddAddress($to,$fname." ".$lname);
 	$mail->Subject = 'Thank you for your registration on William Cheng & Son';
 	$mail->Body = "<span style='font-family:vendara'>"
-				."<p>Dear ".$fname." ".$lname."</p>"
+				."<p>Dear ".$fname." ".$lname.",</p>"
 				."<p>Thank your for your registration on Wiliam Cheng & Son's customer portal</p>"
 				."<p>We have assigned the following password for the first time access:</p>"
 				."<table><tr><td>Password : </td><td style='font-style:italic'>".$pwd."</td></tr></table>"
@@ -58,11 +58,14 @@ function send_register_email($to,$fname,$lname,$pwd){
 				."<p>Should you encounter any difficulty or abnormal situation during the process, please kindly inform us at <a href='customerservice@williamcheng-son.com'>customerservice@williamcheng-son.com</a>. Your participation is highly appreciated.</p>"
 				."<p>Yours sincerely,</p>"
 				."<p>Customer Services Department<br />WILLIAM CHENG & SON</p>"."</span>";
+	
+	//$file=fopen($email_logfile,"a");
 	if(!$mail->Send()) {
 		echo "Mailer Error: " . $mail->ErrorInfo;
 	} else {
 		echo "Message sent!";
 	}
+	//fclose($file);
 }
 function send_booking_cs_email($to,$eventName,$bookingID,$customerID,$action){
 
@@ -86,12 +89,58 @@ function send_booking_cs_email($to,$eventName,$bookingID,$customerID,$action){
 		echo "Message sent!";
 	}
 }
+
+function booking_customer_email($to,$eventName,$bookingID,$email_detail,$action){
+
+	$mail = new PHPMailer();
+	setmail($mail);
+	$mail->AddAddress($to,$email_detail["firstname"]." ".$email_detail["lastname"]);
+	$mail->Subject = 'Event: '.$eventName.' - Your booking has been '.$action;
+	$mail->Body = "<span style='font-family:vendara'>";
+	$mail->Body .="<p>Dear ".$email_detail["firstname"]." ".$email_detail["lastname"]."</p>";
+	$mail->Body .="<p>Thank you very much for your appointment with William Cheng & Son. Here are your booking details:</p>";
+	$mail->Body .="<table>";
+	$mail->Body .="<tr><td style='width:140px'>Event Name : </td><td >".$eventName."</td></tr>";
+	$mail->Body .="<tr><td style='width:140px'>Booking Number : </td><td>".$bookingID."</td></tr>";
+	$mail->Body .="<tr><td style='width:140px'>Date: </td><td>".$email_detail["appoint_date"]."</td></tr>";
+	$mail->Body .="<tr><td style='width:140px'>Time: </td><td>".$email_detail["appoint_time"]."</td></tr>";
+	$mail->Body .="<tr><td style='width:140px'>Venue : </td><td>".$email_detail["venue"]."</td></tr>";
+	$mail->Body .="</table>";
+	$mail->Body .="<p>Should you have any problem, please do not hesitate to contact our Customer Services Department at <a href='mailto:appointment@williamcheng-son.com'>appointment@williamcheng-son.com</a>.</p>";
+	$mail->Body .="<p>Yours sincerely,</p>";
+	$mail->Body .="<p>Customer Services Department<br />WILLIAM CHENG & SON</p>"."</span>";
+	if(!$mail->Send()) {
+		echo "Mailer Error: " . $mail->ErrorInfo;
+	} else {
+		echo "Message sent!";
+	}
+}
+function delete_booking_customer_email($to,$eventName,$bookingID,$email_detail,$action){
+
+	$mail = new PHPMailer();
+	setmail($mail);
+	$mail->AddAddress($to,$email_detail["firstname"]." ".$email_detail["lastname"]);
+	$mail->Subject = 'Event: '.$eventName.' - Your booking has been '.$action;
+	$mail->Body = "<span style='font-family:vendara'>";
+	$mail->Body .="<p>Dear ".$email_detail["firstname"]." ".$email_detail["lastname"].",</p>";
+	$mail->Body .="<p>We are sorry to know that you have cancelled your appointment with booking number <b>".$bookingID.".</b></p>";
+	$mail->Body .="<p>If you would like to book again, please login to our customer portal at <a href='www.williamcheng-son.com/customer_portal/'>www.williamcheng-son.com/customer_portal/</a></p>";
+	$mail->Body .="<p>Should you have any problem, please do not hesitate to contact our Customer Services Department at <a href='mailto:appointment@williamcheng-son.com'>appointment@williamcheng-son.com</a>.</p>";
+	$mail->Body .="<p>Yours sincerely,</p>";
+	$mail->Body .="<p>Customer Services Department<br />WILLIAM CHENG & SON</p>"."</span>";
+	if(!$mail->Send()) {
+		echo "Mailer Error: " . $mail->ErrorInfo;
+	} else {
+		echo "Message sent!";
+	}
+}
+
 function del_email(&$mail,$to,$booking,$date,$time,$venue,$link,$fname,$lname){
 	setgmail($mail);
 	$mail->AddAddress($to, $fname." ".$lname); //need to change	
 	$mail->Subject = 'Booking cancellation with William Cheng & Son	';
 	$mail->Body = "<span style='font-family:vendara'>"
-		."<p>Dear ".$fname." ".$lname."</p>"
+		."<p>Dear ".$fname." ".$lname.",</p>"
 		."<p>We are sorry to know that you have cancelled your appointment with booking number ".$booking."</p>"
 		."<p>If you would like to book again, please go to the following link. <br /><a href='http://appointment.williamcheng-son.com'>http://appointment.williamcheng-son.com</a></p>"
 		."<p>Should you have any enquiry, please do not hesitate to contact our Customer Services Department at <a href='mailto:appointment@williamcheng-son.com'>appointment@williamcheng-son.com</a>.</p>"

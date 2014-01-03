@@ -46,4 +46,5 @@ fieldset[disabled] .btn-wcs-default.active {
 label.error{
 	color:red;
 	font-weight:normal;
+	display:block;
 }

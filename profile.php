@@ -101,13 +101,13 @@ include("templates/head_tag.php");
 		<div class="form-group">
 			<label for="firstname" class="col-sm-4 control-label">First & Middle Name:</label>
 			<div class="col-sm-8">
-				<input type="text" name="firstname" id="firstname" class="form-control" value="<?php echo $customer->firstName; ?>" />
+				<input type="text" name="firstname" id="firstname" class="form-control" value="<?php echo $customer->firstName; ?>" readonly />
 			</div>
 		</div>
 		<div class="form-group">
 			<label for="lastname" class="col-sm-4 control-label">Last Name:</label>
 			<div class="col-sm-8">
-				<input type="text" name="lastname" id="lastname" class="form-control" value="<?php echo $customer->lastName; ?>" />
+				<input type="text" name="lastname" id="lastname" class="form-control" value="<?php echo $customer->lastName;  ?>" readonly />
 			</div>
 		</div>
 		<div class="form-group">

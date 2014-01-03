@@ -3,10 +3,56 @@ require_once 'log_control.php';
 require_once '../php_functions.php'; // to manipulate datetime data-type in Netsuite
 require_once 'email_functions.php';
 require_once '../config.php';
+require_once '../netsuite_functions.php';
+
+/*read form-input */
+
+//process purposes and produce a string separated by comma.
+$purpose=$_POST["purpose_purchase"].", ".$_POST["purpose_alter"].", ".$_POST["purpose_other"];
+$purpose=trim($purpose,", ");
+
+//process purchase item multi-selection list
+$purchase_item = "";
+if (isset($_POST['purpose_purchase']) && strlen($_POST['purpose_purchase'])){
+	foreach($_POST['purchase_item'] as $item){
+		$purchase_item .= $item.", ";
+	}
+	$purchase_item = trim($purchase_item,", ");
+}
+//process alter item multi-selection list
+$alter_item = "";
+if (isset($_POST['purpose_alter']) && strlen($_POST['purpose_alter'])){
+	foreach($_POST['alter_item'] as $item){
+		$alter_item .= $item.", ";
+	}
+	$alter_item = trim($alter_item, ", ");
+}
+
+/* prepare mail variable detail */
+$email_detail = array();
+$email_detail["firstname"] = $_SESSION["firstname"];
+$email_detail["lastname"] = $_SESSION["lastname"];
+$email_detail["appoint_date"] = $_POST["appoint_date"];
+
+$temp_timeconfig = timeFunctions();
+$temp_interval = $temp_timeconfig['timeinterval'];
+$temp_datetime = DateTime::createFromFormat('d/m/Y H:i',$_POST["appoint_date"]." ".$_POST["appoint_time"]);
+$temp_time = $temp_datetime->format('G:i')."-";
+$temp_datetime->add($temp_timeconfig['timeinterval']); // compute next interval now
+$temp_time .= $temp_datetime->format('G:i');
+$email_detail["appoint_time"] = $temp_time;
+
+$temp_address_by_date = explodeToArray($temp_timeconfig["address_by_date"],";",",",1);
+$temp_addresses = explodeToArray($temp_timeconfig["address_str"],"|",";",2);
+if (array_key_exists($_POST["appoint_date"],$temp_address_by_date)){
+	$email_detail["venue"] = $temp_addresses[$temp_address_by_date[$_POST["appoint_date"]]];
+} else {
+	$email_detail["venue"] = $temp_timeconfig["event_default_address"]["long"];
+}
+
 /*determine if this record should be deleted*/
 if (isset($_GET["delete"]) && $_GET["delete"] == "yes"){
 	
-	require_once '../netsuite_functions.php';
 	//obtain booking id
 	$booking_records = searchBookingByEventAndCustomer($_POST["event_id"],$_SESSION['customerID']);
 	$delete_booking_id = $booking_records->recordList->record[0]->internalId;
@@ -32,6 +78,7 @@ if (isset($_GET["delete"]) && $_GET["delete"] == "yes"){
 	} else {
 		//send an email to CS
 		send_booking_cs_email($cs_email,getCustRec("80", $_POST["event_id"])->name,getCustRec("118", $delete_booking_id)->name, $_SESSION["entityID"],"deleted");
+		delete_booking_customer_email($_SESSION["email"],getCustRec("80", $_POST["event_id"])->name,getCustRec("118", $delete_booking_id)->name,$email_detail,"cancelled");
 		$success_code = 'booking';
 		header('location:'.$localurl."success.php?source=".$success_code);
 	}
@@ -51,29 +98,6 @@ if($booking_records->totalRecords == 0){
 	$update_booking_id = $booking_records->recordList->record[0]->internalId;
 	//echo "booking internal id = ".$update_booking_id;
 	
-}
-
-/*read form-input */
-
-//process purposes and produce a string separated by comma.
-$purpose=$_POST["purpose_purchase"].", ".$_POST["purpose_alter"].", ".$_POST["purpose_other"];
-$purpose=trim($purpose,", ");
-
-//process purchase item multi-selection list
-$purchase_item = "";
-if (isset($_POST['purpose_purchase']) && strlen($_POST['purpose_purchase'])){
-	foreach($_POST['purchase_item'] as $item){
-		$purchase_item .= $item.", ";
-	}
-	$purchase_item = trim($purchase_item,", ");
-}
-//process alter item multi-selection list
-$alter_item = "";
-if (isset($_POST['purpose_alter']) && strlen($_POST['purpose_alter'])){
-	foreach($_POST['alter_item'] as $item){
-		$alter_item .= $item.", ";
-	}
-	$alter_item = trim($alter_item, ", ");
 }
 
 /*perform search again to determine whether this slot is still available */
@@ -183,10 +207,11 @@ if($booking_records->totalRecords == 0){ // no existing booking for this custome
 		header('location:'.$localurl."error.php?error_code=".$err_code);
 	} else {
 		echo "add success";
-		//send an email to CS
-		send_booking_cs_email($cs_email,getCustRec("80", $_POST["event_id"])->name,getCustRec("118", $addResponse->writeResponse->baseRef->internalId)->name,$_SESSION["entityID"],"added");
+		//send an email to CS & customer
+		send_booking_cs_email($cs_email,getCustRec("80", $_POST["event_id"])->name,getCustRec("118", $addResponse->writeResponse->baseRef->internalId)->name,$_SESSION["entityID"],"confirmed");
+		booking_customer_email($_SESSION["email"],getCustRec("80", $_POST["event_id"])->name,getCustRec("118", $addResponse->writeResponse->baseRef->internalId)->name,$email_detail,"confirmed");
 		$success_code = 'booking';
-		//header('location:'.$localurl."success.php?source=".$success_code);
+		header('location:'.$localurl."success.php?source=".$success_code);
 	}
 	echo "<pre>";
 	print_r($addResponse->writeResponse);
@@ -201,16 +226,16 @@ if($booking_records->totalRecords == 0){ // no existing booking for this custome
 		$err_code = "booking_error";
 		header('location:'.$localurl."error.php?error_code=".$err_code);
 	} else {
-		//echo "edit success";
-		//send an email to CS
+		//send an email to CS & customer
 		/*echo "<pre>";
 		echo "booking name = ".getCustRec("118", $update_booking_id)->name."<br />";
 		echo "event name = ".getCustRec("80", $_POST["event_id"])->name."<br />";
 		echo "customer name = ".$_SESSION["entityID"]."<br />";
 		echo "</pre>";*/
 		send_booking_cs_email($cs_email,getCustRec("80", $_POST["event_id"])->name,getCustRec("118", $update_booking_id)->name,$_SESSION["entityID"],"amended");
+		booking_customer_email($_SESSION["email"],getCustRec("80", $_POST["event_id"])->name,getCustRec("118", $update_booking_id)->name,$email_detail,"amended");
 		$success_code = 'booking';
-		//header('location:'.$localurl."success.php?source=".$success_code);
+		header('location:'.$localurl."success.php?source=".$success_code);
 	}
 	echo "<pre>";
 	print_r($updateResponse);
@@ -218,11 +243,6 @@ if($booking_records->totalRecords == 0){ // no existing booking for this custome
 }
 
 
-
-
-//echo "addResponse = <br /><pre>";
-//print_r($addResponse);
-//echo "</pre>";
 $custom_head="";
 $custom_title="- Your Booking";
 include("../templates/head_tag.php");
@@ -242,6 +262,8 @@ echo "num_companion = ".$_POST["num_companion"]."<br />";
 echo "name_companion = ".$_POST["name_companion"]."<br />";
 echo "refer = ".$_POST["refer"]."<br />";
 echo "message = ".$_POST["message"]."<br />";
+
+
 
 echo "".$_POST[""]."<br />";
 ?>
