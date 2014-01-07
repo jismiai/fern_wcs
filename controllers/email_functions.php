@@ -26,8 +26,8 @@ function setmail(&$mail){
 	//Ask for HTML-friendly debug output
 	$mail->Debugoutput = 'html';
 	//Set the hostname of the mail server
-	$mail->SetFrom($from_email_system, 'William Cheng and Son');
-	$mail->AddReplyTo($replyto_email,'William Cheng and Son');
+	$mail->SetFrom($from_email_system, 'William Cheng & Son');
+	$mail->AddReplyTo($replyto_email,'William Cheng & Son');
 	$mail->Port       = 25;
 	//SMTP setting at david's home
 	/*
@@ -36,12 +36,16 @@ function setmail(&$mail){
 	$mail->Host       = 'smtp.hkbn.net';
 	*/
 	// SMTP setting elsewhere 
-	
+	/*
 	$mail->Host       = 'mail.willsonbooking.fern.com.hk';
 	$mail->SMTPAuth   = true;
 	$mail->Username   = "booking@willsonbooking.fern.com.hk";
 	$mail->Password   = "willsontrip1";
-	
+	*/
+	$mail->Host       = 'smtp.williamcheng-son.com';
+	$mail->SMTPAuth   = true;
+	$mail->Username   = "appointment@williamcheng-son.com";
+	$mail->Password   = "appointment9216";
 }
 function send_register_email($to,$fname,$lname,$pwd){
 	require '../config.php';
@@ -86,7 +90,7 @@ function send_booking_cs_email($to,$eventName,$bookingID,$customerID,$action){
 	if(!$mail->Send()) {
 		echo "Mailer Error: " . $mail->ErrorInfo;
 	} else {
-		echo "Message sent!";
+		echo "Message sent!CS";
 	}
 }
 
@@ -112,7 +116,7 @@ function booking_customer_email($to,$eventName,$bookingID,$email_detail,$action)
 	if(!$mail->Send()) {
 		echo "Mailer Error: " . $mail->ErrorInfo;
 	} else {
-		echo "Message sent!";
+		echo "Message sent!cust";
 	}
 }
 function delete_booking_customer_email($to,$eventName,$bookingID,$email_detail,$action){

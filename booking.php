@@ -9,7 +9,12 @@ if (!isset($_GET['id'])){
 }
 $event_id = $_GET['id'];
 $event = getCustRec("80",$event_id);
-$event_name = $event->name;
+foreach ($event->customFieldList->customField as $customfield){
+	if ($customfield->scriptId == "custrecord_event_name"){
+		$event_name = $customfield->value;
+		break;
+	}
+}
 
 //perform booking searching to determine add/edit mode
 $booking_records = searchBookingByEventAndCustomer($event_id,$_SESSION['customerID']);

@@ -77,8 +77,8 @@ if (isset($_GET["delete"]) && $_GET["delete"] == "yes"){
 		header('location:'.$localurl."error.php?error_code=".$err_code);
 	} else {
 		//send an email to CS
-		send_booking_cs_email($cs_email,getCustRec("80", $_POST["event_id"])->name,getCustRec("118", $delete_booking_id)->name, $_SESSION["entityID"],"deleted");
-		delete_booking_customer_email($_SESSION["email"],getCustRec("80", $_POST["event_id"])->name,getCustRec("118", $delete_booking_id)->name,$email_detail,"cancelled");
+		send_booking_cs_email($cs_email,$_POST["event_name"],getCustRec("118", $delete_booking_id)->name, $_SESSION["entityID"],"deleted");
+		delete_booking_customer_email($_SESSION["email"],$_POST["event_name"],getCustRec("118", $delete_booking_id)->name,$email_detail,"cancelled");
 		$success_code = 'booking';
 		header('location:'.$localurl."success.php?source=".$success_code);
 	}
@@ -208,8 +208,8 @@ if($booking_records->totalRecords == 0){ // no existing booking for this custome
 	} else {
 		echo "add success";
 		//send an email to CS & customer
-		send_booking_cs_email($cs_email,getCustRec("80", $_POST["event_id"])->name,getCustRec("118", $addResponse->writeResponse->baseRef->internalId)->name,$_SESSION["entityID"],"confirmed");
-		booking_customer_email($_SESSION["email"],getCustRec("80", $_POST["event_id"])->name,getCustRec("118", $addResponse->writeResponse->baseRef->internalId)->name,$email_detail,"confirmed");
+		send_booking_cs_email($cs_email,$_POST["event_name"],getCustRec("118", $addResponse->writeResponse->baseRef->internalId)->name,$_SESSION["entityID"],"confirmed");
+		booking_customer_email($_SESSION["email"],$_POST["event_name"],getCustRec("118", $addResponse->writeResponse->baseRef->internalId)->name,$email_detail,"confirmed");
 		$success_code = 'booking';
 		header('location:'.$localurl."success.php?source=".$success_code);
 	}
@@ -232,8 +232,8 @@ if($booking_records->totalRecords == 0){ // no existing booking for this custome
 		echo "event name = ".getCustRec("80", $_POST["event_id"])->name."<br />";
 		echo "customer name = ".$_SESSION["entityID"]."<br />";
 		echo "</pre>";*/
-		send_booking_cs_email($cs_email,getCustRec("80", $_POST["event_id"])->name,getCustRec("118", $update_booking_id)->name,$_SESSION["entityID"],"amended");
-		booking_customer_email($_SESSION["email"],getCustRec("80", $_POST["event_id"])->name,getCustRec("118", $update_booking_id)->name,$email_detail,"amended");
+		send_booking_cs_email($cs_email,$_POST["event_name"],getCustRec("118", $update_booking_id)->name,$_SESSION["entityID"],"amended");
+		booking_customer_email($_SESSION["email"],$_POST["event_name"],getCustRec("118", $update_booking_id)->name,$email_detail,"amended");
 		$success_code = 'booking';
 		header('location:'.$localurl."success.php?source=".$success_code);
 	}

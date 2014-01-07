@@ -10,5 +10,5 @@ $_SESSION["entityID"] = explode(" ",$customer->entityId);
 $_SESSION["entityID"] = $_SESSION["entityID"][0];
 
 $_SESSION['last_activity'] = time();
-$_SESSION['expire_time'] = 15*60;
+$_SESSION['expire_time'] = 30*60;
 ?>

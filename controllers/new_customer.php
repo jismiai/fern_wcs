@@ -98,9 +98,13 @@ else {
 	$first_pwd = new StringCustomFieldRef();
 	$first_pwd->scriptId = 'custentity_first_time_pwd';
 	$first_pwd->value = $rand_password; //true before the customer attempt to login.
+	//Mark the source of this customer as "coming from Website"
+	$web_register = new BooleanCustomFieldRef();
+	$web_register->scriptId = 'custentity_register_from_web';
+	$web_register->value = true;
 	
 	//assign custom fields to request Record
-	$customer->customFieldList->customField = array($genderField,$never_login,$first_pwd);
+	$customer->customFieldList->customField = array($genderField,$never_login,$first_pwd,$web_register);
 	echo "gender=".$gender."<br />";
 	echo "genderlist=".array_search($gender,$genderlist)."<br />";
 	//Setup Main Address

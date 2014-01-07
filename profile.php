@@ -245,9 +245,12 @@ include("templates/head_tag.php");
 	</fieldset>
 	<input type="hidden" name="source" value="profile.php" />
 	<div class="form-group" style="padding:20px 0;">
-		<div class="col-sm-offset-4 col-sm-4">
+		<div class="col-sm-offset-4 col-sm-2">
 		<button type="submit" value="Update" class="btn btn-wcs-default" />Update</button>
 		<a href="portal.php" class="btn btn-link">Back</a>
+		</div>
+		<div class="col-sm-4">
+		If you need to update other information of your profile, please contact us at <a href="mailto:customerservice@williamcheng-son.com">customerservice@williamcheng-son.com</a>
 		</div>
 	</div>
 </form>

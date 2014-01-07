@@ -1,4 +1,4 @@
-<?php include_once ($_SERVER["DOCUMENT_ROOT"]."/fern_wcs/config.php"); ?>
+<?php include_once "/config.php"; ?>
 <!DOCTYPE HTML>
 <html>
 <head>
