@@ -96,8 +96,15 @@ if($booking_records->totalRecords == 0){
 } else {
 	//echo "Edit Mode";
 	$update_booking_id = $booking_records->recordList->record[0]->internalId;
-	//echo "booking internal id = ".$update_booking_id;
-	
+	/** gather the date/time information of existing booking (for vacancy check purpose) **/
+	$current_booking = array();
+	foreach ($booking_records->recordList->record[0]->customFieldList->customField as $value){
+		$current_booking[$value->scriptId] = $value->value;
+	}
+	$current_date = array(
+			date => dateNetsuitetoPHP($current_booking["custrecord_booking_date"]),
+			time => $current_booking["custrecord_booking_time"]
+	);	
 }
 
 /*perform search again to determine whether this slot is still available */
@@ -118,7 +125,13 @@ if ($vacancy_result->totalRecords > 0){
 		}
 	}
 }
-if ($vacancy_array[$_POST["appoint_time"]] > 5){ // hardcode to 5 this time
+
+/** compare existing the timeslot in database with submitted timeslot **/
+if ($current_date["date"]==$_POST["appoint_date"] && $current_date["time"] == $_POST["appoint_time"]){
+	$same_timeslot = true;
+}
+
+if ($vacancy_array[$_POST["appoint_time"]] >= 5 && !($same_timeslot)){ // hardcode to 5 this time
 	$err_code = "booking_slot_full";
 	header('location:'.$localurl."error.php?error_code=".$err_code);
 }
@@ -213,9 +226,11 @@ if($booking_records->totalRecords == 0){ // no existing booking for this custome
 		$success_code = 'booking';
 		header('location:'.$localurl."success.php?source=".$success_code);
 	}
+	/*
 	echo "<pre>";
 	print_r($addResponse->writeResponse);
 	echo "</pre>";
+	*/
 } else { // an booking already exists
 	$request = new UpdateRequest();
 	$custRec->internalId = $update_booking_id;
@@ -237,9 +252,11 @@ if($booking_records->totalRecords == 0){ // no existing booking for this custome
 		$success_code = 'booking';
 		header('location:'.$localurl."success.php?source=".$success_code);
 	}
+	/*
 	echo "<pre>";
 	print_r($updateResponse);
 	echo "</pre>";
+	*/
 }
 
 

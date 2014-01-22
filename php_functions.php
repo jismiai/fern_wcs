@@ -174,18 +174,18 @@ function printSelectTimeList($time_config,$today,$classes,$id,$current,$vacancy_
 	echo '<select name="'.$id.'" id="'.$id.'" class="'.$classes.'">';
 	echo '<option value="">Select</option>';
 	while ($currenttime < $endtime){
-		if (strcmp($current['time'],$currenttime->format('G:i')) == 0 && strcmp($current['date'],$today) == 0){ //is the time specific by existing record
-			echo '<option value="'.$currenttime->format('G:i').'" selected="selected">';
+		if (strcmp($current['time'],$currenttime->format('H:i')) == 0 && strcmp($current['date'],$today) == 0){ //is the time specific by existing record
+			echo '<option value="'.$currenttime->format('H:i').'" selected="selected">';
 		} else { //time slot not specified by existing record
-			if ($vacancy_array[$currenttime->format('G:i')] < $time_config["event_slots"]){
-				echo '<option value="'.$currenttime->format('G:i').'">';
+			if ($vacancy_array[$currenttime->format('H:i')] < $time_config["event_slots"]){
+				echo '<option value="'.$currenttime->format('H:i').'">';
 			} else {
-				echo '<option value="'.$currenttime->format('G:i').'" disabled>(Full) ';
+				echo '<option value="'.$currenttime->format('H:i').'" disabled>(Full) ';
 			}
 		}
-		echo $currenttime->format('G:i').'-';
+		echo $currenttime->format('H:i').'-';
 		$currenttime->add(new DateInterval('PT'.$time_config['event_time_interval'].'M')); // compute next interval now
-		echo $currenttime->format('G:i');
+		echo $currenttime->format('H:i');
 		echo '</option>';
 	}
 	echo "</select>";
