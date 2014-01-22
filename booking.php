@@ -90,6 +90,11 @@ $(document).ready(function(){
   var event_id = <?php echo $event_id; ?>;
   var old_time = $('#appoint_time').val();
   var old_date = $('#appoint_date').val();
+  var today = $('#appoint_date').val();
+    $.get("get_timeslot.php",{eventid:event_id,date:old_date,time:old_time,today:today},function(data){
+		$("#appoint_time_wrapper").html(data);
+		//alert("Data: " + data + "\nStatus: " + status);
+    },"html");
   $("#appoint_date").change(function(){
 	var today = $('#appoint_date').val();
     $.get("get_timeslot.php",{eventid:event_id,date:old_date,time:old_time,today:today},function(data){
