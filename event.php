@@ -28,7 +28,7 @@
 	</tr>
 	</table>
 	<div class="row">
-	<a href="booking.php" class="col-sm-offset-4 col-sm-4 btn btn-wcs-default">Make/Amend Booking</a>
+	<a href="login.php" class="col-sm-offset-4 col-sm-4 btn btn-wcs-default">Make/Amend Booking</a>
 	</div>
 	<div class="row">
 		<a href="portal.php" class="col-sm-offset-5 col-sm-2 btn">Back</a>
