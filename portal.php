@@ -13,7 +13,7 @@
 	<ul class="list-group">
 		<li class="list-group-item"><a href="changepwd.php">Change Password</a></li>
 		<li class="list-group-item"><a href="profile.php">Update Profile</a></li>
-		<li class="list-group-item"><a href="event.php">Make/Amend booking for 2014 Feb Australia trip</a></li>
+		<li class="list-group-item"><a href="event.php">Make/Amend booking for 2014 June UK trip</a></li>
 		<li class="list-group-item"><a href="controllers/logout.php">Logout</a></li>
 	</ul>
 </div>	

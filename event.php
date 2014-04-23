@@ -12,20 +12,11 @@
 		<th style="width:50%">Venue</th>
 	</tr>
 	<tr>
-		<td><i><u>SYDNEY</u></i><br />Feb 13 (Thur) to Feb 15 (Sat)</td>
-		<td><br />9:00 am to 6:00 pm</td>
-		<td>SUSSEX MEETING ROOM at ADINA APARTMENT HOTEL<br />511 Kent Street, Sydney, NSW 2000.<br />Phone: (02) 9274-0000</td>
+		<td>June 4 (Wed)<br />June 5 (Thurs)<br />June 6 (Sat)<br />June 4 (Sun)</td>
+		<td>9:00 am<br />to<br />6:00 pm</td>
+		<td>PICASSOO ROOM<br />MERCURE London Bridge<br /> 71-79 Southwark Street,<br />London, SE1 0JA, UK.<br />Phone number: (0) 207 902 0803</td>
 	</tr>
-	<tr>
-		<td><i><u>BRISBANE</u></i><br />Feb 17 (Mon), and <br />Feb 18 (Tue)</td>
-		<td><br />9:00 am to 6:00pm<br />9:00 am to <b><i>3:00 pm</i></b></td>
-		<td>Room 3032 at RENDEZVOUS HOTEL BRISBANE <br />225 Ann Street. (CNR Edward Street) Brisbane, QLD 4000.<br />Phone: (07) 3001-9888<br /></td>
-	</tr>
-	<tr>
-		<td><i><u>MELBOURNE</u></i><br />Feb 19 (Wed) to Feb 20 (Thur)</td>
-		<td><br />9:00 am to 6:00 pm</td>
-		<td>ORCHID MEETING ROOM at ADINA APARTMENT HOTEL<br />189 Queen Street, Melbourne, VIC 3000<br />Phone: (03) 9934-0000</td>
-	</tr>
+	
 	</table>
 	<div class="row">
 	<a href="booking.php" class="col-sm-offset-4 col-sm-4 btn btn-wcs-default">Make/Amend Booking</a>
