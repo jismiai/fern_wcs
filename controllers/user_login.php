@@ -48,6 +48,21 @@ if (isset($status)){
 		 * echo "<br />Hello! ".$customer->companyName;
 		echo '<br />Go to <a href="portal.php">Customer Portal</a>';
 		*/
+		/** Get customer country **/
+		require_once ("../NetsuiteCountries.php");
+		$addressBookListArray = $customer->addressbookList->addressbook;
+		if (is_array($addressBookListArray)) { // handler if the customer has multiple addresses
+			foreach($addressBookListArray as $value){
+				if ($value->defaultBilling){
+					$customer_billing_country = $countries[$value->country];
+				}
+				if ($value->defaultShipping)
+					$customer_shipping_country = $countries[$value->country];
+			}
+		} else { //single address handling
+			$customer_billing_country = $countries[$addressBookListArray->country];
+			$customer_shipping_country = $countries[$addressBookListArray->country];
+		}
 		//Begin session management
 		include "./session_setup.php";
 		$_SESSION["internalid"] = $customer->internalId;
