@@ -21,7 +21,7 @@ function timeFunctions(){
 	$event_start_time = "09:00";
 	$event_end_time = "18:00";
 	$event_time_interval="15";
-	$event_slots=5;
+	$event_slots=4;
 	$event_default_address = array(
 		"short" => "London",
 		"long" => "PICASSOO ROOM<br />MERCURE London Bridge<br /> 71-79 Southwark Street,<br />London, SE1 0JA, UK.<br />Phone number: (0) 207 902 0803"

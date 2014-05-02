@@ -2,7 +2,7 @@
 <?php
 	include("templates/head_tag.php");
 ?>
-<div class="col-sm-4 col-sm-offset-1">
+<div class="col-sm-4 col-sm-offset-1" style="visibility:hidden;">
 	<div class="panel panel-default">
 		<div class="panel-heading">Australia Trip Booking is now available.</div>
 		<div class="panel-body">
