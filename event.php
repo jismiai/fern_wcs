@@ -14,7 +14,7 @@
 	<tr>
 		<td>June 4 (Wed)<br />June 5 (Thu)<br />June 6 (Fri)<br />June 7 (Sat)</td>
 		<td>9:00 am<br />to<br />6:00 pm</td>
-		<td>PICASSOO ROOM<br />MERCURE London Bridge<br /> 71-79 Southwark Street,<br />London, SE1 0JA, UK.<br />Phone number: (0) 207 902 0803</td>
+		<td>PICASSOO ROOM<br />MERCURE London Bridge<br /> 71-79 Southwark Street,<br />London, SE1 0JA, UK.<br />Phone number: (0) 207 660 0683</td>
 	</tr>
 	
 	</table>
