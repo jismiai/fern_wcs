@@ -134,6 +134,7 @@ if ($current_date["date"]==$_POST["appoint_date"] && $current_date["time"] == $_
 if ($vacancy_array[$_POST["appoint_time"]] >= 4 && !($same_timeslot)){ // hardcode to 4 this time
 	$err_code = "booking_slot_full";
 	header('location:'.$localurl."error.php?error_code=".$err_code);
+	exit;
 }
 /*Prepare Web Service record */
 $custRec = new CustomRecord();
