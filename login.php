@@ -2,7 +2,7 @@
 <?php
 	include("templates/head_tag.php");
 ?>
-<div class="col-sm-4 col-sm-offset-1" style="visibility:hidden;">
+<div class="col-sm-4 col-sm-offset-1" style="display:none;">
 	<div class="panel panel-default">
 		<div class="panel-heading">Australia Trip Booking is now available.</div>
 		<div class="panel-body">
@@ -12,7 +12,7 @@
 		</div>
 	</div>
 </div>
-<div class="col-sm-6">
+<div class="col-sm-6 col-sm-offset-3">
 	<h2 style="margin-top:0">Customer Login</h2>
 	<p>Please enter your login information below:</p>
 	<form class="form-horizontal" action="controllers/user_login.php" method="post">
