@@ -1,5 +1,22 @@
 @CHARSET "UTF-8";
 
+/*** footer Style sheets **/
+.footer-menu{
+	padding-left:0;
+	list-style:none;
+}
+.footer-menu li{
+	display:inline-block;
+	margin-left:1em;
+	padding-left:1em;
+	border-left:1px solid #e5e5e5;
+}
+.footer-menu li.first{
+	margin-left:0;
+	padding-left:0;
+	border-left:0px;
+}
+
 /* custome css button */
 .btn-wcs-default {
   color: #ffffff;

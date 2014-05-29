@@ -24,6 +24,9 @@
 			echo '<li class="list-group-item"><a href="event.php">Make/Amend booking for 2014 June UK trip</a></li>';
 			}
 		?>
+		<li class="list-group-item"><a href="">Order Status</a></li>
+		<li class="list-group-item"><a href="">Payment Status</a></li>
+		<li class="list-group-item"><a href="">Online Customer Services</a></li>
 		<li class="list-group-item"><a href="controllers/logout.php">Logout</a></li>
 	</ul>
 </div>	
