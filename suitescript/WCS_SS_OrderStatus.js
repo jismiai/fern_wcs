@@ -88,3 +88,56 @@ function suitelet_getOpenSalesOrder(request, response){
 		//nlapiLogExecution('AUDIT',"Saved Search","Executed on customer internalid: "+ customer_internalId +". No result is found.");
 	}
 }
+
+function changeLanguage(langcode){
+	var companyInfo = nlapiLoadConfiguration( 'userpreferences' );
+	companyInfo.setFieldValue( 'language', langcode );
+	nlapiSubmitConfiguration( companyInfo );
+}
+
+function markOrderReceived(request, response){
+	/** error codes
+	 *  RCRD_DSNT_EXIST : thrown by nlapiLoadRecord if loading a non-exist record
+	 */
+
+	nlapiLogExecution('DEBUG',"request","entered");	
+	var configpage = nlapiLoadConfiguration('companypreferences');
+	//var comlang = configpage.getFieldText('language');
+	//response.write('comlang'); 
+	var configpage = nlapiLoadConfiguration('userpreferences');
+	response.write(configpage.getFieldText('language')); 
+	//getRequestID - so_internalid & custid
+	var customer_internalId = request.getParameter('custid');
+	var so_internalId = request.getParameter('so_internalid');
+	if (!customer_internalId || !so_internalId){
+		response.write('missing arguments');
+		nlapiLogExecution('ERROR',"request","missing arguments");	
+		return;
+	}
+	changeLanguage('en');
+	response.write(nlapiGetContext().getPreference('language'));
+	try { //throw error if the sales order's internalid is not valid
+		var recSO = nlapiLoadRecord('salesorder',so_internalId);
+	}
+	catch (err){
+		if (err instanceof nlobjError){
+			response.write('{"isSuccess":"false","err_code":"'+err.getCode()+ '"}');
+			return;
+		}
+	}
+	
+	//validate so_internalid matches custid
+	var so_custid = recSO.getFieldValue('entity');
+	if (so_custid != customer_internalId){
+		//output error
+		response.write('{"isSuccess":"false","err_code":"INVALID_CUSTOMER_ID"}');
+		return;
+	}
+	
+	//update field
+	
+	recSO.setFieldValue('custbody_website_received','T');
+	//nlapiSubmitRecord(recSO);
+	response.write('{"isSuccess":"true","id":"'+so_internalId+ '"}');
+	nlapiLogExecution('Debug',"Success","Marked received on SO internal ID:"+so_internalId);
+}
