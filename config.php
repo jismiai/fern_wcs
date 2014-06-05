@@ -1,6 +1,7 @@
 <?php
 //phpinfo();
 $localurl= "http://".$_SERVER["HTTP_HOST"]."/fern_wcs/";
+$documentroot = $_SERVER['DOCUMENT_ROOT']."/fern_wcs/";
 //$localurl= "https://www.williamcheng-son.com/customer_portal/";
 //$localurl= "https://www.williamcheng-son.com/staging_test/";
 //$cs_email = "david@fern.com.hk";

@@ -54,15 +54,13 @@ $(document).ready(function(){
 include("templates/head_tag.php");
 
 //display success msg for order receipt
-if (isset($GET["success"]) && $GET["success"]==true){?>
-	<div class="col-sm-12">
+if (isset($_GET["success"]) && $_GET["success"]==true){?>
 	<div class="panel panel-success">
-	<div class="panel-heading">
-	<h2 class="panel-title">Success</h2>
-	</div>
-	<div class="panel-body">
-				<p>Order received.</p>
-			</div>
+		<div class="panel-heading">
+			<h2 class="panel-title">Success</h2>
+		</div>
+		<div class="panel-body">
+			<p>Order received.</p>
 		</div>
 	</div>
 <?php } ?>
