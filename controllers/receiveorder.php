@@ -5,7 +5,7 @@ include_once $documentroot."/PHPToolkit/NSconfig.php";
 if (isset($_POST["so_internalid"])){
 	//echo $_POST["so_internalid"]."<br />";
 	//call suitelet
-	$url = 'https://rest.netsuite.com/app/site/hosting/restlet.nl?script=244&deploy=1';
+	$url = 'https://rest.netsuite.com/app/site/hosting/restlet.nl?script=245&deploy=1';
 	$postContent = array("custid" => $_SESSION["customerID"], "so_internalid" => $_POST["so_internalid"]);
 	//var_dump($postContent);
 	$ch = curl_init($url);

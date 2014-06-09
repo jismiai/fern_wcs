@@ -2,15 +2,21 @@ function getWebOrderStatus(status_internalid,received,sentdate){
 	switch(status_internalid){
 	//'pendingFulfillment' fullyBilled pendingApproval partiallyFulfilled pendingBilling pendingBillingPartFulfilled closed
 		case 'pendingApproval':
+		case 'Pending Approval':
 			return 'Order in progress';
 			break;
 		case 'pendingFulfillment':
+		case 'Pending Fulfillment':
 		case 'partiallyFulfilled':
+		case 'Partially Fulfilled':
 		case 'pendingBillingPartFulfilled':
+		case 'Pending Billing/Partially Fulfilled':
 			return 'Production in progress';
 			break;
 		case 'pendingBilling':
+		case 'Pending Billing':
 		case 'fullyBilled':
+		case 'Billed':
 			if (received == true){
 				return 'Completed';
 			}
@@ -88,56 +94,112 @@ function suitelet_getOpenSalesOrder(request, response){
 		//nlapiLogExecution('AUDIT',"Saved Search","Executed on customer internalid: "+ customer_internalId +". No result is found.");
 	}
 }
-
-function changeLanguage(langcode){
-	var companyInfo = nlapiLoadConfiguration( 'userpreferences' );
-	companyInfo.setFieldValue( 'language', langcode );
-	nlapiSubmitConfiguration( companyInfo );
-}
-
-function markOrderReceived(request, response){
-	/** error codes
+function markOrderReceived(datain){
+	/** Restlet function
+	 *  error codes
 	 *  RCRD_DSNT_EXIST : thrown by nlapiLoadRecord if loading a non-exist record
+	 *  MISSING_ARGUMENT : not enough argument from request JSON
 	 */
-
-	nlapiLogExecution('DEBUG',"request","entered");	
-	var configpage = nlapiLoadConfiguration('companypreferences');
-	//var comlang = configpage.getFieldText('language');
-	//response.write('comlang'); 
-	var configpage = nlapiLoadConfiguration('userpreferences');
-	response.write(configpage.getFieldText('language')); 
+	var output = {};
 	//getRequestID - so_internalid & custid
-	var customer_internalId = request.getParameter('custid');
-	var so_internalId = request.getParameter('so_internalid');
+	var customer_internalId = datain.custid;
+	var so_internalId = datain.so_internalid;
 	if (!customer_internalId || !so_internalId){
-		response.write('missing arguments');
-		nlapiLogExecution('ERROR',"request","missing arguments");	
-		return;
+		output.isSuccess = false;
+		output.err_code = 'MISSING_ARGUMENT';
+		return output;
 	}
-	changeLanguage('en');
-	response.write(nlapiGetContext().getPreference('language'));
 	try { //throw error if the sales order's internalid is not valid
 		var recSO = nlapiLoadRecord('salesorder',so_internalId);
 	}
 	catch (err){
-		if (err instanceof nlobjError){
-			response.write('{"isSuccess":"false","err_code":"'+err.getCode()+ '"}');
-			return;
+		if (err instanceof nlobjError){	
+			output.isSuccess = false;
+			output.err_code = err.getCode();
+			return output;
 		}
 	}
-	
 	//validate so_internalid matches custid
 	var so_custid = recSO.getFieldValue('entity');
 	if (so_custid != customer_internalId){
-		//output error
-		response.write('{"isSuccess":"false","err_code":"INVALID_CUSTOMER_ID"}');
-		return;
+		output.isSuccess = false;
+		output.err_code = "INVALID_CUSTOMER_ID";
+		return output;
 	}
 	
 	//update field
-	
 	recSO.setFieldValue('custbody_website_received','T');
-	//nlapiSubmitRecord(recSO);
-	response.write('{"isSuccess":"true","id":"'+so_internalId+ '"}');
-	nlapiLogExecution('Debug',"Success","Marked received on SO internal ID:"+so_internalId);
+	nlapiSubmitRecord(recSO);
+	nlapiLogExecution('AUDIT',"Success","Marked received on SO internal ID:"+so_internalId);
+	output.isSuccess = true;
+	output.id = so_internalId;
+	return output;
+}
+
+function viewOrder(datain){
+	/** Restlet function
+	 *  error codes
+	 *  RCRD_DSNT_EXIST : thrown by nlapiLoadRecord if loading a non-exist record
+	 *  MISSING_ARGUMENT : not enough argument from request JSON
+	 */
+	//constants for this function only
+	var pickUpByCustomerID = '3';
+	
+	var output = {};
+	//getRequestID - so_internalid & custid
+	var customer_internalId = datain.custid;
+	var so_internalId = datain.so_internalid;
+	if (!customer_internalId || !so_internalId){
+		output.isSuccess = false;
+		output.err_code = 'MISSING_ARGUMENT';
+		return output;
+	}
+	//try { //throw error if the sales order's internalid is not valid
+		var recSO = nlapiLoadRecord('salesorder',so_internalId);
+	/*}
+	catch (err){
+		if (err instanceof nlobjError){	
+			output.isSuccess = false;
+			output.err_code = err.getCode();
+			return output;
+		}
+	}*/
+	//validate so_internalid matches custid
+	var so_custid = recSO.getFieldValue('entity');
+	if (so_custid != customer_internalId){
+		output.isSuccess = false;
+		output.err_code = "INVALID_CUSTOMER_ID";
+		return output;
+	}
+	/*** prepare response ***/
+	var salesOrderObj = new Object();
+	salesOrderObj.internalid = recSO.getFieldValue('id');
+	salesOrderObj.trandate = recSO.getFieldValue('trandate');
+	salesOrderObj.tranid = recSO.getFieldValue('tranid');
+	salesOrderObj.deliverymode = recSO.getFieldText('custbody4');
+	salesOrderObj.deliverymode_id = recSO.getFieldValue('custbody4');
+	if (salesOrderObj.deliverymode_id != pickUpByCustomerID){ //3 stands for pickup by customer
+		salesOrderObj.shipaddress = recSO.getFieldValue('shipaddress');
+	} else {
+		salesOrderObj.shipaddress = '';
+	}
+
+	salesOrderObj.custbody_website_received = recSO.getFieldValue('custbody_website_received');
+	salesOrderObj.custbody_tracking_number = recSO.getFieldValue('custbody_website_tracking_number');
+	salesOrderObj.custbody_tracking_number = '';
+	salesOrderObj.custbody_website_sent_date = recSO.getFieldValue('custbody_website_sent_date');
+	salesOrderObj.status = getWebOrderStatus(recSO.getFieldText('orderstatus'),salesOrderObj.custbody_website_received,salesOrderObj.custbody_website_sent_date);
+	salesOrderObj.item = [];
+	var numItems = recSO.getLineItemCount('item');
+	for (var i=1;i <= numItems;i++){
+		salesOrderObj.item[i] = new Object();
+		salesOrderObj.item[i].item = recSO.getLineItemValue('item','item',i);
+		salesOrderObj.item[i].description = recSO.getLineItemValue('item','description',i);
+		salesOrderObj.item[i].quantity = recSO.getLineItemText('item','quantity',i);
+		salesOrderObj.item[i].custcolfabric = recSO.getLineItemText('item','custcolfabric',i);
+		salesOrderObj.item[i].custcolstyle = recSO.getLineItemText('item','custcolstyle',i);
+		
+	}
+	return salesOrderObj;
+	//return recSO;
 }

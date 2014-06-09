@@ -14,7 +14,9 @@ require_once 'controllers/log_control.php';
 $url = 'https://forms.netsuite.com/app/site/hosting/scriptlet.nl?script=242&deploy=1&compid=3716988&h=6836869292fff21643f3';
 $postContent = array("custid" => $_SESSION["customerID"]);
 //$postContent = array("custid" => '26546');
-
+echo "<pre>";
+var_dump($postContent);
+echo "</pre>";
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POST, true);
@@ -25,10 +27,10 @@ curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); //curl error SSL certificate pr
 $response = curl_exec($ch);
 //JSON response is decoded and saved in $orders
 $orders = json_decode($response);
-/*echo "<pre>";
+echo "<pre>";
 var_dump($orders);
 echo "</pre>";
-*/
+
 //update display setting if necessary
 
 //display the list
