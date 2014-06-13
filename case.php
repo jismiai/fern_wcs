@@ -1,14 +1,34 @@
 <?php
-//require_once 'controllers/log_control.php';
+
+require_once 'controllers/log_control.php';
+include_once "config.php"; // to get the local url;
+include_once $documentroot."/PHPToolkit/NSconfig.php";
 
 //handle get headers
 $get_caseType = (isset($_GET["type"]))? $_GET["type"] : "";
 $get_caseSubType = (isset($_GET["subtype"]))? $_GET["subtype"] : "";
 $get_showForm = (isset($_GET["type"]) && isset($_GET["subtype"])) ? true : false;
 
+//get customer information
+$url = 'https://rest.netsuite.com/app/site/hosting/restlet.nl?script=251&deploy=1';
+	$postContent = array("custid" => $_SESSION["customerID"]);
+	//var_dump($postContent);
+	$ch = curl_init($url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_POST, true);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type: application/json','Authorization: NLAuth nlauth_account='.$nsaccount.',nlauth_email='.$nsemail.',nlauth_signature='.$nspassword.',nlauth_role='.$nsrole));
+	curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postContent));
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); //curl error SSL certificate problem, verify that the CA cert is OK
+	$response = curl_exec($ch);
+
+
 include("templates/head_tag.php");
 include_once ("functions/case/case_lists.php");
 $caseObj = new netsuiteCase();
+
+echo "<pre>";var_dump($nsaccount);
+var_dump(json_encode($postContent));var_dump($response);echo "</pre>";
+
 ?>
 
 <?php if (!($get_showForm)){ ?>
@@ -60,21 +80,40 @@ $caseObj = new netsuiteCase();
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="case_type" class="col-sm-4 control-label">Case Sub-type:</label>
+			<label for="case_subtype" class="col-sm-4 control-label">Case Sub-type:</label>
 			<div class="col-sm-8">
 				<?php $caseObj->subTypeHTML($get_caseType,$get_caseSubType); ?>
 			</div>
 		</div>
-		<div class="form-group">
-			<div class="col-md-4 col-md-offset-4">
-				<input type="submit" class="btn btn-wcs-default" value="Submit" />
-				<a href="portal.php" class="btn btn-link">Back</a>
+	</fieldset>
+	<fieldset>
+		<div id="order_req_list">
+			<?php echo $caseObj->orderReqLineStr();?>
+		</div>
+		<div class="form-group" style="">
+			<div class="col-sm-offset-4 col-sm-4" >
+				<button class="btn" id="add_order_row">Add more</button>
 			</div>
 		</div>
 	</fieldset>
+	<div class="form-group" style="padding:20px 0;">
+		<div class="col-sm-offset-4 col-sm-4" >
+			<button type="submit" class="btn btn-wcs-default">Submit</button>
+			<a href="case.php" class="btn btn-link">Back</a>
+		</div>
+	</div>
 </form>
 <?php } ?>
-
+<script>
+$(document).ready(function(){
+	$('#add_order_row').click(function(){
+		var tblrow = '<?php echo $caseObj->orderReqLineStr(); ?>';
+		$('#order_req_list').append(tblrow);
+		$('.order_req_wrapper:last').slideDown('slow');
+		return false;
+	});
+});
+</script>
 <?php 
 include("templates/footer_tag.php");
 ?>
