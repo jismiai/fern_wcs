@@ -22,6 +22,8 @@ class netsuiteCase {
 			'18' => array('parent' => '1', 'value' => 'Others'),
 			'19' => array('parent' => '3', 'value' => 'Alteration')
 			);
+	public $caseTypeId;
+	public $subTypeId;
 	private $productType = array(
 			'1' => 'Shirt',
 			'2' => 'Suit with Trousers/Pant',
@@ -36,9 +38,13 @@ class netsuiteCase {
 	private $fabricPattern = array('Plain','Stripes','Check','Others');
 	private $fabricMaterial = array('Cotton','Wool','Others');
 	
+	
+	function setCaseType($typeId){
+		$this->caseTypeId = $typeId;
+	}
 	function caseTypeHTML($typeId){
 		//output a <select> element listing all case types
-		echo '<select name="case_type" class="form-control">';
+		echo '<select name="case_type" id="case_type" class="form-control">';
 		foreach ($this->caseType as $key => $value){
 			if ($key ==$typeId){
 				echo '<option selected="selected" value="'.$key.'">'.$value.'</option>';
@@ -48,10 +54,13 @@ class netsuiteCase {
 		}
 		echo '</select>';
 	}
-	
+	function setSubType($typeId){
+		$this->subTypeId = ($typeId);
+	}
 	function subTypeHTML($parentId,$typeId){
 		//output a <select> element listing all case sub-types
-		echo '<select name="case_subtype" class="form-control">';
+		echo '<select name="case_subtype" id="case_subtype" class="form-control">';
+		echo '<option value="">please</option>';
 		foreach ($this->subType as $key => $value){
 			if ($value['parent'] == $parentId || empty($parentId)){
 				if ($key ==$typeId){
@@ -92,7 +101,7 @@ class netsuiteCase {
 	function fabricColorHTML(){
 		//output a <select> element listing all product types
 		$dataout ="";
-		$dataout .=  '<select name="fabric_color[]" class="form-control">';
+		$dataout .=  '<select name="fabric_color[]" class="form-control fabric_color">';
 		$dataout .=  '<option value="">Please select a color</option>';
 		foreach ($this->fabricColor as $value){
 			$dataout .=  '<option value="'.$value.'">'.$value.'</option>';
@@ -114,7 +123,7 @@ class netsuiteCase {
 	function fabricMaterialHTML(){
 		//output a <select> element listing all product types
 		$dataout ="";
-		$dataout .=  '<select name="fabric_material[]" class="form-control">';
+		$dataout .=  '<select name="fabric_material[]" class="form-control fabric_material">';
 		$dataout .=  '<option value="">Please select a material</option>';
 		foreach ($this->fabricMaterial as $value){
 			$dataout .=  '<option value="'.$value.'">'.$value.'</option>';
@@ -142,26 +151,32 @@ class netsuiteCase {
 			</div>
 			<div class="form-group">
 				<label class="col-sm-4 control-label">Fabric brand:</label>
-				<div class="col-sm-8">
+				<div class="col-sm-4">
 					'.$this->fabricBrandHTML().'
 			</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-4 control-label">Fabric color:</label>
-				<div class="col-sm-8">
+				<div class="col-sm-4">
 					'.$this->fabricColorHTML().'
+				</div>
+				<div class="col-sm-4">
+					<input style="display:none" type="text" name="fabric_color_other[]" class="form-control fabric_color_other" placeholder="please specify here"/>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-4 control-label">Fabric pattern:</label>
-				<div class="col-sm-8">
+				<div class="col-sm-4">
 					'.$this->fabricPatternHTML().'
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-4 control-label">Fabric material:</label>
-				<div class="col-sm-8">
+				<div class="col-sm-4">
 					'.$this->fabricMaterialHTML().'
+				</div>
+				<div class="col-sm-4">
+					<input style="display:none" type="text" name="fabric_material_other[]" class="form-control fabric_material_other" placeholder="please specify here" />
 				</div>
 			</div>
 			<div class="form-group">
@@ -171,14 +186,46 @@ class netsuiteCase {
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-4 control-label">Expected received date:</label>
+				<label class="col-sm-4 control-label">Expected received date:<br /></label>
 				<div class="col-sm-8">
-					<input type="date" name="recv_date[]" class="form-control" />
+					<input type="text" name="recv_date[]" class="form-control recv_date" placeholder="yyyy/mm/dd" />
 				</div>
 			</div>
 		</div>
 		'));
 		$this->nextLine++;
+		return $dataout;
+	}
+	function caseJavascript(){
+		switch ($this->subTypeId){
+			case "13":
+			$dataout = <<<codeblock
+			<script>
+			$(document).ready(function(){
+				$("#add_order_row").click(function(){
+					var tblrow = '{$this->orderReqLineStr()}';
+					$("#order_req_list").append(tblrow);
+					$(".order_req_wrapper:last").slideDown('slow');
+					return false;
+				});
+				$(document).on("change",".fabric_color",function(){
+					if ($(this).val() == "Others"){
+						$(this).parent().next().children(".fabric_color_other").show();
+					} else {
+						$(this).parent().next().children(".fabric_color_other").hide();	
+					}
+				});
+				$(document).on("change",".fabric_material",function(){
+					if ($(this).val() == "Others"){
+						$(this).parent().next().children(".fabric_material_other").show();
+					} else {
+						$(this).parent().next().children(".fabric_material_other").hide();	
+					}
+				});
+			});
+			</script>
+codeblock;
+		}
 		return $dataout;
 	}
 }
