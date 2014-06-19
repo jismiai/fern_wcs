@@ -39,7 +39,11 @@
 				break;
 			case 'booking_error' :
 				$err_title = 'Error';
-				$err_message = 'Some error has occurred in the system. Please go back to previous page and try again';
+				$err_message = 'Some error has occurred in the system. Please go back to previous page and try again.';
+				break;
+			case 'file_type':
+				$err_title = 'Invalid file';
+				$err_message = 'Error occured when handling your file. Please check if your files are in the correct format.';
 				break;
 			default:
 				$err_title = 'Error';

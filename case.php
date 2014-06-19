@@ -31,8 +31,7 @@ $url = 'https://rest.netsuite.com/app/site/hosting/restlet.nl?script=251&deploy=
 
 include("templates/head_tag.php");
 
-echo "<pre>";
-var_dump(json_encode($postContent));var_dump($response);echo "</pre>";
+//echo "<pre>";var_dump(json_encode($postContent));var_dump($response);echo "</pre>";
 $customer = json_decode($response);
 
 ?>
@@ -43,16 +42,18 @@ $customer = json_decode($response);
 	<div class="panel-body">What would you like to do?</div>
 	<ul class="list-group">
 		<li class="list-group-item"><a href="case.php?type=2&subtype=13">Order non-shirt items</a></li>
-		<li class="list-group-item" ><a href="case.php?type=2&subtype=1">Request swatches and catalogues</a></li>
-		<li class="list-group-item">Check order progress</li>
-		<li class="list-group-item">Complaint/Alteration Request</li>
-		<li class="list-group-item">General Inquiry</li>
+		<li class="list-group-item"><a href="case.php?type=2&subtype=1">Request swatches and catalogues</a></li>
+		<li class="list-group-item"><a href="case.php?type=2&subtype=14">Check order progress</a></li>
+		<li class="list-group-item"><a href="case.php?type=3&subtype=21">Complaint</a></li>
+		<li class="list-group-item"><a href="case.php?type=4&subtype=15">Alteration Request</li>
+		<li class="list-group-item"><a href="case.php?type=1&subtype=18">General Inquiry</li>
+		<li class="list-group-item"><a href="case.php?type=1&subtype=22">Change Measurement</li>
 		<li class="list-group-item"><a href="portal.php" class="btn btn-link">Back</a></li>
 		
 	</ul>
 </div>
 <?php } else {?>
-<form name="caseform" action="controllers/set_case.php" id="caseform" class="form-horizontal" role="form" method="post">
+<form name="caseform" action="controllers/set_case.php" id="caseform" class="form-horizontal" enctype="multipart/form-data" role="form" method="post">
 	<fieldset>
 		<legend>General information</legend>
 		<div class="form-group">
@@ -101,96 +102,28 @@ $customer = json_decode($response);
 	<?php 
 	//* lower parts of the form depends on the type *//
 	switch($caseObj->subTypeId){ 
-		case "13": // "case place order"?>
-		<fieldset>
-			<div id="order_req_list">
-				<?php echo $caseObj->orderReqLineStr();?>
-			</div>
-			<div class="form-group" style="">
-				<div class="col-sm-offset-4 col-sm-4" >
-					<button class="btn" id="add_order_row">Add more</button>
+		 case "1": // case : "request swatch / catalogue"?>
+			<div class="form-group">
+				<?php echo $caseObj->caseFormTypeHTML(); ?>
+				<label for="catalogue_address" class="col-sm-4 control-label">Mailing Address:</label>
+				<div class="col-sm-8">
+					<textarea rows="3" name="catalogue_address" class="form-control" ><?php echo $customer->shipaddress; ?></textarea>
 				</div>
 			</div>
-		</fieldset>
-		<?php break; //end of case "13"?>
+		<?php break; //end of case "1", request swatches?>
 		
-		<?php case "1": // case : "request swatch / catalogue"?>
-		<fieldset>
-		<legend>Request for swatch</legend>
-		<div class="form-group">
-			<label for="" class="col-sm-4 control-label">Product Type:</label>
-			<div class="col-sm-8">
-				<?php echo $caseObj->productTypeHTML(''); ?>
-			</div>
-		</div>
-		<div class="form-group">
-			<label for="" class="col-sm-4 control-label">Fabric brand:</label>
-			<div class="col-sm-8">
-				<?php echo $caseObj->fabricBrandHTML(); ?>
-			</div>
-		</div>
-		<div class="form-group">
-			<label for="" class="col-sm-4 control-label">Fabric color:</label>
-			<div class="col-sm-8">
-				<?php echo $caseObj->fabricColorHTML(); ?>
-			</div>
-		</div>
-		<div class="form-group">
-			<label for="" class="col-sm-4 control-label">Fabric pattern:</label>
-			<div class="col-sm-8">
-				<?php echo $caseObj->fabricPatternHTML(); ?>
-			</div>
-		</div>
-		<div class="form-group">
-			<label for="" class="col-sm-4 control-label">Fabric materials:</label>
-			<div class="col-sm-8">
-				<?php echo $caseObj->fabricMaterialHTML(); ?>
-			</div>
-		</div>
-		<div class="form-group">
-			<label for="other" class="col-sm-4 control-label">Other requirements:</label>
-			<div class="col-sm-8">
-				<textarea rows="3" name="other" class="form-control"></textarea>
-			</div>
-		</div>
-		<div class="form-group">
-			<label for="swatch_type" class="col-sm-4 control-label">Swatch type:</label>
-			<div class="col-sm-8">
-				<label class="radio-inline">
-					<input type="radio" name="swatch_type" id="swatch_type_image" class="radio_box" value="Image" >Image
-				</label>
-				<label class="radio-inline">
-					<input type="radio" name="swatch_type" id="swatch_type_fabric" class="radio_box" value="Fabric" >Fabric
-				</label>
-			</div>
-		</div>
-		<div class="form-group">
-			<label for="swatch_address" class="col-sm-4 control-label">Mailing Address:</label>
-			<div class="col-sm-8">
-				<textarea rows="3" name="swatch_address" class="form-control"></textarea>
-			</div>
-		</div>
-		</fieldset>
-		<fieldset>
-		<legend>Request for catalogue</legend>
-		<div class="form-group">
-			<label for="catalogue_name" class="col-sm-4 control-label">Mailing Address:</label>
-			<div class="col-sm-8">
-				<select name="catalogue_name" class="form-control">
-					<option value="">Please select a catalogue</option>
-					<option>Suit catalogue</option>
-					<option>Shirt catalogue</option>
-				</select>
-			</div>
-		</div>
-		<div class="form-group">
-			<label for="catalogue_address" class="col-sm-4 control-label">Mailing Address:</label>
-			<div class="col-sm-8">
-				<textarea rows="3" name="catalogue_address" class="form-control"></textarea>
-			</div>
-		</div>
-		</fieldset>
-		<?php break; //end of case "1"?>
+		<?php 
+		case "13": // "case place order"
+		case "14": //case: check order progress
+		case "15": //case: alteration request
+		case "18": //case: general enquiry
+		case "21": //case:complaint	
+		case "22": //change measurement
+			echo $caseObj->caseFormTypeHTML(); 
+		break; ?>
+		<?php ?>
+		
+		 				
 	<?php } //end of switch statment?>
 	
 	<div class="form-group" style="padding:20px 0;">
@@ -203,6 +136,10 @@ $customer = json_decode($response);
 <?php } ?>
 <script type="text/javascript" src="lib/jquery.validate.js"></script>
 <script type="text/javascript" src="lib/wcs_validation.js"></script>
+<script> 
+	$("#case_type option").not(":selected").attr("disabled", "disabled");
+	$("#case_subtype option").not(":selected").attr("disabled", "disabled");
+</script>
 <?php echo $caseObj->caseJavascript();?>
 <?php 
 include("templates/footer_tag.php");

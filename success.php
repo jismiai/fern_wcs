@@ -1,4 +1,8 @@
 <?php
+	/*Get Request parameters
+	 * source : determine the type of message to appear
+	 * detail : detail of the message
+	 */
 	if (!isset($_GET['source'])){ 
 		/* handler if the page is opened unintentionally */
 		include_once "templates/config.php"; // to get the local url;
@@ -28,6 +32,10 @@
 				$link='portal.php';
 				$link_display='Portal';
 				break;
+			case 'supportcase':
+				$message="Your enquiry has been filed as {$_GET["detail"]}. Our customer service staff will look into the case and contact you in short.";
+				$link='portal.php';
+				$link_display='Portal';
 			default:
 				break;
 		}
