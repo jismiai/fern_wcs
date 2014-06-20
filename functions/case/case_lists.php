@@ -121,7 +121,7 @@ class netsuiteCase {
 		
 		$dataout = "";
 		$dataout .=  '<select name="fabric_brand'.$array.'" class="form-control" '.$multiple.'>';
-		$dataout .=  '<option value="">Please select a brand</option>';
+		$dataout .=  '<option value="">--Please select a brand--</option>';
 		foreach ($this->fabricBrand as $value){
 			$dataout .=  '<option value="'.$value.'">'.$value.'</option>';
 		}
@@ -144,7 +144,7 @@ class netsuiteCase {
 		
 		$dataout ="";
 		$dataout .=  '<select name="fabric_color'.$array.'" class="form-control fabric_color" '.$multiple.'>';
-		$dataout .=  '<option value="">Please select a color</option>';
+		$dataout .=  '<option value="">--Please select a color--</option>';
 		foreach ($this->fabricColor as $value){
 			$dataout .=  '<option value="'.$value.'">'.$value.'</option>';
 		}
@@ -167,7 +167,7 @@ class netsuiteCase {
 		
 		$dataout ="";
 		$dataout .=  '<select name="fabric_pattern'.$array.'" class="form-control" '.$multiple.'>';
-		$dataout .=  '<option value="">Please select a pattern</option>';
+		$dataout .=  '<option value="">--Please select a pattern--</option>';
 		foreach ($this->fabricPattern as $value){
 			$dataout .=  '<option value="'.$value.'">'.$value.'</option>';
 		}
@@ -186,7 +186,7 @@ class netsuiteCase {
 		
 		$dataout ="";
 		$dataout .=  '<select name="fabric_material'.$array.'" class="form-control fabric_material" '.$multiple.'>';
-		$dataout .=  '<option value="">Please select a material</option>';
+		$dataout .=  '<option value="">--Please select a material--</option>';
 		foreach ($this->fabricMaterial as $value){
 			$dataout .=  '<option value="'.$value.'">'.$value.'</option>';
 		}
@@ -237,7 +237,7 @@ class netsuiteCase {
 				<label class="col-sm-4 control-label">Fabric brand:</label>
 				<div class="col-sm-4">
 					'.$this->fabricBrandHTML().'
-			</div>
+				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-4 control-label">Fabric color:</label>
@@ -425,7 +425,6 @@ codeblock;
 						</div>
 					</div>
 					
-					</fieldset>
 codeblock;
 				break;
 			case "13":

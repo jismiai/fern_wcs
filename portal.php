@@ -25,6 +25,7 @@
 			}
 		?>
 		<li class="list-group-item"><a href="orderstatus.php">Order Status</a></li>
+		<li class="list-group-item"><a href="orderhistory.php">Order History</a></li>
 		<li class="list-group-item"><a href="paymentstatus.php">Payment Status</a></li>
 		<li class="list-group-item"><a href="case.php">Online Customer Services</a></li>
 		<li class="list-group-item"><a href="controllers/logout.php">Logout</a></li>

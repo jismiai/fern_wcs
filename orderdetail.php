@@ -40,7 +40,7 @@ if (isset($_POST["so_internalid"])){
 		<tr><th>Shipping address</th><td><?php echo nl2br($salesOrder->shipaddress); ?></td></tr>
 	</tbody>
 </table>
-<table class="table table-striped">
+<table id="ordered-item" class="table table-striped">
 	<caption>Ordered Items</caption>
 	<thead>
 		<th>Product</th>
@@ -142,7 +142,7 @@ if (isset($_POST["so_internalid"])){
 	</tbody>
 </table>
 
-<table class="table table-striped">
+<table id="altered-item" class="table table-striped">
 	<caption>Alterated Items</caption>
 	<thead>
 		<th>Product</th>
@@ -164,6 +164,20 @@ if (isset($_POST["so_internalid"])){
 	</tbody>
 </table>
 <a href="orderstatus.php" class="btn">Back to summary</a>
+<script>
+$(document).ready(function(){ // remove tables if no items is given on that table.
+	var orderLine = $("#ordered-item tbody tr").length;
+	var alterLine = $("#altered-item tbody > tr").length;
+	if (orderLine == 0){
+		$("#ordered-item").remove();
+	}
+	if (alterLine == 0){
+		$("#altered-item").remove();
+	}
+	//alert("no of ordered item = "+orderLine);
+});
+
+</script>
 <?php 
 	include("templates/footer_tag.php");
 ?>

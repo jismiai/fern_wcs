@@ -45,9 +45,9 @@ $customer = json_decode($response);
 		<li class="list-group-item"><a href="case.php?type=2&subtype=1">Request swatches and catalogues</a></li>
 		<li class="list-group-item"><a href="case.php?type=2&subtype=14">Check order progress</a></li>
 		<li class="list-group-item"><a href="case.php?type=3&subtype=21">Complaint</a></li>
-		<li class="list-group-item"><a href="case.php?type=4&subtype=15">Alteration Request</li>
-		<li class="list-group-item"><a href="case.php?type=1&subtype=18">General Inquiry</li>
-		<li class="list-group-item"><a href="case.php?type=1&subtype=22">Change Measurement</li>
+		<li class="list-group-item"><a href="case.php?type=4&subtype=15">Alteration Request</a></li>
+		<li class="list-group-item"><a href="case.php?type=1&subtype=18">General Inquiry</a></li>
+		<li class="list-group-item"><a href="case.php?type=1&subtype=22">Change Measurement</a></li>
 		<li class="list-group-item"><a href="portal.php" class="btn btn-link">Back</a></li>
 		
 	</ul>
@@ -103,13 +103,14 @@ $customer = json_decode($response);
 	//* lower parts of the form depends on the type *//
 	switch($caseObj->subTypeId){ 
 		 case "1": // case : "request swatch / catalogue"?>
-			<div class="form-group">
 				<?php echo $caseObj->caseFormTypeHTML(); ?>
-				<label for="catalogue_address" class="col-sm-4 control-label">Mailing Address:</label>
+			<div class="form-group">
+			<label for="catalogue_address" class="col-sm-4 control-label">Mailing Address:</label>
 				<div class="col-sm-8">
-					<textarea rows="3" name="catalogue_address" class="form-control" ><?php echo $customer->shipaddress; ?></textarea>
+					<textarea rows="5" name="catalogue_address" class="form-control" ><?php echo $customer->shipaddress; ?></textarea>
 				</div>
 			</div>
+			</fieldset>
 		<?php break; //end of case "1", request swatches?>
 		
 		<?php 

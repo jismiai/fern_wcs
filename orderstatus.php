@@ -91,7 +91,7 @@ if (isset($_GET["success"]) && $_GET["success"]==true){?>
 				<a class="a-orderdetail" href="" data-internalid="<?php echo $currentOrder->internalid; ?>">View Detail</a>
 				<?php
 					//show the link only if the order needs to be received.
-					if ($currentOrder->status =="Delivery in progress" || 1==1){ ?> 
+					if ($currentOrder->status =="Delivery in progress" ){ ?> 
 					| <a class="a-markrecv" href="" data-internalid="<?php echo $currentOrder->internalid; ?>">Mark Received</a></td>
 				<?php }?>
 		</tr>
@@ -104,7 +104,7 @@ if (isset($_GET["success"]) && $_GET["success"]==true){?>
 	<input name="so_internalid" id="so_internalid" type="hidden" value="" />
 </form>
 <div class="">
-	<a href="portal.php" class="btn btn-default btn-lg" >Back</a>
+	<a href="portal.php" class="btn btn-wcs-default btn-lg" >Back</a>
 </div>
 <?php 
 	include("templates/footer_tag.php");

@@ -85,7 +85,7 @@ include("templates/head_tag.php");
 	</tbody>
 </table>
 <div class="">
-<a href="portal.php" class="btn btn-default btn-lg" >Back</a>
+<a href="portal.php" class="btn btn-wcs-default btn-lg" >Back</a>
 </div>
 <?php 
 include("templates/footer_tag.php");
