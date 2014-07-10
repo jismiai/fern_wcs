@@ -10,6 +10,9 @@ function suiteLet_getOpenInvoice(request, response){
 	invoice_search.addFilter(someCriteria);
 	invoice_search.saveSearch();
 	
+	//multiple currency handling
+	var invoice_currency = [];
+	
 	var invoice_searchResult = nlapiSearchRecord('transaction', 'customsearch_website_payment_status');
 	if (invoice_searchResult != null){
 		nlapiLogExecution('AUDIT',"Saved Search","Saved Search Executed. "+ invoice_searchResult.length +" results are returned.");
@@ -32,10 +35,19 @@ function suiteLet_getOpenInvoice(request, response){
 				invoices[i].createdfrom.name = '';
 				invoices[i].age = '0';
 			}
-			
-			invoices[i].total = json_invoice.columns.total;
-			invoices[i].amountpaid = json_invoice.columns.amountpaid;
-			invoices[i].amountremaining = json_invoice.columns.amountremaining;
+			var temp_currencyId = json_invoice.columns.currency.internalid;
+			if (!(temp_currencyId in invoice_currency)){
+				var recCurrency = nlapiLoadRecord('currency',temp_currencyId);
+				invoice_currency[temp_currencyId] = recCurrency.getFieldValue('displaysymbol');
+				if (temp_currencyId == '5'){ // British pound
+					invoice_currency[temp_currencyId] = '&pound';
+				}
+			}
+			invoices[i].currency = invoice_currency[temp_currencyId];
+			invoices[i].exchangerate = json_invoice.columns.exchangerate;
+			invoices[i].total = json_invoice.columns.total/invoices[i].exchangerate;
+			invoices[i].amountpaid = json_invoice.columns.amountpaid/invoices[i].exchangerate;
+			invoices[i].amountremaining = json_invoice.columns.amountremaining/invoices[i].exchangerate;
 		}
 		var output = JSON.stringify(invoices);
 		response.write(output);
@@ -57,7 +69,10 @@ function suiteLet_getCustomerBalance(request, response){
 	customerBalances.balance = customer_record.getFieldValue('balance');
 	customerBalances.depositbalance = customer_record.getFieldValue('depositbalance');
 	customerBalances.overduebalance = customer_record.getFieldValue('overduebalance');
-	
+	customerBalances.displaysymbol = nlapiLoadRecord('currency',customer_record.getFieldValue('currency')).getFieldValue('displaysymbol');
+	if (customer_record.getFieldValue('currency') == '5'){ //GBP
+		customerBalances.displaysymbol = '&pound';
+	}
 	var output = JSON.stringify(customerBalances);
 	response.write(output);
 	nlapiLogExecution('AUDIT',"Success","Script run successfully on id "+customer_internalId);

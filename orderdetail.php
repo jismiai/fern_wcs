@@ -36,8 +36,6 @@ if (isset($_POST["so_internalid"])){
 		<tr><th>Sales Order no.</th><td><?php echo $salesOrder->tranid; ?></td></tr>
 		<tr><th>Sales Order date</th><td><?php echo $salesOrder->trandate; ?></td></tr>
 		<tr><th>Status</th><td><?php echo $salesOrder->status; ?></td></tr>
-		<tr><th>Delivery Mode</th><td><?php echo $salesOrder->deliverymode; ?></td></tr>
-		<tr><th>Shipping address</th><td><?php echo nl2br($salesOrder->shipaddress); ?></td></tr>
 	</tbody>
 </table>
 <table id="ordered-item" class="table table-striped">

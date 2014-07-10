@@ -234,6 +234,12 @@ class netsuiteCase {
 				</div>
 			</div>
 			<div class="form-group">
+				<label class="col-sm-4 control-label">Fabric number:</label>
+				<div class="col-sm-8">
+					<input type="text" name="fabric_number[]" class="form-control" />
+				</div>
+			</div>
+			<div class="form-group">
 				<label class="col-sm-4 control-label">Fabric brand:</label>
 				<div class="col-sm-4">
 					'.$this->fabricBrandHTML().'
@@ -286,16 +292,6 @@ class netsuiteCase {
 			$legend_title = "Complaint item detail";
 		} elseif ($this->subTypeId == "15") { //alteration request
 			$legend_title = "Alteration item detail";
-			// additional field for alteration request
-			$isCompanyHTML = <<<htmlblock
-			<div class="form-group">
-			<label for="" class="col-sm-4 control-label">Company&#39;s Product</label>
-				<div class="col-sm-8">
-					<label class="checkbox-inline">
-						<input type="checkbox" value="T" name="is_company[]" id="is_company[]" />
-					</label>
-				</div>
-			</div>
 htmlblock;
 		}
 		
@@ -338,7 +334,6 @@ htmlblock;
 					<textarea rows="3" name="other[]" class="form-control"></textarea>
 				</div>
 			</div>
-			{$isCompanyHTML}
 			<div class="form-group">
 				<label class="col-sm-4 control-label">Sales/Alt order no.</label>
 				<div class="col-sm-8">
@@ -439,6 +434,33 @@ codeblock;
 						</div>
 					</div>
 				</fieldset>
+				<fieldset>
+					<legend>Attachments</legend>
+					<div class="form-group">
+						<label for="file" class="col-sm-4 control-label">Order form:</label>
+						<div class="col-sm-8">
+							<input type="file" name="file" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="photo" class="col-sm-4 control-label">Upload Photo:</label>
+						<div class="col-sm-8">
+							<input type="file" name="photo" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="photo" class="col-sm-4 control-label">Upload Photo 2:</label>
+						<div class="col-sm-8">
+							<input type="file" name="photo2" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="photo" class="col-sm-4 control-label">Upload Photo 3:</label>
+						<div class="col-sm-8">
+							<input type="file" name="photo3" class="form-control" />
+						</div>
+					</div>
+				</fieldset>
 codeblock;
 				break;
 			case "14":
@@ -516,6 +538,24 @@ codeblock;
 						</select>
 					</div>
 				</div>
+				<div class="form-group">
+					<label for="photo" class="col-sm-4 control-label">Upload Photo:</label>
+					<div class="col-sm-8">
+						<input type="file" name="photo" class="form-control" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="photo" class="col-sm-4 control-label">Upload Photo 2:</label>
+					<div class="col-sm-8">
+						<input type="file" name="photo2" class="form-control" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="photo" class="col-sm-4 control-label">Upload Photo 3:</label>
+					<div class="col-sm-8">
+						<input type="file" name="photo3" class="form-control" />
+					</div>
+				</div>	
 			</fieldset>
 			
 			<fieldset>
@@ -604,11 +644,23 @@ codeblock;
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="photo" class="col-sm-4 control-label">Upload Photo</label>
+						<label for="photo" class="col-sm-4 control-label">Upload Photo:</label>
 						<div class="col-sm-8">
 							<input type="file" name="photo" class="form-control" />
 						</div>
 					</div>
+					<div class="form-group">
+						<label for="photo" class="col-sm-4 control-label">Upload Photo 2:</label>
+						<div class="col-sm-8">
+							<input type="file" name="photo2" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="photo" class="col-sm-4 control-label">Upload Photo 3:</label>
+						<div class="col-sm-8">
+							<input type="file" name="photo3" class="form-control" />
+						</div>
+					</div>	
 					</fieldset>
 				
 codeblock;

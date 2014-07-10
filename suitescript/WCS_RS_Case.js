@@ -29,7 +29,7 @@ function getCustomerInfo(datain){
 
 function createCase(datain){
 	var recCase = nlapiCreateRecord('supportcase');
-	//var recCase = nlapiLoadRecord('supportcase','5645');
+	//var recCase = nlapiLoadRecord('supportcase','5781');
 	if (!datain.custid || !datain.case_subtype){
 		return;
 	}
@@ -42,6 +42,11 @@ function createCase(datain){
 	switch(datain.case_subtype){ //before submit codes
 		case "13":
 			recCase.setFieldValue('customform','53'); //custom form id for place order
+			recCase.setFieldValue('custevent_case_photo1',datain.custevent_case_photo1);
+			recCase.setFieldValue('custevent_case_photo2',datain.custevent_case_photo2);
+			recCase.setFieldValue('custevent_case_photo3',datain.custevent_case_photo3);
+			recCase.setFieldValue('custevent_case_upload_file',datain.custevent_case_upload_file);
+			
 			break;
 		case "1":
 			recCase.setFieldValue('customform','54'); //customform id for request swatches
@@ -72,6 +77,9 @@ function createCase(datain){
 			recCase.setFieldValue('custevent_case_complaint_type',datain.custevent_case_complaint_type);
 			recCase.setFieldValue('custevent_case_request',datain.custevent_case_request);
 			recCase.setFieldValue('custevent_case_complaint_detail',datain.custevent_case_complaint_detail);
+			recCase.setFieldValue('custevent_case_photo1',datain.custevent_case_photo1);
+			recCase.setFieldValue('custevent_case_photo2',datain.custevent_case_photo2);
+			recCase.setFieldValue('custevent_case_photo3',datain.custevent_case_photo3);
 			break;
 		case "22":
 			recCase.setFieldValue('customform','67'); //customform id for change measurement
@@ -85,7 +93,9 @@ function createCase(datain){
 			recCase.setFieldValue('custevent_case_chmeas_waist_inch',datain.custevent_case_chmeas_waist_inch);
 			recCase.setFieldValue('custevent_case_chmeas_change_hip',datain.custevent_case_chmeas_change_hip);
 			recCase.setFieldValue('custevent_case_chmeas_hip_inch',datain.custevent_case_chmeas_hip_inch);
-			recCase.setFieldValue('custevent_case_chmeas_upload_photo',datain.custevent_case_chmeas_upload_photo);
+			recCase.setFieldValue('custevent_case_photo1',datain.custevent_case_photo1);
+			recCase.setFieldValue('custevent_case_photo2',datain.custevent_case_photo2);
+			recCase.setFieldValue('custevent_case_photo3',datain.custevent_case_photo3);
 			
 			break;
 		default:
@@ -100,6 +110,7 @@ function createCase(datain){
 				recCase.selectNewLineItem('recmachcustrecord_parent_case_no');
 				recCase.setCurrentLineItemValue('recmachcustrecord_parent_case_no','custrecord_orderreq_producttype',datain.order_req[i].custrecord_orderreq_producttype);
 				recCase.setCurrentLineItemValue('recmachcustrecord_parent_case_no','custrecord_orderreq_quantity',datain.order_req[i].custrecord_orderreq_quantity);
+				recCase.setCurrentLineItemValue('recmachcustrecord_parent_case_no','custrecord_orderreq_fabric_number',datain.order_req[i].custrecord_orderreq_fabric_number);				
 				recCase.setCurrentLineItemValue('recmachcustrecord_parent_case_no','custrecord_orderreq_fabricbrand',datain.order_req[i].custrecord_orderreq_fabricbrand);
 				recCase.setCurrentLineItemValue('recmachcustrecord_parent_case_no','custrecord_orderreq_fabriccolor',datain.order_req[i].custrecord_orderreq_fabriccolor);
 				recCase.setCurrentLineItemValue('recmachcustrecord_parent_case_no','custrecord_orderreq_fabric_pattern',datain.order_req[i].custrecord_orderreq_fabric_pattern);
@@ -120,9 +131,6 @@ function createCase(datain){
 				recCase.setCurrentLineItemValue('recmachcustrecord_case_id','custrecord_com_mea_change',datain.complaint_item[i].custrecord_com_mea_change);
 				recCase.setCurrentLineItemValue('recmachcustrecord_case_id','custrecord_com_others',datain.complaint_item[i].custrecord_com_others);
 				recCase.setCurrentLineItemValue('recmachcustrecord_case_id','custrecord_com_so_num',datain.complaint_item[i].custrecord_com_so_num);
-				if (datain.case_subtype == "15"){
-					recCase.setCurrentLineItemValue('recmachcustrecord_case_id','custrecord_com_is_company_product',datain.complaint_item[i].custrecord_com_is_company_product);
-				}
 				recCase.commitLineItem('recmachcustrecord_case_id');
 			}
 			nlapiSubmitRecord(recCase, true);

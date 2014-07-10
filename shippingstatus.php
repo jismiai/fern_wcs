@@ -11,7 +11,7 @@ require_once 'controllers/log_control.php';
 
 
 //read the suitelet JSON
-$url = 'https://forms.netsuite.com/app/site/hosting/scriptlet.nl?script=242&deploy=1&compid=3716988&h=6836869292fff21643f3';
+$url = 'https://forms.netsuite.com/app/site/hosting/scriptlet.nl?script=259&deploy=1&compid=3716988&h=143bf02b4e5394ce7a06';
 $postContent = array("custid" => $_SESSION["customerID"]);
 //$postContent = array("custid" => '26546');
 
@@ -24,7 +24,7 @@ curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); //curl error SSL certificate pr
 
 $response = curl_exec($ch);
 //JSON response is decoded and saved in $orders
-$orders = json_decode($response);
+$fulfillments = json_decode($response);
 /*echo "<pre>";
 var_dump($orders);
 echo "</pre>";
@@ -35,16 +35,9 @@ echo "</pre>";
 $custom_head = '		
 <script>
 $(document).ready(function(){
-	$(".a-orderdetail").click(function(){	
-		var so_id = $(this).attr("data-internalid");
-		$("#so_internalid").val(so_id);
-		$("#custom-form").attr("action","orderdetail.php");
-		$("#custom-form").submit();
-		return false;
-	});
 	$(".a-markrecv").click(function(){	
-		var so_id = $(this).attr("data-internalid");
-		$("#so_internalid").val(so_id);
+		var fulfillment_id = $(this).attr("data-internalid");
+		$("#fulfillment_internalid").val(fulfillment_id);
 		$("#custom-form").attr("action","controllers/receiveorder.php");
 		$("#custom-form").submit();
 		return false;
@@ -68,27 +61,31 @@ if (isset($_GET["success"]) && $_GET["success"]==true){?>
 <h3>Orders</h3>
 <table class="table table-hover">
 	<thead>
-		<th>Sales order date</th>
+		<th>Fulfillment no. </th>
+		<th>Fulfillment date</th>
 		<th>Sales order no.</th>
-		<th>Status</th>
+		<th>Delivery Mode</th>
+		<th>Delivery Address</th>
+		<th>Tracking no.</th>
+		<th>Received</th>
 		<th>Actions</th>		
 	</thead>
 	<tbody>
 	<?php 
-	foreach ($orders as $currentOrder){
+	foreach ($fulfillments as $currentOrder){
 	?>
 		<tr>
-			<td><?php echo $currentOrder->trandate; ?></td>
 			<td><?php echo $currentOrder->tranid; ?></td>
-			<td><?php echo $currentOrder->status; ?></td>
+			<td><?php echo $currentOrder->trandate; ?></td>
+			<td><?php echo $currentOrder->createdfrom; ?></td>
+			<td><?php echo $currentOrder->deliverymode->name; ?></td>
+			<td><?php echo nl2br($currentOrder->shipaddress); ?></td>
+			<td><?php echo $currentOrder->custbodytrackingnumber; ?></td>
+			<td><?php echo $currentOrder->custbody_website_received; ?></td>
 			<td>
-				<a class="a-orderdetail" href="" data-internalid="<?php echo $currentOrder->internalid; ?>">View Detail</a>
-				<?php
-					//show the link only if the order needs to be received.
-					if ($currentOrder->status =="Delivery in progress" ){ ?> 
-					| <a class="a-markrecv" href="" data-internalid="<?php echo $currentOrder->internalid; ?>">Mark Received</a>
-			
-				<?php }?>
+				<?php if ($currentOrder->custbody_website_received == 'No'){ ?>
+					 <a class="a-markrecv" href="" data-internalid="<?php echo $currentOrder->internalid; ?>">Mark Received</a>
+				<?php }?>	
 			</td>
 		</tr>
 	<?php 
@@ -97,7 +94,7 @@ if (isset($_GET["success"]) && $_GET["success"]==true){?>
 	</tbody>
 </table>
 <form id="custom-form" method="post" action="">
-	<input name="so_internalid" id="so_internalid" type="hidden" value="" />
+	<input name="fulfillment_internalid" id="fulfillment_internalid" type="hidden" value="" />
 </form>
 <div class="">
 	<a href="portal.php" class="btn btn-wcs-default btn-lg" >Back</a>

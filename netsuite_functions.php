@@ -173,4 +173,53 @@ function savedSearchVacancy($eventID,$date){
 		return $searchResponse->searchResult;
 	}
 }
+
+function siteFileUpload($uploadFile,$photoonly = true){
+	$sizeLimit = 2000000;
+	require 'config.php';
+	if (!isset($uploadFile["name"]) || empty($uploadFile["name"])) { // this field is probably empty
+		return '';
+	}
+	
+	$service = new NetSuiteService();
+	$addRequest = new AddRequest();
+	
+	$allowedExts = array("gif", "jpeg", "jpg", "png", "JPG", "GIF", "JPEG", "PNG");
+	
+	$temp = explode(".", $uploadFile["name"]);
+	$extension = end($temp);
+	if (((($uploadFile["type"] == "image/gif")
+			|| ($uploadFile["type"] == "image/jpeg")
+			|| ($uploadFile["type"] == "image/jpg")
+			|| ($uploadFile["type"] == "image/pjpeg")
+			|| ($uploadFile["type"] == "image/x-png")
+			|| ($uploadFile["type"] == "image/png"))
+			&& in_array($extension, $allowedExts)
+			|| ($photoonly ===false))
+			&& ($uploadFile["size"] < $sizeLimit)) {
+		$imgPath = $uploadFile["tmp_name"]; //specify the file path
+		$imgContents = file_get_contents($imgPath);
+		$file = new File();
+		$file->folder = new RecordRef();
+		$file->folder->internalId = "36339"; // specific file cabinet folder - upload via website
+		$file->name = $_SESSION["entityID"]."_".date('Ymd')."_".$uploadFile["name"];
+		$file->attachFrom = '_computer';
+		$file->content = $imgContents;
+		$addRequest->record = $file;
+		$addResponse = $service->add($addRequest);
+		if (!$addResponse->writeResponse->status->isSuccess) {
+			header("location:".$localurl."error.php?error_code=file_type&source=1");
+			exit;
+		} else {
+			$file_internalid = $addResponse->writeResponse->baseRef->internalId;
+			return $file_internalid;
+			echo "ADD FILE SUCCESS, id " . $addResponse->writeResponse->baseRef->internalId;
+		}
+	} else { //invalid file type
+		header("location:".$localurl."error.php?error_code=file_type&source=2");
+		exit;
+	}
+	
+}
+
 ?>

@@ -80,7 +80,7 @@ function suitelet_getOpenSalesOrder(request, response){
 				salesorders[i].shipaddress = '';
 			}
 			salesorders[i].custbody_website_received = json_salesorder.columns.custbody_website_received;
-			salesorders[i].custbody_tracking_number = json_salesorder.columns.custbody_tracking_number;
+			salesorders[i].custbody_website_tracking_number = json_salesorder.columns.custbody_website_tracking_number;
 			if (json_salesorder.columns.custbody_website_sent_date && json_salesorder.columns.custbody_website_sent_date.type !== "undefined"){
 				salesorders[i].custbody_website_sent_date = json_salesorder.columns.custbody_website_sent_date;
 			} else {

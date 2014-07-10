@@ -2,6 +2,8 @@
 session_start();
 include_once "../config.php"; // to get the local url;
 include_once $documentroot."/PHPToolkit/NSconfig.php";
+include_once "../netsuite_functions.php";
+date_default_timezone_set("Asia/Hong_Kong");
 
 if (isset($_POST)){
 //	echo "<pre>";	print_r($_POST); echo "</pre>";
@@ -15,6 +17,15 @@ $caseObj->phone = $_POST["customer_phone"];
 $caseObj->title = $_POST["case_subject"];
 switch($caseObj->case_subtype){
 	case "13":
+		$file_id = siteFileUpload($_FILES["photo"]);
+		$file_id2 = siteFileUpload($_FILES["photo2"]);
+		$file_id3 = siteFileUpload($_FILES["photo3"]);
+		$file_id4 = siteFileUpload($_FILES["file"],false);
+		$caseObj->custevent_case_photo1 = $file_id;
+		$caseObj->custevent_case_photo2 = $file_id2;
+		$caseObj->custevent_case_photo3 = $file_id3;
+		$caseObj->custevent_case_upload_file = $file_id4;
+		
 		$caseObj->order_req = array();
 		$curLine = 0;
 		foreach ($_POST["product_type"] as $key => $value){
@@ -31,6 +42,7 @@ switch($caseObj->case_subtype){
 				$caseObj->order_req[$curLine] = new stdClass();
 				$caseObj->order_req[$curLine]->custrecord_orderreq_producttype = $_POST["product_type"][$key];
 				$caseObj->order_req[$curLine]->custrecord_orderreq_quantity = $_POST["quantity"][$key];
+				$caseObj->order_req[$curLine]->custrecord_orderreq_fabric_number = $_POST["fabric_number"][$key];
 				$caseObj->order_req[$curLine]->custrecord_orderreq_fabricbrand = $_POST["fabric_brand"][$key];
 				$caseObj->order_req[$curLine]->custrecord_orderreq_fabriccolor = $_POST["fabric_color"][$key];
 				$caseObj->order_req[$curLine]->custrecord_orderreq_fabric_pattern = $_POST["fabric_pattern"][$key];
@@ -65,7 +77,7 @@ switch($caseObj->case_subtype){
 	case "18":
 		$caseObj->custeventcasedetails = $_POST["case_detail"];
 		break;
-	case "15":
+	case "15": // alteration request
 		$curLine = 0;
 		foreach ($_POST["product_type"] as $key => $value){
 			if (isset($_POST["product_type"][$key]) && !empty($_POST["product_type"][$key])){
@@ -77,7 +89,6 @@ switch($caseObj->case_subtype){
 				$caseObj->complaint_item[$curLine]->custrecord_com_mea_change = $_POST["complaint_mea_change"][$key];
 				$caseObj->complaint_item[$curLine]->custrecord_com_others = $_POST["other"][$key];
 				$caseObj->complaint_item[$curLine]->custrecord_com_so_num = $_POST["complaint_so"][$key];
-				$caseObj->complaint_item[$curLine]->custrecord_com_is_company_product = (isset($_POST["is_company"][$key]) ? "T" : "F");
 				$curLine++;
 			}
 		}
@@ -86,6 +97,14 @@ switch($caseObj->case_subtype){
 		$caseObj->custevent_case_complaint_type = $_POST["complaint_type"];
 		$caseObj->custevent_case_request = $_POST["complaint_request"];
 		$caseObj->custevent_case_complaint_detail = $_POST["complaint_detail"];
+		
+		$file_id = siteFileUpload($_FILES["photo"]);
+		$file_id2 = siteFileUpload($_FILES["photo2"]);
+		$file_id3 = siteFileUpload($_FILES["photo3"]);
+		$caseObj->custevent_case_photo1 = $file_id;
+		$caseObj->custevent_case_photo2 = $file_id2;
+		$caseObj->custevent_case_photo3 = $file_id3;
+				
 		$caseObj->complaint_item = array();
 		$curLine = 0;
 		foreach ($_POST["product_type"] as $key => $value){
@@ -105,44 +124,12 @@ switch($caseObj->case_subtype){
 	case "22":
 		//webservice to upload to Netsuite.
 		//check file type
-		$allowedExts = array("gif", "jpeg", "jpg", "png");
-		$temp = explode(".", $_FILES["photo"]["name"]);
-		$extension = end($temp);
-		if ((($_FILES["photo"]["type"] == "image/gif")
-				|| ($_FILES["photo"]["type"] == "image/jpeg")
-				|| ($_FILES["photo"]["type"] == "image/jpg")
-				|| ($_FILES["photo"]["type"] == "image/pjpeg")
-				|| ($_FILES["photo"]["type"] == "image/x-png")
-				|| ($_FILES["photo"]["type"] == "image/png"))
-				&& ($_FILES["photo"]["size"] < 2000000)
-				&& in_array($extension, $allowedExts)) {
-			require_once '../PHPToolkit/NetSuiteService.php';
-			$imgPath = $_FILES["photo"]["tmp_name"]; //specify the file path
-			//$imgContents = base64_encode(file_get_contents($imgPath)); //get the contents of the file
-			$imgContents = file_get_contents($imgPath);
-			$file = new File();
-			$file->folder = new RecordRef();
-			$file->folder->internalId = "36339";
-			date_default_timezone_set("Asia/Hong_Kong");
-			$file->name = $_SESSION["entityID"]."_".date('Ymd')."_".$_FILES["photo"]["name"];
-			$file->attachFrom = '_computer';
-			$file->content = $imgContents;
-			$service = new NetSuiteService();
-			$addRequest = new AddRequest();
-			$addRequest->record = $file;
-			$addResponse = $service->add($addRequest);
-			if (!$addResponse->writeResponse->status->isSuccess) {
-				header("location:".$localurl."error.php?error_code=file_type&source=1");
-				exit;
-			} else {
-				$file_id = $addResponse->writeResponse->baseRef->internalId;
-				echo "ADD FILE SUCCESS, id " . $addResponse->writeResponse->baseRef->internalId;
-			}
-		} else { //invalid file type 
-			header("location:".$localurl."error.php?error_code=file_type&source=2");
-			//echo "wrong file type;";
-			exit;
-		}
+		//echo "<pre>";	var_dump($_FILES); echo "</pre>";
+		$file_id = siteFileUpload($_FILES["photo"]);
+		$file_id2 = siteFileUpload($_FILES["photo2"]);
+		$file_id3 = siteFileUpload($_FILES["photo3"]);
+		//echo "File id 1 = {$file_id} & File id 2 = {$file_id2} & File id 3 = {$file_id3} <br />";
+		
 		$caseObj->custevent_case_chmeas_increase_decrease = $_POST["weight_increase"];
 		$caseObj->custevent_case_chmeas_weight_change = $_POST["weight_change_kg"];
 		$caseObj->custevent_case_chmeas_change_neck = (isset($_POST["change_neck"]) ? "T" : "F");
@@ -153,7 +140,9 @@ switch($caseObj->case_subtype){
 		$caseObj->custevent_case_chmeas_waist_inch = (isset($_POST["change_waist"]) ? $_POST["waist_inch"] : "");
 		$caseObj->custevent_case_chmeas_change_hip = (isset($_POST["change_hip"]) ? "T" : "F");
 		$caseObj->custevent_case_chmeas_hip_inch = (isset($_POST["change_hip"]) ? $_POST["hip_inch"] : "");
-		$caseObj->custevent_case_chmeas_upload_photo = $file_id;
+		$caseObj->custevent_case_photo1 = $file_id;
+		$caseObj->custevent_case_photo2 = $file_id2;
+		$caseObj->custevent_case_photo3 = $file_id3;
 		break;
 }
 //echo "<pre>";	var_dump($caseObj); echo "</pre>";

@@ -41,8 +41,8 @@ include("templates/head_tag.php");
 		<th>Invoice date</th>
 		<th>Invoice no.</th>
 		<th>Sales order no.</th>
-		<th>Sales amount(HKD)</th>
-		<th>Amount paid (HKD)</th>
+		<th>Sales amount</th>
+		<th>Amount paid </th>
 		<th>Balance</th>
 		<th>Outstanding days</th>
 	</thead>
@@ -54,9 +54,9 @@ include("templates/head_tag.php");
 		<td><?php echo $currentInvoice->trandate; ?></td>
 		<td><?php echo $currentInvoice->tranid; ?></td>
 		<td><?php echo $currentInvoice->createdfrom->name; ?></td>
-		<td><?php echo "$". number_format($currentInvoice->total,2); ?></td>
-		<td><?php echo "$". number_format($currentInvoice->amountpaid,2); ?></td>
-		<td><?php echo "$". number_format($currentInvoice->amountremaining,2); ?></td>
+		<td><?php echo $currentInvoice->currency.number_format($currentInvoice->total,2); ?></td>
+		<td><?php echo $currentInvoice->currency.number_format($currentInvoice->amountpaid,2); ?></td>
+		<td><?php echo $currentInvoice->currency.number_format($currentInvoice->amountremaining,2); ?></td>
 		<td><?php echo $currentInvoice->age; ?></td>
 	</tr>
 	<?php 
@@ -72,15 +72,15 @@ include("templates/head_tag.php");
 	<tbody>
 		<tr>
 			<th>Outstanding</th>
-			<td><?php echo "$". number_format($customerBalances->balance,2); ?></td>
+			<td><?php echo $customerBalances->displaysymbol. number_format($customerBalances->balance,2); ?></td>
 		</tr>
 		<tr>
 			<th>Deposit</th>
-			<td><?php echo "$". number_format($customerBalances->depositbalance,2); ?></td>
+			<td><?php echo $customerBalances->displaysymbol. number_format($customerBalances->depositbalance,2); ?></td>
 		</tr>
 		<tr>
 			<th>Overdue</th>
-			<td><?php echo "$". number_format($customerBalances->overduebalance,2); ?></td>
+			<td><?php echo $customerBalances->displaysymbol. number_format($customerBalances->overduebalance,2); ?></td>
 		</tr>
 	</tbody>
 </table>
