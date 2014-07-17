@@ -38,12 +38,12 @@ $customer = json_decode($response);
 
 <?php if (!($get_showForm)){ ?>
 <div class="panel panel-default">
-	<div class="panel-heading">Online Cases</div>
+	<div class="panel-heading">My Cases</div>
 	<div class="panel-body">What would you like to do?</div>
 	<ul class="list-group">
 		<li class="list-group-item"><a href="case.php?type=2&subtype=13">Order non-shirt items</a></li>
 		<li class="list-group-item"><a href="case.php?type=2&subtype=1">Request swatches and catalogues</a></li>
-		<li class="list-group-item"><a href="case.php?type=2&subtype=14">Check order progress</a></li>
+		<li class="list-group-item"><a href="orderstatus.php">Check order progress</a></li>
 		<li class="list-group-item"><a href="case.php?type=3&subtype=21">Complaint</a></li>
 		<li class="list-group-item"><a href="case.php?type=4&subtype=15">Alteration Request</a></li>
 		<li class="list-group-item"><a href="case.php?type=1&subtype=18">General Inquiry</a></li>

@@ -17,13 +17,6 @@
 	<ul class="list-group">
 		<li class="list-group-item"><a href="changepwd.php">Change Password</a></li>
 		<li class="list-group-item"><a href="profile.php">Update Profile</a></li>
-		<?php 
-			/* only display this option if the customer has address of specific country */
-			if (strpos($_SESSION["billing_country"],"United Kingdom") !== false || strpos($_SESSION["shipping_country"],"United Kingdom") !== false)
-			{
-			echo '<li class="list-group-item"><a href="event.php">Make/Amend booking for 2014 June UK trip</a></li>';
-			}
-		?>
 		<li class="list-group-item"><a href="orderstatus.php">Order Status</a></li>
 		<li class="list-group-item"><a href="shippingstatus.php">Shipping Status</a></li>
 		<li class="list-group-item"><a href="orderhistory.php">Order History</a></li>

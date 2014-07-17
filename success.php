@@ -12,6 +12,11 @@
 		/* if there is a valid error code */
 		/* Display the error content based on error code */
 		switch ($_GET['source']){
+			case 'resetpwd':
+				$message="The new password has been sent to your email address. Please be reminded that you recommended to change your password after you have logged into the system.";
+				$link='login.php';
+				$link_display='Home';
+				break;
 			case 'setpwd':
 				$message='Password is changed.';
 				$link='portal.php';

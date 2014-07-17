@@ -61,9 +61,8 @@ if (isset($_GET["success"]) && $_GET["success"]==true){?>
 <h3>Orders</h3>
 <table class="table table-hover">
 	<thead>
-		<th>Fulfillment no. </th>
 		<th>Fulfillment date</th>
-		<th>Sales order no.</th>
+		<th>Fulfilled Item</th>
 		<th>Delivery Mode</th>
 		<th>Delivery Address</th>
 		<th>Tracking no.</th>
@@ -75,9 +74,8 @@ if (isset($_GET["success"]) && $_GET["success"]==true){?>
 	foreach ($fulfillments as $currentOrder){
 	?>
 		<tr>
-			<td><?php echo $currentOrder->tranid; ?></td>
 			<td><?php echo $currentOrder->trandate; ?></td>
-			<td><?php echo $currentOrder->createdfrom; ?></td>
+			<td><?php echo nl2br($currentOrder->itemdescriptions); ?></td>
 			<td><?php echo $currentOrder->deliverymode->name; ?></td>
 			<td><?php echo nl2br($currentOrder->shipaddress); ?></td>
 			<td><?php echo $currentOrder->custbodytrackingnumber; ?></td>

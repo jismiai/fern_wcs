@@ -137,7 +137,9 @@ function printSelectDateList($time_config,$classes,$id,$current){	 //Selection l
 			if (strcmp($current['date'],$currentdate->format('j/n/Y')) == 0){
 				echo '<option value="'.$currentdate->format('j/n/Y').'" selected="selected">';
 			} else {
-			echo '<option value="'.$currentdate->format('j/n/Y').'">';
+				// check if the date on this option is earlier than today
+				$disabled = (strtotime($currentdate->format('j/n/Y'). "23:59:59") < strtotime(date("j/n/Y")) ? "disabled":"");
+				echo '<option value="'.$currentdate->format('j/n/Y').'" '.$disabled.'>';
 			}
 			//insert overrided short-form address if the $address_by_date is set
 			if (array_key_exists($currentdate->format('j/n/Y'),$address_by_date)){ 
@@ -147,6 +149,7 @@ function printSelectDateList($time_config,$classes,$id,$current){	 //Selection l
 				echo $time_config['event_default_address']['short']." | ";
 			}
 			echo $currentdate->format('d M Y \(D\)');
+			
 			echo '</option>';
 		}
 		$currentdate->add(new DateInterval('P'.$time_config['date_interval'].'D'));

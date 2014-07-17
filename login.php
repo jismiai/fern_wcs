@@ -29,8 +29,11 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<div class="col-sm-offset-3 col-sm-4">
+			<div class="col-sm-offset-3 col-sm-2">
 				<button type="submit" value="Login" class="btn btn-wcs-default">Login</button>
+			</div>
+			<div class="col-sm-3 form-control-static">
+				<a href="resetpassword.php">Forget password</a>
 			</div>
 		</div>
 		<div class="form-group">

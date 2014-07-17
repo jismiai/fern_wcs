@@ -71,6 +71,31 @@ function send_register_email($to,$fname,$lname,$pwd){
 	}
 	//fclose($file);
 }
+
+function send_reset_password_email($to,$fname,$lname,$pwd){
+	require '../config.php';
+	$mail = new PHPMailer();
+	setmail($mail);
+	$mail->AddAddress($to,$fname." ".$lname);
+	$mail->Subject = 'Your new password for William Cheng & Son';
+	$mail->Body = <<<codeblock
+<span style='font-family:vendara'>
+<p>Dear {$fname} {$lname},</p>
+<p>As requested, your password has now been reset. Your new password is as follow:</p>
+<table><tr><td>Password : </td><td style='font-style:italic'>{$pwd}</td></tr></table>
+<p>We strongly recommend you to modify your password after first login to the portal. You can do so by choosing "Change Password" option in the customer portal.</p>
+<p>Should you encounter any difficulty or abnormal situation during the process, please kindly inform us at <a href='customerservice@williamcheng-son.com'>customerservice@williamcheng-son.com</a>. Your participation is highly appreciated.</p>
+<p>Yours sincerely,</p>
+<p>Customer Services Department<br />WILLIAM CHENG & SON</p></span>
+codeblock;
+	//$file=fopen($email_logfile,"a");
+	if(!$mail->Send()) {
+		echo "Mailer Error: " . $mail->ErrorInfo;
+	} else {
+		echo "Message sent!";
+	}
+}
+
 function send_booking_cs_email($to,$eventName,$bookingID,$customerID,$action){
 
 	$mail = new PHPMailer();

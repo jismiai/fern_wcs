@@ -349,7 +349,7 @@ codeblock;
 		
 	function caseFormTypeHTML(){
 		switch ($this->subTypeId){
-			case "1":
+			case "1": //request swatch
 				$dataout = <<<codeblock
 				<fieldset>
 					<legend>Request for swatch</legend>
@@ -458,6 +458,7 @@ codeblock;
 						<label for="photo" class="col-sm-4 control-label">Upload Photo 3:</label>
 						<div class="col-sm-8">
 							<input type="file" name="photo3" class="form-control" />
+							<span class="help-block">File size should not exceed 2MB.</span>
 						</div>
 					</div>
 				</fieldset>
@@ -554,6 +555,7 @@ codeblock;
 					<label for="photo" class="col-sm-4 control-label">Upload Photo 3:</label>
 					<div class="col-sm-8">
 						<input type="file" name="photo3" class="form-control" />
+						<span class="help-block">File size should not exceed 2MB.</span>
 					</div>
 				</div>	
 			</fieldset>
@@ -659,6 +661,7 @@ codeblock;
 						<label for="photo" class="col-sm-4 control-label">Upload Photo 3:</label>
 						<div class="col-sm-8">
 							<input type="file" name="photo3" class="form-control" />
+						<span class="help-block">File size should not exceed 2MB.</span>
 						</div>
 					</div>	
 					</fieldset>

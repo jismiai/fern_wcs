@@ -83,12 +83,6 @@ if (isset($_GET["success"]) && $_GET["success"]==true){?>
 			<td><?php echo $currentOrder->status; ?></td>
 			<td>
 				<a class="a-orderdetail" href="" data-internalid="<?php echo $currentOrder->internalid; ?>">View Detail</a>
-				<?php
-					//show the link only if the order needs to be received.
-					if ($currentOrder->status =="Delivery in progress" ){ ?> 
-					| <a class="a-markrecv" href="" data-internalid="<?php echo $currentOrder->internalid; ?>">Mark Received</a>
-			
-				<?php }?>
 			</td>
 		</tr>
 	<?php 

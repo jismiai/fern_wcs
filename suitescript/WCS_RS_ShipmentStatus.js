@@ -48,6 +48,20 @@ function suitelet_getFulfillment(request, response){
 		
 			fulfillments[i].custbodytrackingnumber = json_fulfillment.columns.custbodytrackingnumber;
 			
+			/* load line-item detail, requested by WCS on 9/7/2014 */
+			fulfillments[i].itemdescriptions = "";
+			var recFulfillment = nlapiLoadRecord('itemfulfillment',fulfillments[i].internalid);
+			for (var j = 1; j <= recFulfillment.getLineItemCount('item'); j++){
+				var itemtype = recFulfillment.getLineItemValue('item','itemtype',j);
+				var quantity = recFulfillment.getLineItemValue('item','quantity',j);
+				var itemdescription = recFulfillment.getLineItemValue('item','itemdescription',j);	
+				if ((quantity != null && quantity != 'null' && quantity != '') && (itemtype == 'InvtPart' || itemtype == 'NonInvtPart')){
+					fulfillments[i].itemdescriptions += quantity ;
+					fulfillments[i].itemdescriptions += ' x ' ;
+					fulfillments[i].itemdescriptions += itemdescription;
+					fulfillments[i].itemdescriptions += '\n';
+				}
+			}
 			//response.write(JSON.stringify(fulfillments[i]) + "<br /><br />");
 		}
 		response.write(JSON.stringify(fulfillments));

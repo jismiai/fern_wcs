@@ -1,5 +1,6 @@
-
 <?php
+	/* This file provide the user interface. User input their email here.
+	*  Developer customize this page if they plan to accept more input from user */
 	require_once 'controllers/log_control.php';
 	include("templates/head_tag.php");
 ?>

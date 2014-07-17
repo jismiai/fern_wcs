@@ -317,7 +317,7 @@ function viewOrder(datain){
 			salesOrderObj.item[i].custcolfabric.name = '';
 		}
 		//load styles
-		if (salesOrderObj.item[i].custcolstyle.id !== null){
+		/*if (salesOrderObj.item[i].custcolstyle.id !== null){
 			//check finish good type
 			var recStyleList = nlapiLoadRecord('customrecordstylelist',salesOrderObj.item[i].custcolstyle.id);
 			//shirt attributes
@@ -453,7 +453,7 @@ function viewOrder(datain){
 			} else {
 				salesOrderObj.item[i].custcolstyle.fields.trousersFitting = '';
 			}
-		}
+		}*/
 	}
 	
 	return salesOrderObj;
