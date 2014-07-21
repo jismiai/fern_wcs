@@ -40,7 +40,7 @@
 		</div>
 		<div class="form-group">
 			<div class="col-sm-offset-3 col-sm-9">
-				Click <a href="mailto:customerservice@williamcheng-son.com">here</a> to send us an email if you have any problems.
+				Click <a href="mailto:marketing@williamcheng-son.com">here</a> to send us an email if you have any problems.
 			</div>
 		</div>
 	</form>

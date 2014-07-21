@@ -12,9 +12,20 @@
 		<th style="width:50%">Venue</th>
 	</tr>
 	<tr>
-		<td>June 4 (Wed)<br />June 5 (Thu)<br />June 6 (Fri)<br />June 7 (Sat)</td>
-		<td>9:00 am<br />to<br />6:00 pm</td>
-		<td>PICASSOO ROOM<br />MERCURE London Bridge<br /> 71-79 Southwark Street,<br />London, SE1 0JA, UK.<br />Phone number: (0) 207 660 0683</td>
+		<td><i><u>SYDNEY</i></u><br />Aug 21 (Thu) to Aug 23 (Sat)</td>
+		<td><br />9:00 am to 6:00 pm</td>
+		<td>SUSSEX MEETING ROOM at ADINA APARTMENT HOTEL<br />511 Kent Street, Sydney, NSW 2000.<br />Phone: (02) 9274-0000</td>
+	</tr>
+	<tr>
+		<td><i><u>BRISBANE</i></u><br />Aug 25 (Mon), and <br />Aug 26 (Tue)
+	</td>
+		<td><br />9:00 am to 6:00 pm<br />9:00 am to <b><i>3:00 pm</i></b></td>
+		<td>Room 3032 at RENDEZVOUS HOTEL BRISBANE <br />225 Ann Street. (CNR Edward Street) Brisbane, QLD 4000.<br />Phone: (07) 3001-9888</td>
+	</tr>
+	<tr>
+		<td><i><u>MELBOURNE</i></u><br />Aug 27 (Wed) to Aug 28 (Thu)</td>
+		<td><br />9:00 am to 6:00 pm</td>
+		<td>ORCHID MEETING ROOM at ADINA APARTMENT HOTEL<br />189 Queen Street, Melbourne, VIC 3000<br />Phone: (03) 9934-0000</td>
 	</tr>
 	
 	</table>

@@ -19,9 +19,9 @@
 		<li class="list-group-item"><a href="profile.php">Update Profile</a></li>
 		<?php 
 			/* only display this option if the customer has address of specific country */
-			if (strpos($_SESSION["billing_country"],"United Kingdom") !== false || strpos($_SESSION["shipping_country"],"United Kingdom") !== false)
+			if (strpos($_SESSION["billing_country"],"Australia") !== false || strpos($_SESSION["shipping_country"],"Australia") !== false)
 			{
-			echo '<li class="list-group-item"><a href="event.php">Make/Amend booking for 2014 June UK trip</a></li>';
+			echo '<li class="list-group-item"><a href="event.php">Make/Amend booking for 2014 August AU trip</a></li>';
 			}
 		?>
 		<li class="list-group-item"><a href="controllers/logout.php">Logout</a></li>
