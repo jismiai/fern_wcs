@@ -21,7 +21,7 @@ function timeFunctions(){
 	$event_start_time = "09:00";
 	$event_end_time = "18:00";
 	$event_time_interval="15";
-	$event_slots=5;
+	$event_slots=4;
 	$event_default_address = array(
 		"short" => "Sydney",
 		"long" => "SUSSEX MEETING ROOM at ADINA APARTMENT HOTEL<br />511 Kent Street, Sydney, NSW 2000.<br />LPhone: (02) 9274-0000"
