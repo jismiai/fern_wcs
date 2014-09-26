@@ -49,3 +49,13 @@ function updatePassword(datain){
 	nlapiSubmitRecord(recCustomer);
 	return customer;
 }
+
+function getCustomer(datain){
+	var customerInternalId = datain.custid;
+	var recCustomer = nlapiLoadRecord('customer',customerInternalId);
+	var customer = {};
+	customer.firstname = recCustomer.getFieldValue('firstname');
+	customer.lastname = recCustomer.getFieldValue('lastname');
+	//customer.firstname = "yo";
+	return customer;
+}
