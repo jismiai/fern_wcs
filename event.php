@@ -1,4 +1,5 @@
 <?php
+	require_once 'controllers/log_control.php';
 	$custom_title = "Australia Trip Spring 2014";
 	include "templates/head_tag.php";
 ?>

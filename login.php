@@ -6,9 +6,6 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">Australia Trip Booking is now available.</div>
 		<div class="panel-body">
-			<p>We are travelling to Australia in Feb 2014. Click <a href="event.php">here</a> to see the details of the trip.</p>
-			<p>Bookings can be made in this customer portal after login.</p>
-			<p>We have also opened <a href="register.php">new registration</a> to our portal for new customers.</p>
 		</div>
 	</div>
 </div>
