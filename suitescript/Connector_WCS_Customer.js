@@ -35,7 +35,7 @@ function Connector_Export_Customer_Magento_AS(type){
 			
 			var output = nlapiRequestURL(url,requestBody,headers,"POST");
 			nlapiLogExecution('DEBUG','response',output.getBody());
-			var jsonData = JSON.parse(output.getBody());
+			//var jsonData = JSON.parse(output.getBody());
 			
 			if (actionType == 'create' && !jsonData.faultcode){ //only update magento id if an record is created.
 				var thisrecord = nlapiLoadRecord('customer',nlapiGetRecordId());
@@ -48,26 +48,26 @@ function Connector_Export_Customer_Magento_AS(type){
  
 function setCustomerData(customer){
 	/*	used in User Event
-		Read fields in customer record and saved into "customer" object"
+		Read fields in current customer record and saved into "customer" object"
 	*/
 	customer.netsuite_internalid = nlapiGetRecordId();
 	customer.salutation = nlapiGetFieldValue('salutation');
 	customer.firstname = nlapiGetFieldValue('firstname');
 	customer.lastname = nlapiGetFieldValue('lastname');
 	customer.companyname = nlapiGetFieldValue('companyname');
-	customer.phone = nlapiGetFieldValue('phone');
 	customer.email = nlapiGetFieldValue('email');
 	customer.password = nlapiGetFieldValue('custentity_first_time_pwd');
 	customer.ispostmagento = nlapiGetFieldValue('custentity_fern_post_magento');
+	customer.gender = nlapiGetFieldValue('custentitymorf');
 	
 	//custom fieldsets
 	customer.customer_id = nlapiGetFieldValue('entityid');
+	customer.phone = nlapiGetFieldValue('phone');
 	customer.referred_by = nlapiGetFieldValue('comments');
-	customer.height = nlapiGetFieldValue('');
-	customer.weight = nlapiGetFieldValue('');
-	customer.dob = nlapiGetFieldValue('');
-	customer.year_of_customer = nlapiGetFieldValue('');
-	customer.gender = nlapiGetFieldText('');
+	customer.height = nlapiGetFieldValue('custentity_height');
+	customer.weight = nlapiGetFieldValue('custentity_weight');
+	customer.dob = nlapiGetFieldValue('custentity_dateofbirth');
+	customer.year_of_customer = nlapiGetFieldValue('custentity_year_customer');
 	
 	return customer;
 }
