@@ -19,6 +19,7 @@ function Connector_Export_Customer_Magento_AS(type){
 			
 			if (nlapiGetFieldValue('custentity_fern_magento_id') == ""){
 				var actionType = 'create';
+				customer.custentity_fern_magento_id = '';
 			} else {
 				var actionType = 'edit';
 				customer.custentity_fern_magento_id = nlapiGetFieldValue('custentity_fern_magento_id');
@@ -35,7 +36,7 @@ function Connector_Export_Customer_Magento_AS(type){
 			
 			var output = nlapiRequestURL(url,requestBody,headers,"POST");
 			nlapiLogExecution('DEBUG','response',output.getBody());
-			//var jsonData = JSON.parse(output.getBody());
+			var jsonData = JSON.parse(output.getBody());
 			
 			if (actionType == 'create' && !jsonData.faultcode){ //only update magento id if an record is created.
 				var thisrecord = nlapiLoadRecord('customer',nlapiGetRecordId());
