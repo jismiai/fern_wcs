@@ -12,7 +12,7 @@ require_once 'controllers/log_control.php';
 
 //read the suitelet JSON
 $url = 'https://forms.netsuite.com/app/site/hosting/scriptlet.nl?script=242&deploy=1&compid=3716988&h=6836869292fff21643f3';
-$postContent = array("custid" => $_SESSION["customerID"]);
+$postContent = array("customer_id" => $_SESSION["customerID"]);
 //$postContent = array("custid" => '26546');
 
 $ch = curl_init($url);
