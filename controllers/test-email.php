@@ -1,21 +1,6 @@
 <?php
-/* -- simple php version
-	
-	$to = "ayanokoujibou@hotmail.com";
-	$subject = "Test mail";
-	$message = "Hello! This is a simple email message.";
-	$from = "david@fern.com.hk";
-	$headers = "From:" . $from;
-	$success = mail($to,$subject,$message,$headers);
-	if ($success) {echo "Mail Sent to".$to;} else {echo " mail failed";}
-*/
-/* PHP Mailer version */
-?>
-
-<?php
-
-
-require '../lib/mail/class.phpmailer.php';
+echo "hi";
+require '../lib/mail/PHPMailerAutoload.php';
 //Setting for William Cheng & Sons
 function setmail(&$mail){
 
@@ -227,32 +212,30 @@ function add_cs(&$mail,$type,$to,$booking,$fname,$lname,$c_email,$phone,$address
 }
 
 function sendHttpRequest($data){
-	//shoot http Request to external page to send the email for us. When localhost doesn't support external SMTP
-	$url = 'http://ec2-54-79-90-156.ap-southeast-2.compute.amazonaws.com/temp_email/sentemail.php';
-	$postContent = $data;
-	//echo "<pre>";
-	//print_r($postContent);
-	//echo "</pre>";
-	$ch = curl_init($url);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_POST, true);
-	curl_setopt($ch, CURLOPT_POSTFIELDS, $postContent);
-	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); //curl error SSL certificate problem, verify that the CA cert is OK
+//shoot http Request to external page to send the email for us. When localhost doesn't support external SMTP
+$url = 'http://ec2-54-79-90-156.ap-southeast-2.compute.amazonaws.com/temp_email/sentemail.php';
+$postContent = $data;
 
-	$response = curl_exec($ch);
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $postContent);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); //curl error SSL certificate problem, verify that the CA cert is OK
 
-	//echo "response = <br />".$response;
+$response = curl_exec($ch);
 
-	// Notice: use only if the local server supports external SMTP
-	/*
-	if(!$mail->Send()) {
-			echo "Mailer Error: " . $mail->ErrorInfo;
-		} else {
-			echo "Message sent!CS";
-		}
-	*/
+echo "response = <br />".$response;
+
+// Notice: use only if the local server supports external SMTP
+/*
+if(!$mail->Send()) {
+		echo "Mailer Error: " . $mail->ErrorInfo;
+	} else {
+		echo "Message sent!CS";
+	}
+*/
 }
-/* test-script
+/*
 $to = 'david@fern.com.hk';
 $fname = 'David';
 $lname = 'Chan';

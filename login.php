@@ -4,11 +4,8 @@
 ?>
 <div class="col-sm-4 col-sm-offset-1" style="display:none;">
 	<div class="panel panel-default">
-		<div class="panel-heading">Australia Trip Booking is now available.</div>
+		<div class="panel-heading"></div>
 		<div class="panel-body">
-			<p>We are travelling to Australia in Feb 2014. Click <a href="event.php">here</a> to see the details of the trip.</p>
-			<p>Bookings can be made in this customer portal after login.</p>
-			<p>We have also opened <a href="register.php">new registration</a> to our portal for new customers.</p>
 		</div>
 	</div>
 </div>
@@ -29,8 +26,11 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<div class="col-sm-offset-3 col-sm-4">
+			<div class="col-sm-offset-3 col-sm-2">
 				<button type="submit" value="Login" class="btn btn-wcs-default">Login</button>
+			</div>
+			<div class="col-sm-3 form-control-static">
+				<a href="resetpassword.php">Forget password</a>
 			</div>
 		</div>
 		<div class="form-group">
@@ -40,7 +40,7 @@
 		</div>
 		<div class="form-group">
 			<div class="col-sm-offset-3 col-sm-9">
-				Click <a href="mailto:marketing@williamcheng-son.com">here</a> to send us an email if you have any problems.
+				Click <a href="mailto:customerservice@williamcheng-son.com">here</a> to send us an email if you have any problems.
 			</div>
 		</div>
 	</form>

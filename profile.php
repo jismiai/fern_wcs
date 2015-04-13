@@ -95,7 +95,7 @@ include("templates/head_tag.php");
 			//Use Javascript to update the radio boxes base on Netsuite record
 			$(document).ready(function(){
 				//$('radio#
-				$('input.radio_box[value="<?php echo $customer->salutation; ?>"]').prop("checked",true);
+				$('input.radio_box[value*="<?php echo $customer->salutation; ?>"]').prop("checked",true);
 			});
 		</script>
 		<div class="form-group">

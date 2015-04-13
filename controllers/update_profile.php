@@ -141,7 +141,6 @@ else {
 	$addressList = new CustomerAddressbookList();
 	$addressList->addressbook = $addresses;
 	$customer->addressbookList = $addressList;
-	
 	//new UpdateRequest
 	$request = new UpdateRequest();
 	$request->record = $customer;

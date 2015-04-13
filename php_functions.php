@@ -16,22 +16,22 @@ function timeFunctions(){
 	$timezone = new DateTimeZone('Asia/Taipei');
 	
 	//configuration from record
-	$event_start_date = "21/8/2014";
-	$event_end_date = "28/8/2014";
+	$event_start_date = "29/1/2015";
+	$event_end_date = "5/2/2015";
 	$event_start_time = "09:00";
 	$event_end_time = "18:00";
 	$event_time_interval="15";
 	$event_slots=4;
 	$event_default_address = array(
 		"short" => "Sydney",
-		"long" => "SUSSEX MEETING ROOM at ADINA APARTMENT HOTEL<br />511 Kent Street, Sydney, NSW 2000.<br />LPhone: (02) 9274-0000"
+		"long" => "Sussex Meeting Room at Adina Apartment Hotel<br />511 Kent Street, Sydney, NSW 2000.<br />Phone: (02) 9274-0000"
 	);
 	$timeinterval = new DateInterval('PT'.$event_time_interval.'M');
-	$excluded_date_str = "24/8/2014";
-	$specific_time_str = "26/8/2014,09:00,15:00";
-	$address_str = "1;Brisbane;Room 3032 at RENDEZVOUS HOTEL BRISBANE.<br />225 Ann Street. (CNR Edward Street)<br />Brisbane, QLD 4000. Phone: (07) 3001-9888";
-	$address_str .= "|2;Melbourne;ORCHID MEETING ROOM<br />at ADINA APARTMENT HOTEL<br />189 Queen Street, Melbourne, VIC 3000<br />Phone: (03) 9934-0000";
-	$address_by_date = "25/8/2014,1;26/8/2014,1;27/8/2014,2;28/8/2014,2";
+	$excluded_date_str = "1/2/2015";
+	$specific_time_str = "3/2/2015,09:00,15:00";
+	$address_str = "1;Brisbane;Room 3032 at Rendezvous Hotel Brisbane.<br />225 Ann Street. (CNR Edward Street) Brisbane, QLD 4000. <br />Phone: (07) 3001-9888";
+	$address_str .= "|2;Melbourne;Orchid Meeting Room<br />at Adina Apartment Hotel<br />189 Queen Street, Melbourne, VIC 3000<br />Phone: (03) 9934-0000";
+	$address_by_date = "2/2/2015,1;3/2/2015,1;4/2/2015,2;5/2/2015,2";
 	/* Achieve format of Australia 2014 */
 	/*
 	$event_start_date = "13/2/2014";

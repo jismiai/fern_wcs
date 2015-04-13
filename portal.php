@@ -17,13 +17,9 @@
 	<ul class="list-group">
 		<li class="list-group-item"><a href="changepwd.php">Change Password</a></li>
 		<li class="list-group-item"><a href="profile.php">Update Profile</a></li>
-		<?php 
-			/* only display this option if the customer has address of specific country */
-			if (strpos($_SESSION["billing_country"],"Australia") !== false || strpos($_SESSION["shipping_country"],"Australia") !== false)
-			{
-			echo '<li class="list-group-item"><a href="event.php">Make/Amend booking for 2014 August AU trip</a></li>';
-			}
-		?>
+		<?php if ($_SESSION['billing_country'] == "Australia" || $_SESSION['shipping_country'] == "Australia"): ?>
+		<li class="list-group-item"><a href="event.php">Trip Booking</a></li>
+		<?php endif; ?>
 		<li class="list-group-item"><a href="controllers/logout.php">Logout</a></li>
 	</ul>
 </div>	
