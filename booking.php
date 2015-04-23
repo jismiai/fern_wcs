@@ -5,7 +5,7 @@ require_once 'php_functions.php';
 
 //Make sure this page is loading a correct id.
 if (!isset($_GET['id'])){
-	header('Location:'.$_SERVER["REQUEST_URI"]."?id=5");
+	header('Location:'.$_SERVER["REQUEST_URI"]."?id=6");
 }
 $event_id = $_GET['id'];
 $event = getCustRec("80",$event_id);

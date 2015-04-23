@@ -17,7 +17,7 @@
 	<ul class="list-group">
 		<li class="list-group-item"><a href="changepwd.php">Change Password</a></li>
 		<li class="list-group-item"><a href="profile.php">Update Profile</a></li>
-		<?php if ($_SESSION['billing_country'] == "Australia" || $_SESSION['shipping_country'] == "Australia"): ?>
+		<?php if ($_SESSION['billing_country'] == "United Kingdom (GB)" || $_SESSION['shipping_country'] == "United Kingdom (GB)"): ?>
 		<li class="list-group-item"><a href="event.php">Trip Booking</a></li>
 		<?php endif; ?>
 		<li class="list-group-item"><a href="controllers/logout.php">Logout</a></li>

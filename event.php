@@ -26,19 +26,9 @@
 		<th style="width:50%">Venue</th>
 	</tr>
 	<tr>
-		<td><span class="city">SYDNEY</span><br />Jan 29 (Thu)<br />to<br />Jan 31 (Sat)</td>
-		<td><br />9:00 am<br />to<br />6:00 pm</td>
-		<td><br /><span class="room">Sussex Meeting Room</span> at <span class="hotel">Adina Apartment Hotel</span><br />511 Kent Street, Sydney, NSW 2000<br />Phone: (02) 9274-0000</td>
-	</tr>
-	<tr>
-		<td><span class="city">BRISBANE</span><br />Feb 2 (Mon)<br />& <br />Feb 3 (Tue)</td>
-		<td><br />9:00 am to 6:00 pm<br /> <br />9:00 am to 3:00 pm</td>
-		<td><br /><span class="room">Room 3032</span> at <span class="hotel">Rendezvous Hotel Brisbane</span><br />225 Ann Street. (CNR Edward Street) Brisbane, QLD 4000<br />Phone: (07) 3001-9888</td>
-	</tr>
-	<tr>
-		<td><span class="city">MELBOURNE</span><br />Feb 4 (Wed)<br />to<br />Feb 5 (Thu)</td>
-		<td><br />9:00 am<br />to<br />6:00 pm</td>
-		<td><br /><span class="room">Orchid Meeting Room</span> at <span class="hotel">Adina Apartment Hotel</span><br />189 Queen Street, Melbourne, VIC 3000<br />Phone: (03) 9934-0000</td>
+		<td><span class="city"></span>June 3 (Wed)<br />June 4 (Thu) <br />June 5 (Fri) <br />June 6 (Sat)</td>
+		<td>9:00 am<br />to<br />6:00 pm</td>
+		<td><span class="room">PICASSOO ROOM</span><br /><span class="hotel">MERCURE London Bridge Hotel</span><br />71-79 Southwark Street, London, SE1 0JA, UK.<br />Phone number: (+44) 0207 6600683</td>
 	</tr>
 	</table>
 	<div class="row">

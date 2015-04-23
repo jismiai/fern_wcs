@@ -63,13 +63,18 @@ function send_register_email($to,$fname,$lname,$pwd){
 				."<p>Yours sincerely,</p>"
 				."<p>Customer Services Department<br />WILLIAM CHENG & SON</p>"."</span>";
 	
-	$postContent = array(
+	if(!$mail->Send()) {
+		echo "Mailer Error: " . $mail->ErrorInfo;
+	} else {
+		echo "Message sent!";
+	}
+	/*$postContent = array(
 		'to_email' => $to,
 		'to_name' => $fname." ".$lname,
 		'subject' => $mail->Subject,
 		'body' => $mail->Body
 	);
-	sendHttpRequest($postContent);
+	sendHttpRequest($postContent);*/
 }
 
 function send_reset_password_email($to,$fname,$lname,$pwd){
@@ -88,13 +93,18 @@ function send_reset_password_email($to,$fname,$lname,$pwd){
 <p>Yours sincerely,</p>
 <p>Customer Services Department<br />WILLIAM CHENG & SON</p></span>
 codeblock;
-	$postContent = array(
+	if(!$mail->Send()) {
+		echo "Mailer Error: " . $mail->ErrorInfo;
+	} else {
+		echo "Message sent!";
+	}
+	/*$postContent = array(
 		'to_email' => $to,
 		'to_name' => '$fname." ".$lname',
 		'subject' => $mail->Subject,
 		'body' => $mail->Body
 	);
-	sendHttpRequest($postContent);
+	sendHttpRequest($postContent);*/
 }
 
 function send_booking_cs_email($to,$eventName,$bookingID,$customerID,$action){
@@ -114,13 +124,18 @@ function send_booking_cs_email($to,$eventName,$bookingID,$customerID,$action){
 	$mail->Body .="<p>Regds,</p>";
 	$mail->Body .="<p>Booking System</p>"."</span>";
 	
-	$postContent = array(
+	if(!$mail->Send()) {
+		echo "Mailer Error: " . $mail->ErrorInfo;
+	} else {
+		echo "Message sent!";
+	}
+	/*$postContent = array(
 		'to_email' => $to,
 		'to_name' => 'CS Team',
 		'subject' => $mail->Subject,
 		'body' => $mail->Body
 	);
-	sendHttpRequest($postContent);
+	sendHttpRequest($postContent);*/
 	
 	
 }
@@ -145,13 +160,18 @@ function booking_customer_email($to,$eventName,$bookingID,$email_detail,$action)
 	$mail->Body .="<p>Yours sincerely,</p>";
 	$mail->Body .="<p>Customer Services Department<br />WILLIAM CHENG & SON</p>"."</span>";
 	
-	$postContent = array(
+	if(!$mail->Send()) {
+		echo "Mailer Error: " . $mail->ErrorInfo;
+	} else {
+		echo "Message sent!";
+	}
+	/*$postContent = array(
 		'to_email' => $to,
 		'to_name' => $email_detail["firstname"]." ".$email_detail["lastname"],
 		'subject' => $mail->Subject,
 		'body' => $mail->Body
 	);
-	sendHttpRequest($postContent);
+	sendHttpRequest($postContent);*/
 }
 function delete_booking_customer_email($to,$eventName,$bookingID,$email_detail,$action){
 
@@ -167,13 +187,18 @@ function delete_booking_customer_email($to,$eventName,$bookingID,$email_detail,$
 	$mail->Body .="<p>Yours sincerely,</p>";
 	$mail->Body .="<p>Customer Services Department<br />WILLIAM CHENG & SON</p>"."</span>";
 	
-	$postContent = array(
+	if(!$mail->Send()) {
+		echo "Mailer Error: " . $mail->ErrorInfo;
+	} else {
+		echo "Message sent!";
+	}
+	/*$postContent = array(
 		'to_email' => $to,
 		'to_name' => $email_detail["firstname"]." ".$email_detail["lastname"],
 		'subject' => $mail->Subject,
 		'body' => $mail->Body
 	);
-	sendHttpRequest($postContent);
+	sendHttpRequest($postContent);*/
 }
 
 function del_email(&$mail,$to,$booking,$date,$time,$venue,$link,$fname,$lname){
